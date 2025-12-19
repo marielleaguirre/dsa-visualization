@@ -9,3 +9,8 @@ Binary Tree Pseudocode:
 
 def gen_tree(levels):
     pass
+
+
+
+ask_depth = int(input("How many levels would you like the binary tree to have? "))
+gen_tree(ask_depth)
