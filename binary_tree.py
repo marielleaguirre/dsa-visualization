@@ -13,39 +13,40 @@ values = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
 
 class Node:
 
-    def __init__(self, value):
-        self.left = None
-        self.right = None
+    def __init__(self, value=None):
+        self.left_child = None
+        self.right_child = None
         self.value = value
 
 
 class BinaryTree:
     
     def __init__(self):
-        self.root = Node(None)
+        self.root = None
 
-    def generate_tree(self, level):
-        tree = []
+    def insert_node(self, value):
+        if self.root is None:
+            self.root = Node(value)
+        else:
+            self._insert_recursively(value)
 
-        for _ in range(level-1):
-            value = Node(input("Enter node value: "))
-            value.left = Node(input("Enter left child value: "))
-            value.right = Node(input("Enter right child value: "))
-            tree.append(value)
-
-        return tree
+    def _insert_recursively(self, value, current_node = None):
+        if current_node is None:
+            current_node = self.root
+        elif current_node.left_child is None:
+            current_node.left_child = Node(value)
+        elif current_node.right_child is None:
+            current_node.right_child = Node(value)
+        else:
+            self._insert_recursively(value, current_node.left_child)
 
 
 class Traversal:
     pass
 
-
 bin_tree = BinaryTree()
-tree = bin_tree.generate_tree(4)
-length = len(tree)
-
-for i in range(length):
-    print(f"Node {i}: {tree[i].value}, Left Child: {tree[i].left.value}, Right Child: {tree[i].right.value}")
+for val in values:
+    bin_tree.insert_node(val)
 
 # # Simulation
 
