@@ -27,26 +27,33 @@ class BinaryTree:
     def insert_node(self, value):
         if self.root is None:
             self.root = Node(value)
+            return self.root
         else:
-            self._insert_recursively(value)
+            node_val = self._insert_recursively(value, self.root)
+            return node_val
 
-    def _insert_recursively(self, value, current_node = None):
-        if current_node is None:
-            current_node = self.root
-        elif current_node.left_child is None:
+    
+    def _insert_recursively(self, value, current_node):
+        if current_node.left_child is None:
             current_node.left_child = Node(value)
+            return current_node.left_child
         elif current_node.right_child is None:
             current_node.right_child = Node(value)
+            return current_node.right_child
         else:
-            self._insert_recursively(value, current_node.left_child)
+            return self._insert_recursively(value, current_node.left_child)
+             
+        
 
 
 class Traversal:
     pass
 
+
 bin_tree = BinaryTree()
 for val in values:
-    bin_tree.insert_node(val)
+    node = bin_tree.insert_node(val)
+    print(node.value)
 
 # # Simulation
 
