@@ -9,7 +9,7 @@ Key Classes:
 
 '''
 
-values = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+values = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
 
 class Node:
 
@@ -41,10 +41,10 @@ class BinaryTree:
             current_node.right_child = Node(value)
             return current_node.right_child
         else:
-            return self._insert_recursively(value, current_node.left_child)
-             
-        
-
+            if current_node.left_child.right_child is None:
+                return self._insert_recursively(value, current_node.left_child)
+            else:
+                return self._insert_recursively(value, current_node.right_child) 
 
 class Traversal:
     pass
