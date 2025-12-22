@@ -14,3 +14,13 @@ Stacks Parking Garage PseudoCode:
  3. Create a program that organizes the Car using Stacks
     *LIFO(Last in First Out)
 """
+class ParkingGarageStacks:
+    def __init__(self):
+        self.garage_capacity = 10       #The capacity of the garage
+        self.stack = []                 #Set a variable into an empty list
+
+    def park(self, car):
+        self.stack.append(car)          #Inserting the car into the garage capacity
+        
+        
+
