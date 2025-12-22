@@ -8,7 +8,7 @@ Stacks Parking Garage PseudoCode:
     *Depart the Car
       - Remove the Car from the Stack
     *View Car
-      - View Car the Car displaying its details
+      - View the Car, displaying its details
     *Exit
       -Exit the program
  3. Create a program that organizes the Car using Stacks
@@ -22,5 +22,10 @@ class ParkingGarageStacks:
     def park(self, car):
         self.stack.append(car)          #Inserting the car into the garage capacity
         
+    def depart(self, car):
+        self.stack.pop(car)             #Removing the car from the garage capacity
+
+
+    
         
 
