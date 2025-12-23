@@ -36,13 +36,21 @@ def main():
     print("1 - Random Input")
     print("2 - User Input")
 
-    choice = input("Choose input method (1 or 2): ")
+    while True:
+        choice = input("\nChoose input method (1 or 2): ")
+        if choice in ['1', '2']:
+            break
+        print("Invalid choice. Please enter 1 or 2.")
 
     while True:
-        node_count = int(input("Enter number of nodes (10-30): "))
-        if 10 <= node_count <= 30:
-            break
-        print("Invalid. Please enter a valid number between 10 and 30.")
+        try: 
+            node_count = int(input("\nEnter number of nodes (10-30): "))
+            if 10 <= node_count <= 30:
+                break
+            else:      
+                print("Invalid. Please enter a valid number between 10 and 30.")  
+        except ValueError:
+            print("Invalid. Please enter an integer.")
 
     numbers = []
 
@@ -52,10 +60,13 @@ def main():
 
     # Handle User Input
     elif choice == '2':
-        print("Enter integer values:")
+        print("\nEnter integer values:")
         while len(numbers) < node_count:
-            value = int(input(f"Value {len(numbers)+1}: "))
-            numbers.append(value)
+            try:
+                value = int(input(f"Value {len(numbers)+1}: "))
+                numbers.append(value)
+            except ValueError:
+                print("Invalid. Please enter an integer.")
     else:
         print("Invalid choice.")
         return
