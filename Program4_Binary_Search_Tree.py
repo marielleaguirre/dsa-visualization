@@ -16,7 +16,7 @@ Binary Search Tree Pseudocode:
         iii. If number > current node value, go to right node
         iv. Repeat until correct position is found
 / 7. Display the list of numbers entered/generated
-8. Perform and display the following traversals:
+/ 8. Perform and display the following traversals:
     a. Inorder Traversal (Left → Top → Right)
     b. Preorder Traversal (Top → Left → Right)
     c. Postorder Traversal (Left → Right → Top)
@@ -45,6 +45,15 @@ def display_bst(node, prefix="", is_left=True):
     print(prefix + ("└── " if is_left else "┌── ") + str(node.data))
     if node.left is not None:
         display_bst(node.left, prefix + ("    " if is_left else "│   "), True)
+
+def inorder_traversal(root):
+    return inorder_traversal(root.left) + [root.data] + inorder_traversal(root.right) if root else []
+
+def preorder_traversal(root):
+    return [root.data] + preorder_traversal(root.left) + preorder_traversal(root.right) if root else []
+
+def postorder_traversal(root):
+    return postorder_traversal(root.left) + postorder_traversal(root.right) + [root.data] if root else []
 
 def main():
     print("Binary Search Tree Program")
@@ -84,3 +93,14 @@ def main():
 
     print("\nEquivalent Binary Search Tree:")
     display_bst(root)
+
+    print("\nInorder Traversal (Left → Top → Right):")
+    print(inorder_traversal(root))
+
+    print("\nPreorder Traversal (Top → Left → Right):")
+    print(preorder_traversal(root))
+
+    print("\nPostorder Traversal (Left → Right → Top):")
+    print(postorder_traversal(root))
+
+main()
