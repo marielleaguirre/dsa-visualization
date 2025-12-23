@@ -1,0 +1,18 @@
+
+1. I can just use recursion sa mismong traversal, and the algorithm of yung mismong binary tree is exactly the same as BST, but the value to indicate the hierarchy will be set as index of each node.
+Example:
+#           A
+#          / \
+#         B   C 
+#        / \ / \
+#       D  E F  G
+
+index = {
+    A: 1,
+    B: 2,
+    C: 3,
+    D: 4,
+    E: 5,
+    F: 6,
+    G: 7
+}
