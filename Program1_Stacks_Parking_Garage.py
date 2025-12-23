@@ -39,8 +39,11 @@ class ParkingGarageStacks:
         else:
            print("Cannot locate car")
 
-    def view_car():
-        pass
+    def view_cars(self):                            
+        if not self.stack:                          #Used to check if there is no cars parked yet
+           print("The Garage is Empty")
+        else:
+          print("Currently parked cars", self.stack)  #Display the currently parked cars 
     
     
 
