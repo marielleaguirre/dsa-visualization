@@ -4,12 +4,12 @@ Binary Search Tree Pseudocode:
     a. Random input
     b. User input
 / 2. Ask the user to enter the number of nodes (between 10 and 30)
-3. If the user chooses Random input:
+/ 3. If the user chooses Random input:
     a. Generate n random integers
-4. If the user chooses User input:
+/ 4. If the user chooses User input:
     a. Prompt the user to enter n integers
-5. Create an empty Binary Search Tree (BST)
-6. For each number in the list:
+/ 5. Create an empty Binary Search Tree (BST)
+/ 6. For each number in the list:
     a. Insert the number into the BST following rules:
         i. If BST is empty, create root node
         ii. If number <= current node value, go to left node
@@ -23,6 +23,21 @@ Binary Search Tree Pseudocode:
 '''
 
 import random
+
+class Node:
+    def __init__(self, data):
+        self.data = data
+        self.left = None
+        self.right = None
+
+def insert(root, value):
+    if root is None:
+        return Node(value)
+    if value <= root.data:
+        root.left = insert(root.left, value)
+    else:
+        root.right = insert(root.right, value)
+    return root
 
 def main():
     print("Binary Search Tree Program")
@@ -52,3 +67,7 @@ def main():
     else:
         print("Invalid choice.")
         return
+    
+    root = None
+    for node_value in numbers:
+        root = insert(root, node_value)
