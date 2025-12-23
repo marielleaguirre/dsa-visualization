@@ -36,3 +36,19 @@ def main():
         if 10 <= node_count <= 30:
             break
         print("Invalid. Please enter a valid number between 10 and 30.")
+
+    numbers = []
+
+    # Handle Random Input
+    if choice == '1':
+        numbers = [random.randint(1, 100) for _ in range(node_count)]
+
+    # Handle User Input
+    elif choice == '2':
+        print("Enter integer values:")
+        while len(numbers) < node_count:
+            value = int(input(f"Value {len(numbers)+1}: "))
+            numbers.append(value)
+    else:
+        print("Invalid choice.")
+        return
