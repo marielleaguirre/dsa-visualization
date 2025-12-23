@@ -42,11 +42,42 @@ class ParkingGarageStacks:
         while temporary_stack:
            self.stack.append(temporary_stack.pop())        #This ensure that the order of the stack still remain.
 
-    def view_cars(self):                            
+    def view_garage(self):                            
         if not self.stack:                          #Used to check if there is no cars parked yet
            print("The Garage is Empty")
         else:
           print("Currently parked cars", self.stack)  #Display the currently parked cars 
     
 def main():
-   
+    parking_garage = ParkingGarageStacks()
+
+    while True:
+        print("\n===== PARKING GARAGE MENU =====")
+        print("1. Park a car")
+        print("2. Remove a car")
+        print("3. View garage")
+        print("4. Exit")
+
+        choice = input("Enter your choice (1-4): ")
+
+        if choice == "1":
+            car = input("Enter License Plate Number: ")
+            parking_garage.park(car)
+
+        elif choice == "2":
+            car = input("Enter License Plate Number: ")
+            parking_garage.depart(car)
+
+        elif choice == "3":
+            parking_garage.view_garage()
+
+        elif choice == "4":
+            print("\n👋 Exiting program. Thank you!")
+            break
+
+        else:
+            print("\n❌ Invalid choice. Please try again.")
+
+
+if __name__ == "__main__":
+    main()
