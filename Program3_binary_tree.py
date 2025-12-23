@@ -13,7 +13,7 @@ values = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 
 
 class Node:
     
-    def __init__(self, value=None):
+    def __init__(self, value):
         self.left_child = None
         self.right_child = None
         self.value = value
@@ -21,39 +21,49 @@ class Node:
 
 class BinaryTree:
     
-    def __init__(self, level=2):
+    def __init__(self, level=4):
         self.root = None
         self.nodes_n = 2**level - 1
         self.nodes_counter = 1
 
 
-    def insert_node(self, value):
+    def insert_node(self, value, current_node):
         if self.root is None:
             self.root = Node(value)
-            return self.root
-        else:
-            node_val = self._insert_recursively(value, self.root)
-            self.nodes_counter += 1
-            return node_val
-
-    
-    def _insert_recursively(self, value, current_node):
-        if current_node.left_child is None:
-            print("Parent Node", current_node.value)
+            current_node = self.root
+            return current_node
+        elif current_node.left_child is None:
             current_node.left_child = Node(value)
-            return current_node.left_child
+            self.nodes_counter += 1
         elif current_node.right_child is None:
             current_node.right_child = Node(value)
-            print(f"====== {current_node.value}")
-            return current_node.right_child
-        elif self.check_full() is True:
-            left_insert = self._insert_recursively(value, current_node.left_child)
-            if left_insert is not None:
-                return left_insert
-            right_insert = self._insert_recursively(value, current_node.right_child)
-            return right_insert
+            self.nodes_counter += 1
+        elif self.check_full() is False:
+            self.insert_node(value, current_node.right_child)
+            self.nodes_counter += 1
         else:
-            return None
+            self.insert_node(value, current_node.left_child)
+            self.nodes_counter += 1
+            return self.root.left_child
+
+
+    # def _insert_recursively(self, value, current_node):
+    #     if current_node.left_child is None:
+    #         print("Parent Node", current_node.value)
+    #         current_node.left_child = Node(value)
+    #         return current_node.left_child
+    #     elif current_node.right_child is None:
+    #         current_node.right_child = Node(value)
+    #         print(f"====== {current_node.value}")
+    #         return current_node.right_child
+    #     elif self.check_full() is True:
+    #         left_insert = self._insert_recursively(value, current_node.left_child)
+    #         if left_insert is not None:
+    #             return left_insert
+    #         right_insert = self._insert_recursively(value, current_node.right_child)
+    #         return right_insert
+    #     else:
+    #         return None
         
     def check_full(self):
         return self.nodes_counter == self.nodes_n
@@ -64,10 +74,10 @@ class Traversal:
 
 bin_tree = BinaryTree()
 for val in values:
-    node = bin_tree.insert_node(val)
+    node = bin_tree.insert_node(val, bin_tree.root)
     print(node.value, "----")
-    print("Nodes Counter:", bin_tree.nodes_counter)
-    print("Is Full?:", bin_tree.check_full())
+    # print("Nodes Counter:", bin_tree.nodes_counter)
+    # print("Is Full?:", bin_tree.check_full())
 
 # # Simulation
 
