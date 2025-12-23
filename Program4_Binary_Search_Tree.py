@@ -1,9 +1,9 @@
 '''
 Binary Search Tree Pseudocode:
-1. Display a menu to choose input method:
+/ 1. Display a menu to choose input method:
     a. Random input
     b. User input
-2. Ask the user to enter the number of nodes (between 10 and 30)
+/ 2. Ask the user to enter the number of nodes (between 10 and 30)
 3. If the user chooses Random input:
     a. Generate n random integers
 4. If the user chooses User input:
@@ -30,3 +30,9 @@ def main():
     print("2 - User Input")
 
     choice = input("Choose input method (1 or 2): ")
+
+    while True:
+        node_count = int(input("Enter number of nodes (10-30): "))
+        if 10 <= node_count <= 30:
+            break
+        print("Invalid. Please enter a valid number between 10 and 30.")
