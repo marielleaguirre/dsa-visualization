@@ -28,10 +28,17 @@ class ParkingGarageStacks:
         else:
           self.stack.append(car)          #Inserting the car into the garage capacity
         
-    def depart(self, car):
-        if not self.stack:                #Checks if the garage is empty
-          self.stack.pop(car)               #Removing the car from the garage capacity
-     
+    def depart(self, target_car):
+        temporary_stack = []            #Initialized temporary storage for storing cars temporarily
+
+        while self.stack:                          #Used while loop for continouos checking for the target car
+           recent_parked_car = self.stack.pop()           
+           if recent_parked_car == target_car:
+              break
+           temporary_stack.append(recent_parked_car)
+        else:
+           print("Cannot locate car")
+
     def view_car():
         pass
     
