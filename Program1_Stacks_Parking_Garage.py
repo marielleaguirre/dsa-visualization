@@ -39,6 +39,9 @@ class ParkingGarageStacks:
         else:
            print("Cannot locate car")
 
+        while temporary_stack:
+           self.stack.append(temporary_stack.pop())        #This ensure that the order of the stack still remain.
+
     def view_cars(self):                            
         if not self.stack:                          #Used to check if there is no cars parked yet
            print("The Garage is Empty")
