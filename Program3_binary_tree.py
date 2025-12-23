@@ -21,8 +21,11 @@ class Node:
 
 class BinaryTree:
     
-    def __init__(self):
+    def __init__(self, level=2):
         self.root = None
+        self.nodes_n = 2**level - 1
+        self.nodes_counter = 1
+
 
     def insert_node(self, value):
         if self.root is None:
@@ -30,6 +33,7 @@ class BinaryTree:
             return self.root
         else:
             node_val = self._insert_recursively(value, self.root)
+            self.nodes_counter += 1
             return node_val
 
     
@@ -40,15 +44,19 @@ class BinaryTree:
             return current_node.left_child
         elif current_node.right_child is None:
             current_node.right_child = Node(value)
-            print(f"Completed Tree for {current_node.value}")
+            print(f"====== {current_node.value}")
             return current_node.right_child
+        elif self.check_full() is True:
+            left_insert = self._insert_recursively(value, current_node.left_child)
+            if left_insert is not None:
+                return left_insert
+            right_insert = self._insert_recursively(value, current_node.right_child)
+            return right_insert
         else:
-            if current_node.left_child.right_child is None:
-                return self._insert_recursively(value, current_node.left_child)
-            elif current_node.right_child.right_child is None:
-                return self._insert_recursively(value, current_node.right_child) 
-            else:
-                return self._insert_recursively(value, current_node.left_child.left_child)
+            return None
+        
+    def check_full(self):
+        return self.nodes_counter == self.nodes_n
 
 class Traversal:
     pass
@@ -57,7 +65,9 @@ class Traversal:
 bin_tree = BinaryTree()
 for val in values:
     node = bin_tree.insert_node(val)
-    print(node.value)
+    print(node.value, "----")
+    print("Nodes Counter:", bin_tree.nodes_counter)
+    print("Is Full?:", bin_tree.check_full())
 
 # # Simulation
 
