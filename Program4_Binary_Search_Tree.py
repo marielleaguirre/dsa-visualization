@@ -21,3 +21,12 @@ Binary Search Tree Pseudocode:
     b. Preorder Traversal (Top → Left → Right)
     c. Postorder Traversal (Left → Right → Top)
 '''
+
+import random
+
+def main():
+    print("Binary Search Tree Program")
+    print("1 - Random Input")
+    print("2 - User Input")
+
+    choice = input("Choose input method (1 or 2): ")
