@@ -15,7 +15,7 @@ Binary Search Tree Pseudocode:
         ii. If number <= current node value, go to left node
         iii. If number > current node value, go to right node
         iv. Repeat until correct position is found
-7. Display the list of numbers entered/generated
+/ 7. Display the list of numbers entered/generated
 8. Perform and display the following traversals:
     a. Inorder Traversal (Left → Top → Right)
     b. Preorder Traversal (Top → Left → Right)
@@ -38,6 +38,13 @@ def insert(root, value):
     else:
         root.right = insert(root.right, value)
     return root
+
+def display_bst(node, prefix="", is_left=True):
+    if node.right is not None:
+        display_bst(node.right, prefix + ("│   " if is_left else "    "), False)
+    print(prefix + ("└── " if is_left else "┌── ") + str(node.data))
+    if node.left is not None:
+        display_bst(node.left, prefix + ("    " if is_left else "│   "), True)
 
 def main():
     print("Binary Search Tree Program")
@@ -71,3 +78,9 @@ def main():
     root = None
     for node_value in numbers:
         root = insert(root, node_value)
+
+    print("\nNumber List:")
+    print(numbers)
+
+    print("\nEquivalent Binary Search Tree:")
+    display_bst(root)
