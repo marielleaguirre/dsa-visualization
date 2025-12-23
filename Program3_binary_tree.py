@@ -12,7 +12,7 @@ Key Classes:
 values = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
 
 class Node:
-
+    
     def __init__(self, value=None):
         self.left_child = None
         self.right_child = None
@@ -35,16 +35,20 @@ class BinaryTree:
     
     def _insert_recursively(self, value, current_node):
         if current_node.left_child is None:
+            print("Parent Node", current_node.value)
             current_node.left_child = Node(value)
             return current_node.left_child
         elif current_node.right_child is None:
             current_node.right_child = Node(value)
+            print(f"Completed Tree for {current_node.value}")
             return current_node.right_child
         else:
             if current_node.left_child.right_child is None:
                 return self._insert_recursively(value, current_node.left_child)
-            else:
+            elif current_node.right_child.right_child is None:
                 return self._insert_recursively(value, current_node.right_child) 
+            else:
+                return self._insert_recursively(value, current_node.left_child.left_child)
 
 class Traversal:
     pass
