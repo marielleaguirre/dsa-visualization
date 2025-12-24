@@ -22,3 +22,8 @@ Queue Parking Garage Similation Pseudocode:
     a. End the program.
 '''
 
+# Initialize the queue
+from collections import deque
+
+parking_queue = deque()
+capacity = 5  # Set the capacity of the parking garage
