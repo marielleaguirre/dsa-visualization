@@ -13,9 +13,8 @@ Queue Parking Garage Similation Pseudocode:
     d. Confirm that the car has been parked.
 4. If the user selects "Remove a car":
     a. Check if there are any cars parked in the garage.
-    b. If there are parked cars, prompt the user to enter the car's license plate number.
-    c. Remove the car from the parking queue.
-    d. Confirm that the car has been removed.
+    b. If there are parked cars, remove the car in first slot from the parking queue.
+    c. Confirm that the car has been removed.
 5. If the user selects "View parked cars":
     a. Display a list of all parked cars.
 6. If the user selects "Exit":
