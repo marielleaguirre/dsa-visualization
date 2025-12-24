@@ -26,3 +26,11 @@ from collections import deque
 
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
+
+# Create the display menu
+while True:
+    print("\nParking Garage Menu:")
+    print("1. Park a car")
+    print("2. Remove a car")
+    print("3. View parked cars")
+    print("4. Exit") 
