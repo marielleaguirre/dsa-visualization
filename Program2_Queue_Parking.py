@@ -57,6 +57,12 @@ class ParkingGarage:                              # Created a blueprint for Park
         print(f"Parked Cars: {len(self.queue)}/{self.capacity}")    # Display current occupancy
         print(f"Departed Cars: {len(self.departed)}")               # Display number of departed cars
 
+    def arrive(self, plate_num):
+        for car in self.queue:
+            if car.plate_num == plate_num:                                  # Check for duplicate plate numbers
+                print(f"ERROR: Plate '{plate_num}' is already parked!")     # Display error message
+                time.sleep(2)                                               # Pause for 2 seconds                                 
+                return
 
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
@@ -77,12 +83,6 @@ while True:
             print("Garage is full.")
         else:
             plate = input("Enter the car's license plate number: ")
-            
-            if plate in parking_queue: # Check if the car is already parked
-                print("This car is already parked.")
-            else:
-                parking_queue.append(plate) # Add the car to the queue
-                print("Car parked successfully.")
 
     elif choice == "2": # Remove a car
         if not parking_queue: # If there are no cars parked
