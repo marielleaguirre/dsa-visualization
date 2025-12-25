@@ -21,8 +21,10 @@ Queue Parking Garage Similation Pseudocode:
     a. End the program.
 '''
 
-# Initialize the queue
-from collections import deque
+import time                        # For simulating delays
+import os                          # For clearing the console
+from collections import deque      # Initialize the queue
+from  datetime import datetime     # For timestamping
 
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
