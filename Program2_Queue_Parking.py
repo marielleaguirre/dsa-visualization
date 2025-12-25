@@ -63,6 +63,12 @@ class ParkingGarage:                              # Created a blueprint for Park
                 print(f"ERROR: Plate '{plate_num}' is already parked!")     # Display error message
                 time.sleep(2)                                               # Pause for 2 seconds                                 
                 return
+        
+        if len(self.queue) >= self.capacity:                       # Check if there is space in the garage
+            clear_screen()
+            print("Garage is FULL. Cannot park more cars.")        # Display full garage message
+            time.sleep(2)
+            return
 
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
