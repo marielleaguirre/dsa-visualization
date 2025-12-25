@@ -29,6 +29,12 @@ from  datetime import datetime     # For timestamping
 def clear_screen():                                         # Clear the console screen
     os.system("cls" if os.name == "nt" else "clear")        # depending on OS
 
+class Car:                                                       # Created a blueprint for Car
+    def __init__(self, plate_num):                               
+        self.plate_num = plate_num                               # Stores car's plate number
+        self.time_in = datetime.now().strftime("%H:%M:%S")       # Records current time as time in with format HH:MM:SS
+        self.time_out = None
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
