@@ -64,4 +64,7 @@ while True:
             print("Parked cars:")
             for car in parking_queue:
                 print(car)
-                
+    
+    elif choice == "4": # Exit the program
+        print("Exiting the program.")
+        break
