@@ -88,6 +88,13 @@ class ParkingGarage:                              # Created a blueprint for Park
         self.display()                                         # Display the updated garage status
         input("\nCar departed. Press ENTER to continue...")    # Confirmation message
 
+    def table(self):                                                                # Display parking records
+        clear_screen()
+        print("PARKING RECORD TABLE")
+        print("-" * 60)                                                             # Divider line
+        print(f"{"Plate Number":<15}{"Arrival":<15}{"Departure":<15}{"Status"}")    # Table column headers
+        print("-" * 60)                                                             # Divider line
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
