@@ -11,6 +11,14 @@ Recursion(Tower of Hanoi) Pseudocode:
 3. Call `tower_of_hanoi` with the number of disks, source = A, auxiliary = B, target = C
 '''
 
+def tower_of_hanoi(num_disks, source, auxiliary, target):
+    if num_disks == 1:
+        print(f"Move disk 1 from {source} to {target}")  # Base case: move one disk directly to target
+        return
+    tower_of_hanoi(num_disks - 1, source, target, auxiliary)  # Move n-1 disks from source to auxiliary
+    print(f"Move disk {num_disks} from {source} to {target}")  # Move the largest disk to target
+    tower_of_hanoi(num_disks - 1, auxiliary, source, target)  # Move n-1 disks from auxiliary to target
+
 def main():
     print("Recursion: Tower of Hanoi")
     while True:
