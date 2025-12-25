@@ -24,7 +24,8 @@ class ParkingGarageStacks:
     def park(self, car):
         self.occupied += 1              
         if self.occupied >= self.garage_capacity:        #Checks if the garage is full
-          pass
+          print("Garage is FULL. Cannot Park more cars.")
+          return
         else:
           self.stack.append(car)          #Inserting the car into the garage capacity
         
@@ -34,6 +35,8 @@ class ParkingGarageStacks:
         while self.stack:                          #Used while loop for continouos checking for the target car
            recent_parked_car = self.stack.pop()           
            if recent_parked_car == target_car:
+              print(f"Car {target_car} has departed the garage.")
+              self.occupied -= 1
               break
            temporary_stack.append(recent_parked_car)
         else:
@@ -43,19 +46,25 @@ class ParkingGarageStacks:
            self.stack.append(temporary_stack.pop())        #This ensure that the order of the stack still remain.
 
     def view_garage(self):                            
-        if not self.stack:                          #Used to check if there is no cars parked yet
-           print("The Garage is Empty")
-        else:
-          print("Currently parked cars", self.stack)  #Display the currently parked cars 
-    
+        if not self.garage:
+            print("Garage is empty.")
+            return
+
+        print("\nGarage (Top → Bottom):")
+        for car in reversed(self.garage):
+            print(
+                f"Car {car['id']} | "
+                f"Time In: {car['time_in'].strftime('%Y-%m-%d %H:%M:%S')}"  #Display the currently parked cars 
+            )
+
 def main():
     parking_garage = ParkingGarageStacks()
 
     while True:
         print("\n===== PARKING GARAGE MENU =====")
         print("1. Park a car")
-        print("2. Remove a car")
-        print("3. View garage")
+        print("2. Depart a car")
+        print("3. View Parking Garage")
         print("4. Exit")
 
         choice = input("Enter your choice (1-4): ")
