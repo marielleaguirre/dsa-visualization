@@ -24,11 +24,11 @@ def main():
     while True:
         try:
             num_disks = int(input("Enter the number of disks (1-7): "))
-            if 1 <= num_disks <= 7:
+            if 1 <= num_disks <= 7:  # Check if the number of disks is within the allowed range (1-7)
                 break
             else:      
                 print("Invalid. Please enter a valid number between 1 and 7.")
-        except ValueError:
+        except ValueError:  # Handles non-integer inputs
             print("Invalid input. Enter an integer.")
 
     print(f"\nMoves to solve Tower of Hanoi with {num_disks} disks:")
