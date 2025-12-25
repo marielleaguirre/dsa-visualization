@@ -35,6 +35,12 @@ class Car:                                                       # Created a blu
         self.time_in = datetime.now().strftime("%H:%M:%S")       # Records current time as time in with format HH:MM:SS
         self.time_out = None
 
+class ParkingGarage:                              # Created a blueprint for Parking Garage
+    def __init__(self, capacity):                               
+        self.capacity = capacity                  # Sets the capacity of the parking garage
+        self.queue = deque()                      # Initializes an empty queue to store parked cars
+        self.departed = []                        # List to store departed cars
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
