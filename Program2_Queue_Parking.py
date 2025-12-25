@@ -46,6 +46,12 @@ class ParkingGarage:                              # Created a blueprint for Park
         print("QUEUE PARKING GARAGE")           
         print("=" * 40)                         # Divider line
 
+        if not self.queue:
+            print("\n   [EMPTY]\n")                             # If no cars are parked, display [EMPTY]
+        else:
+            for i, car in enumerate(self.queue):
+                print(f" | Slot {i+1}: {car.plate_num}")        # Display the slot and plate number
+                print(" |------------------------------")       # Separator for slots
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
