@@ -43,7 +43,7 @@ while True:
             print("Garage is full.")
         else:
             plate = input("Enter the car's license plate number: ")
-
+            
             if plate in parking_queue: # Check if the car is already parked
                 print("This car is already parked.")
             else:
