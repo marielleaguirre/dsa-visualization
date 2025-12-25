@@ -34,3 +34,6 @@ while True:
     print("2. Remove a car")
     print("3. View parked cars")
     print("4. Exit") 
+
+# Ask the user to choose an option
+    choice = input("Choose an option (1-4): ")
