@@ -26,6 +26,9 @@ import os                          # For clearing the console
 from collections import deque      # Initialize the queue
 from  datetime import datetime     # For timestamping
 
+def clear_screen():                                         # Clear the console screen
+    os.system("cls" if os.name == "nt" else "clear")        # depending on OS
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
