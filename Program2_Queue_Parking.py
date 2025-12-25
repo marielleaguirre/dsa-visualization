@@ -40,6 +40,11 @@ class ParkingGarage:                              # Created a blueprint for Park
         self.capacity = capacity                  # Sets the capacity of the parking garage
         self.queue = deque()                      # Initializes an empty queue to store parked cars
         self.departed = []                        # List to store departed cars
+    
+    def display(self):                          # Display the parking garage header
+        clear_screen()                          # Clears the terminal screen before displaying
+        print("QUEUE PARKING GARAGE")           
+        print("=" * 40)                         # Divider line
 
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
