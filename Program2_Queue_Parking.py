@@ -49,3 +49,10 @@ while True:
             else:
                 parking_queue.append(plate) # Add the car to the queue
                 print("Car parked successfully.")
+
+    elif choice == "2": # Remove a car
+        if not parking_queue: # If there are no cars parked
+            print("No cars to remove.")
+        else:
+            removed_car = parking_queue.popleft() # Remove the first car in the queue
+            print(f"Car with license plate {removed_car} has been removed.")
