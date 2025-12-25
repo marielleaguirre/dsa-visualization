@@ -95,6 +95,15 @@ class ParkingGarage:                              # Created a blueprint for Park
         print(f"{"Plate Number":<15}{"Arrival":<15}{"Departure":<15}{"Status"}")    # Table column headers
         print("-" * 60)                                                             # Divider line
 
+        for i, car in enumerate(self.queue, start=1):
+            print(f"{car.plate_num:<15}{car.time_in:<15}{'-':<15}Slot {i}")           # Display parked cars
+
+        for car in self.departed:
+            print(f"{car.plate_num:<15}{car.time_in:<15}{car.time_out:<15}DEPARTED")  # Display departed cars
+        
+        print("-" * 60)
+        input("\nPress ENTER to return to the menu...")  # Pause before returning to menu
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
