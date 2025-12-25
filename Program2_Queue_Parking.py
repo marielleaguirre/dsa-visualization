@@ -52,6 +52,12 @@ class ParkingGarage:                              # Created a blueprint for Park
             for i, car in enumerate(self.queue):
                 print(f" | Slot {i+1}: {car.plate_num}")        # Display the slot and plate number
                 print(" |------------------------------")       # Separator for slots
+
+        print("=" * 40)                                             # Divider line
+        print(f"Parked Cars: {len(self.queue)}/{self.capacity}")    # Display current occupancy
+        print(f"Departed Cars: {len(self.departed)}")               # Display number of departed cars
+
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
