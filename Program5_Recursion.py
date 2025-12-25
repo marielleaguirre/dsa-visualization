@@ -22,11 +22,14 @@ def tower_of_hanoi(num_disks, source, auxiliary, target):
 def main():
     print("Recursion: Tower of Hanoi")
     while True:
-        num_disks = int(input("Enter the number of disks (1-7): "))
-        if 1 <= num_disks <= 7:
-            break
-        else:      
-            print("Invalid. Please enter a valid number between 1 and 7.")
+        try:
+            num_disks = int(input("Enter the number of disks (1-7): "))
+            if 1 <= num_disks <= 7:
+                break
+            else:      
+                print("Invalid. Please enter a valid number between 1 and 7.")
+        except ValueError:
+            print("Invalid input. Enter an integer.")
 
     print(f"\nMoves to solve Tower of Hanoi with {num_disks} disks:")
     tower_of_hanoi(num_disks, 'A', 'B', 'C')
