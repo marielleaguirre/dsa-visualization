@@ -68,3 +68,6 @@ while True:
     elif choice == "4": # Exit the program
         print("Exiting the program.")
         break
+
+    else:
+        print("Invalid choice. Try again.")
