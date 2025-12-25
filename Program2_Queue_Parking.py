@@ -75,6 +75,14 @@ class ParkingGarage:                              # Created a blueprint for Park
         self.display()                                                # Display the updated garage status
         input("Car parked successfully! Press Enter to continue...")  # Confirmation message
 
+    def depart(self):
+        if not self.queue:                  # Check if there are any cars parked
+            clear_screen()
+            print("No cars to remove.")     # Display no cars message
+            time.sleep(2)
+            return
+
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
