@@ -37,3 +37,15 @@ while True:
 
 # Ask the user to choose an option
     choice = input("Choose an option (1-4): ")
+
+    if choice == "1": # Park a car
+        if len(parking_queue) >= capacity: # If the garage is full
+            print("Garage is full.")
+        else:
+            plate = input("Enter the car's license plate number: ")
+
+            if plate in parking_queue: # Check if the car is already parked
+                print("This car is already parked.")
+            else:
+                parking_queue.append(plate) # Add the car to the queue
+                print("Car parked successfully.")
