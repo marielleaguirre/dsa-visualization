@@ -82,6 +82,11 @@ class ParkingGarage:                              # Created a blueprint for Park
             time.sleep(2)
             return
 
+        car = self.queue.popleft()                             # Remove the first car in the queue
+        car.time_out = datetime.now().strftime("%H:%M:%S")     # Record the time out
+        self.departed.append(car)                              # Add the car to the departed list
+        self.display()                                         # Display the updated garage status
+        input("\nCar departed. Press ENTER to continue...")    # Confirmation message
 
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
