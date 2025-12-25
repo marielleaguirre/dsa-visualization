@@ -104,44 +104,36 @@ class ParkingGarage:                              # Created a blueprint for Park
         print("-" * 60)
         input("\nPress ENTER to return to the menu...")  # Pause before returning to menu
 
-parking_queue = deque()
-capacity = 5  # Set the capacity of the parking garage
+# Main Program
+garage = ParkingGarage(capacity=5)  # Set garage capacity
 
 # Create the display menu
 while True:
-    print("\nParking Garage Menu:")
+    print("QUEUE PARKING GARAGE MENU")
     print("1. Park a car")
     print("2. Remove a car")
-    print("3. View parked cars")
+    print("3. View Parking Table")
     print("4. Exit") 
 
 # Ask the user to choose an option
-    choice = input("Choose an option (1-4): ")
+    choice = input("\nChoose an option (1-4): ")
 
-    if choice == "1": # Park a car
-        if len(parking_queue) >= capacity: # If the garage is full
-            print("Garage is full.")
-        else:
-            plate = input("Enter the car's license plate number: ")
+    if choice == "1":  # Park a car
+        plate_num = input("Enter Plate Number: ")
+        garage.arrive(plate_num)
 
     elif choice == "2": # Remove a car
-        if not parking_queue: # If there are no cars parked
-            print("No cars to remove.")
-        else:
-            removed_car = parking_queue.popleft() # Remove the first car in the queue
-            print(f"Car with license plate {removed_car} has been removed.")
+        garage.depart()
 
-    elif choice == "3": # View parked cars
-        if not parking_queue: # If there are no cars parked
-            print("No cars are currently parked.")
-        else:
-            print("Parked cars:")
-            for car in parking_queue:
-                print(car)
+    elif choice == "3": # View Parking Table
+        garage.table()
     
     elif choice == "4": # Exit the program
-        print("Exiting the program.")
+        clear_screen()
+        print("Exiting the program... Thank you!")
+        time.sleep(1)
         break
 
     else:
         print("Invalid choice. Try again.")
+        time.sleep(1)
