@@ -28,4 +28,7 @@ def main():
         else:      
             print("Invalid. Please enter a valid number between 1 and 7.")
 
+    print(f"\nMoves to solve Tower of Hanoi with {num_disks} disks:")
+    tower_of_hanoi(num_disks, 'A', 'B', 'C')
+
 main()
