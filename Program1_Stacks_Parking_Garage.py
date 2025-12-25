@@ -25,6 +25,11 @@ class ParkingGarageStacks:
         self.occupied = 0               #Counter for occupied slots
 
     def park(self, car):
+        if car in [c["id"] for c in self.stack]:  #Check if the car is already parked
+            print(f"Car {car} is already parked in the garage.")
+            time.sleep(1)
+            return
+        
         if self.occupied >= self.garage_capacity:    #Checks if the garage is full
             print("Garage is FULL. Cannot park more cars.")
             time.sleep(1)
