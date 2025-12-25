@@ -70,6 +70,7 @@ class ParkingGarage:                              # Created a blueprint for Park
             time.sleep(2)
             return
 
+
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
 
