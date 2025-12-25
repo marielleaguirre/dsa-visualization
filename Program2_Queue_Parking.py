@@ -70,6 +70,10 @@ class ParkingGarage:                              # Created a blueprint for Park
             time.sleep(2)
             return
 
+        car = Car(plate_num)                                          # Create a new Car object
+        self.queue.append(car)                                        # Add the car to the parking queue
+        self.display()                                                # Display the updated garage status
+        input("Car parked successfully! Press Enter to continue...")  # Confirmation message
 
 parking_queue = deque()
 capacity = 5  # Set the capacity of the parking garage
