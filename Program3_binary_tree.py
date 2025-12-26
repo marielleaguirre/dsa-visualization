@@ -96,15 +96,58 @@ class Traversal:
             inorder_resursively(curr_node.right_child)
 
         inorder_resursively(node)
+        
+        return result
+    
+    def preorder_traversal(self):
+        
+        node = self.root
+
+        result = []
+
+        def preorder_resursively(curr_node):
+            if curr_node is None:
+                return
+            result.append(curr_node.value)
+            preorder_resursively(curr_node.left_child)
+            preorder_resursively(curr_node.right_child)
+
+        preorder_resursively(node)
+
+        return result
+    
+    def postorder_traversal(self):
+        
+        node = self.root
+
+        result = []
+
+        def postorder_resursively(curr_node):
+            if curr_node is None:
+                return
+            postorder_resursively(curr_node.left_child)
+            postorder_resursively(curr_node.right_child)
+            result.append(curr_node.value)
+
+        postorder_resursively(node)
+
         return result
 
 
+def main():
+    pass
+
 
 if __name__ == "__main__":
-    bin_tree = BinaryTree(2)
+    bin_tree = BinaryTree(3)
     bin_tree.build_tree()
     nodes = bin_tree.insert_nodes()
 
     bin_tree = Traversal(bin_tree)
     inorder = bin_tree.inorder_traversal()
+    preorder = bin_tree.preorder_traversal()
+    postorder = bin_tree.postorder_traversal()
+
     print(inorder)
+    print(preorder)
+    print(postorder)
