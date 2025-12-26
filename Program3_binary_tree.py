@@ -16,6 +16,7 @@ class Node:
     def __init__(self, value=None):
         self.left_child = None
         self.right_child = None
+        self.parent = None
         self.value = value
 
 
@@ -34,6 +35,7 @@ class BinaryTree:
             return False
         
         self.root = self.gen_node()
+        self.root.parent = 1
         self.all_nodes.append(self.root)
 
         total_nodes = 2**self.level - 1
@@ -50,6 +52,9 @@ class BinaryTree:
             current_node.left_child = left_child
             current_node.right_child = right_child
 
+            left_child.parent = current_node
+            right_child.parent = current_node
+
             queue.append(left_child)
             queue.append(right_child)
 
@@ -60,12 +65,14 @@ class BinaryTree:
 
     
     def insert_nodes(self):
-        
+
         for index, node in enumerate(self.all_nodes, 1):
             while True:
                 node_val = input(f"Node {index}/{len(self.all_nodes)}: ").strip()
 
                 if node_val == ".":
+                    node.value = None
+                elif node.parent == None:
                     node.value = None
                 else:
                     node.value = node_val
