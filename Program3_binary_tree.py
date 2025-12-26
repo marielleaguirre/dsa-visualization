@@ -66,6 +66,7 @@ class BinaryTree:
         for index, node in enumerate(self.all_nodes, 1):
             while True:
                 node_val = input(f"Node {index}/{len(self.all_nodes)}: ").strip()
+                print(node.parent)
 
                 if node_val == ".":
                     node.value = None
@@ -75,6 +76,9 @@ class BinaryTree:
                     node.value = node_val
                 break
                  
+    def show_tree_structure(self):
+        pass
+
 class Traversal:
 
     def __init__(self, bin_tree):
@@ -135,19 +139,29 @@ class Traversal:
 
 
 def main():
-    pass
+    border = 20 * "="
+    print(border, "BINARY TREE GENERATOR", border)
+
+    levels_query = "Enter the number of levels of your Binary Tree (1-5): "
+    levels_input = int(input(levels_query))
+
+    bin_tree = BinaryTree(levels_input)
+    bin_tree.build_tree()
+    bin_tree.insert_nodes()
+    bin_tree.show_tree()
+
+    print("\n", border, "TRAVERSALS (LTR, TLR, LRT)", border, "\n")
+
+    bin_tree = Traversal(bin_tree)
+    preorder = bin_tree.preorder_traversal()
+    inorder = bin_tree.inorder_traversal()
+    postorder = bin_tree.postorder_traversal()
+
+
+    print(f"Preorder Traversal (TLR): {preorder}")
+    print(f"Inorder Traversal (TLR): {inorder}")
+    print(f"Postorder Traversal (TLR): {postorder}")
 
 
 if __name__ == "__main__":
-    bin_tree = BinaryTree(3)
-    bin_tree.build_tree()
-    nodes = bin_tree.insert_nodes()
-
-    bin_tree = Traversal(bin_tree)
-    inorder = bin_tree.inorder_traversal()
-    preorder = bin_tree.preorder_traversal()
-    postorder = bin_tree.postorder_traversal()
-
-    print(inorder)
-    print(preorder)
-    print(postorder)
+    main()
