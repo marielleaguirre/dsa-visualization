@@ -8,6 +8,7 @@ Key Classes:
 
 
 '''
+ # Creates objects that defines a node, including its links to other nodes
 class Node:
     
     def __init__(self, value=None):
@@ -16,71 +17,98 @@ class Node:
         self.parent = None
         self.value = value
 
-
-class BinaryTree:
+# Class that stores the main algorithms of binary tree
+class BinaryTree: 
     def __init__(self, level):
         self.root = None
-        self.level = level
-        self.all_nodes = []
+        self.level = level 
+        self.all_nodes = [] # Stores all the nodes inputted
 
-    def gen_node(self):
+    def gen_node(self): # A function that simplifies tha Node Class
         return Node()
     
-    def build_tree(self):
+    def build_tree(self): # Creates node placeholder based on the input level
         if self.level <= 1:
-            print("Invalid number of levels. Please enter a positive integer greater than 1.")
+            print("Invalid number of levels. You can only enter 1-5")
             return False
         
+        # Manually initializes the characteristics for the root node
         self.root = self.gen_node()
-        self.root.parent = 1
-        self.all_nodes.append(self.root)
+        self.root.parent = 1 # Default 1, no reason for the value used
+        self.all_nodes.append(self.root) # Records the first node/top node
 
+        # Formula for calculating the total nodes based on levels
         total_nodes = 2**self.level - 1
 
-        queue = [self.root]
-        node_counder = 1
+
+        # Queue System/Breadth First Search(BFS) | MAIN ALGORITHM
+        queue = [self.root] # initializes the root as the first in the queue
+        node_counter = 1
 
         while len(self.all_nodes) < total_nodes:
-            current_node = queue.pop(0)
+            current_node = queue.pop(0) # Takes the first node in the queue
 
+            # Initializes the left and child node
             left_child = self.gen_node()
             right_child = self.gen_node()
 
+            # Assigns the children to the current node at hand
             current_node.left_child = left_child
             current_node.right_child = right_child
 
-            left_child.parent = current_node
-            right_child.parent = current_node
+            # Sets the parent of each node 
+            current_node.left_child.parent = current_node
+            current_node.right_child.parent = current_node
 
-            queue.append(left_child)
-            queue.append(right_child)
+            # Records the new nodes to the overall list
+            self.all_nodes.append(current_node.left_child)
+            self.all_nodes.append(current_node.right_child)
 
-            self.all_nodes.append(left_child)
-            self.all_nodes.append(right_child)
+            # Adds the recorded nodes to the queue for later use (they will be popped FIFO manner just to assign children/parent values)
+            queue.append(current_node.left_child)
+            queue.append(current_node.right_child)
 
-            node_counder += 2
+            # Handles the loop
+            node_counter += 2
 
     
+    # This is where the user can input/assign values to each placeholder in the initialized BinaryTree object
     def insert_nodes(self):
 
+        # Prompt for user input
         for index, node in enumerate(self.all_nodes, 1):
             while True:
                 node_val = input(f"Node {index}/{len(self.all_nodes)}: ").strip()
-                print(node.parent)
 
                 if node_val == ".":
                     node.value = None
-                elif node.parent == None:
+                elif node.parent == None: # Will fix, may issues pa rin
                     node.value = None
                 else:
                     node.value = node_val
                 break
-                 
-    def show_tree_structure(self):
-        pass
 
+    # This only shows the metadata of each nodes, not the actual graph                 
+    def show_tree_structure(self):
+        for node in self.all_nodes:
+            left_child = node.left_child.value if node.left_child else "None"
+            right_child = node.right_child.value if node.right_child else "None"
+            parent_node = node.parent if node.parent else "None"
+
+            parent_node = parent_node.value if parent_node is not 1 else "Parent Node"
+
+            if parent_node is not None: 
+                data_str = f"Node: {node.value}\n Parent Node: {parent_node}\n Left Child: {left_child}\n Right Child: {right_child}\n"
+            else: # Excludes metadata of nodes w/o parent nodes
+                data_str= f"Node: {node.value} does not exist. \n"
+
+            print(data_str)
+
+
+# Uses RECURSION as main algorithm
 class Traversal:
 
+    # Retrieve all necessary values
     def __init__(self, bin_tree):
         self.bin_tree = bin_tree
         self.root = bin_tree.root
@@ -92,14 +120,15 @@ class Traversal:
 
         result = []
 
+        # Recursion | created another function so that inorder_traversal won't need an argument
         def inorder_resursively(curr_node):
-            if curr_node is None:
+            if curr_node is None: # Searcher: if it does not find any value in the node, it stops the recursion
                 return
-            inorder_resursively(curr_node.left_child)
-            result.append(curr_node.value)
-            inorder_resursively(curr_node.right_child)
+            inorder_resursively(curr_node.left_child) # Find leftmost node, if it triggers the Searcher;
+            result.append(curr_node.value) # retrieves the current node it is currently on
+            inorder_resursively(curr_node.right_child) # Find rightmost node, if it does not find any leftmost node and triggers the Searcher, it retrieves current node
 
-        inorder_resursively(node)
+        inorder_resursively(node) 
         
         return result
     
@@ -138,6 +167,20 @@ class Traversal:
         return result
 
 
+class ValidateInput: # Still working on it
+
+    def validate(prompt, input_limit=[]):
+        while True:
+            try:
+                user_input = input(prompt).strip()
+
+                if user_input in input_limit or input_limit == []:
+                    return user_input
+
+            except ValueError:
+                print("Invalid Input!")
+
+
 def main():
     border = 20 * "="
     print(border, "BINARY TREE GENERATOR", border)
@@ -148,7 +191,8 @@ def main():
     bin_tree = BinaryTree(levels_input)
     bin_tree.build_tree()
     bin_tree.insert_nodes()
-    bin_tree.show_tree()
+    print(bin_tree.all_nodes)
+    bin_tree.show_tree_structure()
 
     print("\n", border, "TRAVERSALS (LTR, TLR, LRT)", border, "\n")
 
@@ -159,8 +203,8 @@ def main():
 
 
     print(f"Preorder Traversal (TLR): {preorder}")
-    print(f"Inorder Traversal (TLR): {inorder}")
-    print(f"Postorder Traversal (TLR): {postorder}")
+    print(f"Inorder Traversal (LTR): {inorder}")
+    print(f"Postorder Traversal (LRT): {postorder}")
 
 
 if __name__ == "__main__":
