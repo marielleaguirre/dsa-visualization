@@ -33,7 +33,7 @@ class BinaryTree:
             print("Invalid number of levels. Please enter a positive integer greater than 1.")
             return False
         
-
+        self.root = self.gen_node()
         self.all_nodes.append(self.root)
 
         total_nodes = 2**self.level - 1
@@ -60,12 +60,23 @@ class BinaryTree:
 
     
     def insert_nodes(self):
-
+        
         for index, node in enumerate(self.all_nodes, 1):
-            pass        
-     
+            while True:
+                node_val = input(f"Node {index}/{len(self.all_nodes)}: ").strip()
+
+                if node_val == ".":
+                    node.value = None
+                else:
+                    node.value = node_val
+                break
+                 
+                 
 class Traversal:
     pass
 
-bin_tree = BinaryTree(4)
-bin_tree.build_tree()
+
+if __name__ == "__main__":
+    bin_tree = BinaryTree(2)
+    bin_tree.build_tree()
+    nodes = bin_tree.insert_nodes()
