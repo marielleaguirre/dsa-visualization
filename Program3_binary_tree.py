@@ -3,7 +3,7 @@ Binary Tree Pseudocode
 
 Key Classes:
 - BinaryTree > generates an empty binary tree and will store the nodes produced by Nodes
-- Nodes > handles the creation of left/right nodes
+- Nodes > initiates the objects acting as nodes
 - Traversals > creates the traversal equivalents of the binary tree
 
 
@@ -20,72 +20,63 @@ class Node:
 
 
 class BinaryTree:
-    
-    def __init__(self, level=2):
+    def __init__(self, level):
         self.root = None
-        self.nodes_n = 2**level - 1
-        self.nodes_counter = 1
+        self.level = level
+        self.all_nodes = []
 
+    def gen_node(self):
+        return Node()
+    
+    def build_tree(self):
+        if self.level <= 1:
+            print("Invalid number of levels. Please enter a positive integer greater than 1.")
+            return False
+        
+        self.root = self.gen_node()
+        self.all_nodes.append(self.root)
 
-    def insert_node(self, value):
-        if self.root is None:
-            self.root = Node(value)
-            return self.root
-        else:
-            node_val = self._insert_recursively(value, self.root)
-            self.nodes_counter += 1
-            return node_val
+        total_nodes = 2**self.level - 1
+
+        queue = [self.root]
+        node_counder = 1
+
+        while len(self.all_nodes) < total_nodes:
+            current_node = queue.pop(0)
+
+            left_child = self.gen_node()
+            right_child = self.gen_node()
+
+            current_node.left_child = left_child
+            current_node.right_child = right_child
+
+            queue.append(left_child)
+            queue.append(right_child)
+
+            self.all_nodes.append(left_child)
+            self.all_nodes.append(right_child)
+
+            node_counder += 2
 
     
-    def _insert_recursively(self, value, current_node):
-        if current_node.left_child is None:
-            print("Parent Node", current_node.value)
-            current_node.left_child = Node(value)
-            return current_node.left_child
-        elif current_node.right_child is None:
-            current_node.right_child = Node(value)
-            print(f"====== {current_node.value}")
-            return current_node.right_child
-        elif self.check_full() is True:
-            left_insert = self._insert_recursively(value, current_node.left_child)
-            if left_insert is not None:
-                return left_insert
-            right_insert = self._insert_recursively(value, current_node.right_child)
-            return right_insert
-        else:
-            return None
+    def insert_nodes(self):
         
-    def check_full(self):
-        return self.nodes_counter == self.nodes_n
+        for index, node in enumerate(self.all_nodes, 1):
+            while True:
+                node_val = input(f"Node {index}/{len(self.all_nodes)}: ").strip()
 
+                if node_val == ".":
+                    node.value = None
+                else:
+                    node.value = node_val
+                break
+                 
+                 
 class Traversal:
     pass
 
 
-bin_tree = BinaryTree()
-for val in values:
-    node = bin_tree.insert_node(val)
-    print(node.value, "----")
-    print("Nodes Counter:", bin_tree.nodes_counter)
-    print("Is Full?:", bin_tree.check_full())
-
-# # Simulation
-
-# bin_tree = BinaryTree(1)
-# bin_tree.root.left = Node(2)
-# bin_tree.root.right = Node(3)
-
-# #     1
-# #    / \
-# #   2   3
-
-# bin_tree.root.left.left = Node(5)
-# bin_tree.root.left.right = Node(4)
-# bin_tree.root.right.left = Node(6)
-# bin_tree.root.right.right = Node(7)
-
-# #       1
-# #      / \
-# #     2   3
-# #    / \ / \
-# #   5  4 6  7
+if __name__ == "__main__":
+    bin_tree = BinaryTree(2)
+    bin_tree.build_tree()
+    nodes = bin_tree.insert_nodes()
