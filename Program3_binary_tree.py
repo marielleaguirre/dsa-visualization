@@ -8,9 +8,6 @@ Key Classes:
 
 
 '''
-
-values = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P']
-
 class Node:
     
     def __init__(self, value=None):
@@ -78,12 +75,36 @@ class BinaryTree:
                     node.value = node_val
                 break
                  
-                 
 class Traversal:
-    pass
+
+    def __init__(self, bin_tree):
+        self.bin_tree = bin_tree
+        self.root = bin_tree.root
+        self.all_nodes = bin_tree.all_nodes 
+
+    def inorder_traversal(self):
+        
+        node = self.root
+
+        result = []
+
+        def inorder_resursively(curr_node):
+            if curr_node is None:
+                return
+            inorder_resursively(curr_node.left_child)
+            result.append(curr_node.value)
+            inorder_resursively(curr_node.right_child)
+
+        inorder_resursively(node)
+        return result
+
 
 
 if __name__ == "__main__":
     bin_tree = BinaryTree(2)
     bin_tree.build_tree()
     nodes = bin_tree.insert_nodes()
+
+    bin_tree = Traversal(bin_tree)
+    inorder = bin_tree.inorder_traversal()
+    print(inorder)
