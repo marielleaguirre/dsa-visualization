@@ -95,7 +95,7 @@ class BinaryTree:
             right_child = node.right_child.value if node.right_child else "None"
             parent_node = node.parent if node.parent else "None"
 
-            parent_node = parent_node.value if parent_node is not 1 else "Parent Node"
+            parent_node = parent_node.value if parent_node is not 1 else "Root"
 
             if parent_node is not None: 
                 data_str = f"Node: {node.value}\n Parent Node: {parent_node}\n Left Child: {left_child}\n Right Child: {right_child}\n"
@@ -167,25 +167,11 @@ class Traversal:
         return result
 
 
-class ValidateInput: # Still working on it
-
-    def validate(prompt, input_limit=[]):
-        while True:
-            try:
-                user_input = input(prompt).strip()
-
-                if user_input in input_limit or input_limit == []:
-                    return user_input
-
-            except ValueError:
-                print("Invalid Input!")
-
-
 def main():
     border = 20 * "="
     print(border, "BINARY TREE GENERATOR", border)
 
-    levels_query = "Enter the number of levels of your Binary Tree (1-5): "
+    levels_query = "Enter the number of levels for your Binary Tree (1-5): "
     levels_input = int(input(levels_query))
 
     bin_tree = BinaryTree(levels_input)
