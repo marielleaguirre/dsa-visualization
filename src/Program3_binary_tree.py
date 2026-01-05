@@ -1,14 +1,4 @@
-'''
-Binary Tree Pseudocode
-
-Key Classes:
-- BinaryTree > generates an empty binary tree and will store the nodes produced by Nodes
-- Nodes > initiates the objects acting as nodes
-- Traversals > creates the traversal equivalents of the binary tree
-
-
-'''
- # Creates objects that defines a node, including its links to other nodes
+# Creates objects that defines a node, including its links to other nodes
 class Node:
     
     def __init__(self, value=None):
