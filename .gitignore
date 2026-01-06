@@ -1,0 +1,7 @@
+temp/
+
+# Karl's GitIgnore Files
+test.py
+
+# Ignores all __pycache__ files
+**/*.pyc
