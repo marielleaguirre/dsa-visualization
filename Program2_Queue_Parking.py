@@ -34,6 +34,23 @@ SLOT_H = 70                        # Height of each parking slot
 START_X = 260                      # Starting X position for parking slots
 START_Y = 320                      # Starting Y position for parking slots
 
+# -------------------- MESSAGE SYSTEM --------------------
+message_text = ""                  # Message text to display
+message_color = GREEN              # Message color
+message_time = 0                  # Time when message was set
+
+def show_message(text, color=GREEN):                     # Function to show messages
+    global message_text, message_color, message_time
+    message_text = text                                  # Set the message text
+    message_color = color                                # Set the message color
+    message_time = pygame.time.get_ticks()               # Record the time the message was set
+
+def draw_message():                                                                     # Function to draw messages
+    if message_text and pygame.time.get_ticks() - message_time < 2000:                  # Show message for 2 seconds
+        pygame.draw.rect(screen, message_color, (250, 10, 500, 40), border_radius=8)    # Draw message box
+        msg = FONT.render(message_text, True, BLACK)                                    # Render the message text
+        screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, 22))                       # Center the message text
+
 class Car:                                                       # Created a blueprint for Car
     def __init__(self, plate_num):                               
         self.plate_num = plate_num                               # Stores car's plate number
