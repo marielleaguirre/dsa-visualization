@@ -194,30 +194,3 @@ garage = ParkingGarage()                  # Create parking garage instance
 input_box = InputBox(40, 150, 200, 36)    # Create input box instance
 screen_state = "garage"                   # Set initial screen state
 
-# Create the display menu
-while True:
-    print("QUEUE PARKING GARAGE MENU")
-    print("1. Park a car")
-    print("2. Remove a car")
-    print("3. View Parking Table")
-    print("4. Exit") 
-
-# Ask the user to choose an option
-    choice = input("\nChoose an option (1-4): ")
-
-    if choice == "1":  # Park a car
-        plate_num = input("Enter Plate Number: ")
-        garage.arrive(plate_num)
-
-    elif choice == "2": # Remove a car
-        garage.depart()
-
-    elif choice == "3": # View Parking Table
-        garage.table()
-    
-    elif choice == "4": # Exit the program
-        print("Exiting the program... Thank you!")
-        break
-
-    else:
-        print("Invalid choice. Try again.")
