@@ -159,6 +159,10 @@ class Button:                                       # Class for button
         screen.blit(FONT.render(self.text, True, BLACK),
                     (self.rect.x + 15, self.rect.y + 10))            # Blit button text
 
+    def click(self):             # Function to handle button click
+        if self.rect.collidepoint(pygame.mouse.get_pos()):    # Check if button is clicked
+            self.action()
+
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
         print("-" * 60)                                                             # Divider line
