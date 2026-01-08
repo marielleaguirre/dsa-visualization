@@ -109,6 +109,11 @@ class ParkingGarage:                              # Created a blueprint for Park
         self.update_targets()                                  # Update target positions of remaining cars
         show_message(f"SUCCESS: Car {car.plate_num} departed!", GREEN)
 
+    def update_targets(self):                     # Function to update target positions of cars
+        for i, car in enumerate(self.queue):
+            car.target_x = START_X + i * SLOT_W + 10
+            car.y = START_Y + 5
+
     
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
