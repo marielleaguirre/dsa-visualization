@@ -59,7 +59,7 @@ class Car:                                                       # Created a blu
         self.time_out = None
         self.x = WIDTH
         self.y = START_Y + 5
-        self.target_x = 0                       # Setting car's starting position
+        self.target_x = 0                    # Setting car's starting position
 
     def move(self):                          # Function to move the car towards target position
         if self.x > self.target_x:
@@ -190,7 +190,7 @@ def draw_records(garage):                     # Display parking records
         y += 28
 
 # -------------------- MAIN --------------------
-garage = ParkingGarage()                  # Create parking garage instance
+garage = ParkingGarage(capacity = 5)                  # Create parking garage instance
 input_box = InputBox(40, 150, 200, 36)    # Create input box instance
 screen_state = "garage"                   # Set initial screen state
 
