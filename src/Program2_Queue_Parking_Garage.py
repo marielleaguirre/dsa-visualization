@@ -228,4 +228,23 @@ while running:
                     button.click()
             else:
                 back_button.click()
-        
+
+    if screen_state == "garage":        # Garage screen
+        screen.blit(FONT.render("Plate Number:", True, WHITE), (40, 125))  # Draw label
+        input_box.draw()
+
+        screen.blit(FONT.render(f"Parked Cars: {len(garage.queue)} / {CAPACITY}", True, WHITE), (40, 70))  # Draw parked cars count
+        screen.blit(FONT.render(f"Departed Cars: {len(garage.departed)}", True, WHITE), (40, 95))  # Draw departed cars count
+
+        for button in buttons:          # Draw buttons
+            button.draw()
+
+        pygame.draw.rect(
+            screen, GARAGE,
+            (START_X - 30, START_Y - 60,
+             SLOT_W * CAPACITY + 60, SLOT_H + 120),
+            border_radius=12
+        )                       # Draw garage outline
+
+        screen.blit(BIG_FONT.render("PARKING GARAGE (FIFO QUEUE)", True, BLACK),
+                    (START_X + 60, START_Y - 55))   # Draw title 
