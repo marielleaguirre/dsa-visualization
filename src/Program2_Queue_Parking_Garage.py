@@ -146,6 +146,13 @@ class InputBox:                                 # Class for input box
     def clear(self):          # Function to clear input box
         self.text = ""
 
+# -------------------- BUTTON --------------------
+class Button:                                       # Class for button
+    def __init__(self, x, y, w, h, text, action):   # Initialize button
+        self.rect = pygame.Rect(x, y, w, h)         # Define rectangle for button
+        self.text = text                            # Button text
+        self.action = action                        # Action to perform on click
+
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
         print("-" * 60)                                                             # Divider line
