@@ -51,11 +51,15 @@ def draw_message():                                                             
         msg = FONT.render(message_text, True, BLACK)                                    # Render the message text
         screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, 22))                       # Center the message text
 
+# -------------------- DATA CLASSES --------------------
 class Car:                                                       # Created a blueprint for Car
     def __init__(self, plate_num):                               
         self.plate_num = plate_num                               # Stores car's plate number
         self.time_in = datetime.now().strftime("%H:%M:%S")       # Records current time as time in with format HH:MM:SS
         self.time_out = None
+        self.x = WIDTH
+        self.y = START_Y + 5
+        self.target_x = 0                       # Setting car's starting position
 
 class ParkingGarage:                              # Created a blueprint for Parking Garage
     def __init__(self, capacity):                               
