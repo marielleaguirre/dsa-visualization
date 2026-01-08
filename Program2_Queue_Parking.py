@@ -65,6 +65,15 @@ class Car:                                                       # Created a blu
         if self.x > self.target_x:
             self.x -= 8
 
+    def draw(self):                          # Function to draw the car on the screen
+        pygame.draw.rect(
+            screen, CAR_COLOR,
+            (self.x, self.y, SLOT_W - 20, SLOT_H - 10),
+            border_radius=10
+        )
+        screen.blit(FONT.render(self.plate_num, True, BLACK), (self.x + 10, self.y + 8))
+        screen.blit(FONT.render(self.time_in, True, BLACK), (self.x + 10, self.y + 32))
+
 class ParkingGarage:                              # Created a blueprint for Parking Garage
     def __init__(self, capacity):                               
         self.capacity = capacity                  # Sets the capacity of the parking garage
