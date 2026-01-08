@@ -27,6 +27,13 @@ GREEN = (60, 200, 120)            # Green color
 INPUT_BG = (255, 255, 255)        # Input box background color (white)
 INPUT_ACTIVE = (200, 230, 255)    # Input box active color (light blue)
 
+# -------------------- GARAGE SETTINGS --------------------
+CAPACITY = 5                       # Maximum number of cars in garage
+SLOT_W = 130                       # Width of each parking slot
+SLOT_H = 70                        # Height of each parking slot
+START_X = 260                      # Starting X position for parking slots
+START_Y = 320                      # Starting Y position for parking slots
+
 class Car:                                                       # Created a blueprint for Car
     def __init__(self, plate_num):                               
         self.plate_num = plate_num                               # Stores car's plate number
