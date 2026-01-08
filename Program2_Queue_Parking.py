@@ -98,17 +98,18 @@ class ParkingGarage:                              # Created a blueprint for Park
         self.update_targets()                    # Update target positions of all cars
         show_message(f"SUCCESS: Car {plate_num} parked!", GREEN)  # Show success message
 
-    def depart(self):
+    def depart(self):                              # Function to remove a car
         if not self.queue:                         # Check if there are any cars parked
-            show_message("No cars to remove.")     # Display no cars message
+            show_message("No cars to remove.")
             return
 
         car = self.queue.popleft()                             # Remove the first car in the queue
         car.time_out = datetime.now().strftime("%H:%M:%S")     # Record the time out
         self.departed.append(car)                              # Add the car to the departed list
-        self.display()                                         # Display the updated garage status
-        input("\nCar departed. Press ENTER to continue...")    # Confirmation message
+        self.update_targets()                                  # Update target positions of remaining cars
+        show_message(f"SUCCESS: Car {car.plate_num} departed!", GREEN)
 
+    
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
         print("-" * 60)                                                             # Divider line
