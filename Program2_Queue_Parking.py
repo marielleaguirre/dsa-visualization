@@ -125,6 +125,16 @@ class InputBox:                                 # Class for input box
         self.text = ""                  # Initialize text as empty
         self.active = False             # Input box is not active initially
 
+    def handle_event(self, event):            # Function to handle events
+        if event.type == pygame.MOUSEBUTTONDOWN:             # Check for mouse click
+            self.active = self.rect.collidepoint(event.pos)  # Toggle active state if clicked
+            
+        if event.type == pygame.KEYDOWN and self.active:     # Check for key press when active
+            if event.key == pygame.K_BACKSPACE:              # Handle backspace
+                self.text = self.text[:-1]
+            else:                                           # Add character to text
+                if len(self.text) < 10:                     # Limit input length
+                    self.text += event.unicode.upper()      # Convert to uppercase
 
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
