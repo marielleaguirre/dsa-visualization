@@ -143,7 +143,8 @@ class InputBox:                                 # Class for input box
         txt = FONT.render(self.text or "Enter Plate Number", True, BLACK)   # Render the text
         screen.blit(txt, (self.rect.x + 10, self.rect.y + 8))               # Blit text onto input box
 
-
+    def clear(self):          # Function to clear input box
+        self.text = ""
 
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
