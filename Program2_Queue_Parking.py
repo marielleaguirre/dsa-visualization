@@ -1,29 +1,3 @@
-'''
-Queue Parking Garage Similation Pseudocode:
-1. Create a menu with options to:
-    a. Park a car
-    b. Remove a car
-    c. View Parking Table
-    d. Exit the program
-2. Ask the user to select an option from the menu.
-3. If the user selects "Park a car":
-    a. Check if there is available space in the parking garage.
-    b. If space is available, prompt the user to enter the car's license plate number.
-    c. Add the car to the parking queue.
-    d. Confirm that the car has been parked.
-    e. Check if the plate number is already parked; if so, display an error message and do not park the car.
-4. If the user selects "Remove a car":
-    a. Check if there are any cars parked in the garage.
-    b. If there are parked cars, remove the car in first slot from the parking queue.
-    c. Confirm that the car has been removed.
-5. If the user selects "View Parking Table":
-    a. Display a list of:
-        i. All currently parked cars with their plate numbers and arrival times.
-       ii. All departed cars with their plate numbers, arrival times, and departure times.
-6. If the user selects "Exit":
-    a. End the program.
-'''
-
 import time                        # For simulating delays
 import os                          # For clearing the console
 from collections import deque      # Initialize the queue
