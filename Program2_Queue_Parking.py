@@ -76,39 +76,22 @@ class Car:                                                       # Created a blu
 
 class ParkingGarage:                              # Created a blueprint for Parking Garage
     def __init__(self, capacity):                               
-        self.capacity = capacity                  # Sets the capacity of the parking garage
         self.queue = deque()                      # Initializes an empty queue to store parked cars
         self.departed = []                        # List to store departed cars
     
-    def display(self):                          # Display the parking garage header
-        print("QUEUE PARKING GARAGE")           
-        print("=" * 40)                         # Divider line
-
-        if not self.queue:
-            print("\n   [EMPTY]\n")                             # If no cars are parked, display [EMPTY]
-        else:
-            for i, car in enumerate(self.queue):
-                print(f" | Slot {i+1}: {car.plate_num}")        # Display the slot and plate number
-                print(" |------------------------------")       # Separator for slots
-
-        print("=" * 40)                                             # Divider line
-        print(f"Parked Cars: {len(self.queue)}/{self.capacity}")    # Display current occupancy
-        print(f"Departed Cars: {len(self.departed)}")               # Display number of departed cars
-
-    def arrive(self, plate_num):
-        for car in self.queue:
-            if car.plate_num == plate_num:                                  # Check for duplicate plate numbers
-                print(f"ERROR: Plate '{plate_num}' is already parked!")     # Display error message
-                return
-        
-        if len(self.queue) >= self.capacity:                       # Check if there is space in the garage
-            print("Garage is FULL. Cannot park more cars.")        # Display full garage message
+    def park(self, plate_num):                   # Function to park a car
+        if not plate_num:                        # Check if plate number is empty
+            show_message("ERROR: Plate number cannot be empty!", RED)
             return
-
-        car = Car(plate_num)                                          # Create a new Car object
-        self.queue.append(car)                                        # Add the car to the parking queue
-        self.display()                                                # Display the updated garage status
-        input("Car parked successfully! Press Enter to continue...")  # Confirmation message
+        
+        if len(self.queue) >= CAPACITY:          # Check if garage is full
+            show_message("ERROR: Garage is FULL! Car cannot enter.", RED)
+            return
+        
+        for car in self.queue:                   # Check for duplicate plate numbers
+            if car.plate_num == plate_num:
+                show_message(f"ERROR: Plate '{plate_num}' is already parked!", RED)
+                return
 
     def depart(self):
         if not self.queue:                  # Check if there are any cars parked
