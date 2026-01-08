@@ -118,6 +118,14 @@ class ParkingGarage:                              # Created a blueprint for Park
         for car in self.queue:
             car.move()
     
+# -------------------- INPUT BOX --------------------
+class InputBox:                                 # Class for input box
+    def __init__(self, x, y, w, h):             # Initialize input box
+        self.rect = pygame.Rect(x, y, w, h)     # Define rectangle for input box
+        self.text = ""                  # Initialize text as empty
+        self.active = False             # Input box is not active initially
+
+
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
         print("-" * 60)                                                             # Divider line
