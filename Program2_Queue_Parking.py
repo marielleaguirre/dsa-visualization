@@ -5,6 +5,15 @@ from  datetime import datetime     # For timestamping
 
 pygame.init()                      # Initialize pygame
 
+# -------------------- WINDOW --------------------
+WIDTH, HEIGHT = 1000, 700                           # Set window dimensions
+screen = pygame.display.set_mode((WIDTH, HEIGHT))   # Create the window
+pygame.display.set_caption("Queue Parking Garage")  # Set window title
+
+CLOCK = pygame.time.Clock()                        # For controlling frame rate
+FONT = pygame.font.SysFont("arial", 18)            # Set font for
+BIG_FONT = pygame.font.SysFont("arial", 26)        # Set big font for titles
+
 class Car:                                                       # Created a blueprint for Car
     def __init__(self, plate_num):                               
         self.plate_num = plate_num                               # Stores car's plate number
