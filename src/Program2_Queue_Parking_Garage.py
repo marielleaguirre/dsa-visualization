@@ -188,9 +188,11 @@ def draw_records(garage):                     # Display parking records
         screen.blit(FONT.render("--", True, WHITE), (520, y))
         screen.blit(FONT.render(f"PARKED (Slot {i})", True, WHITE), (690, y))
         y += 28
-        
-# Main Program
-garage = ParkingGarage(capacity=5)  # Set garage capacity
+
+# -------------------- MAIN --------------------
+garage = ParkingGarage()                  # Create parking garage instance
+input_box = InputBox(40, 150, 200, 36)    # Create input box instance
+screen_state = "garage"                   # Set initial screen state
 
 # Create the display menu
 while True:
