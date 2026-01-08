@@ -61,6 +61,10 @@ class Car:                                                       # Created a blu
         self.y = START_Y + 5
         self.target_x = 0                       # Setting car's starting position
 
+    def move(self):                          # Function to move the car towards target position
+        if self.x > self.target_x:
+            self.x -= 8
+
 class ParkingGarage:                              # Created a blueprint for Parking Garage
     def __init__(self, capacity):                               
         self.capacity = capacity                  # Sets the capacity of the parking garage
