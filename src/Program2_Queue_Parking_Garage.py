@@ -248,3 +248,23 @@ while running:
 
         screen.blit(BIG_FONT.render("PARKING GARAGE (FIFO QUEUE)", True, BLACK),
                     (START_X + 60, START_Y - 55))   # Draw title 
+
+        for i in range(CAPACITY):   
+            pygame.draw.rect(
+                screen, (100, 100, 100),
+                (START_X + i * SLOT_W, START_Y, SLOT_W - 10, SLOT_H), 2
+            )               # Draw parking slots
+
+        garage.update()              # Update car positions
+        for car in garage.queue:     # Draw parked cars
+            car.draw()
+
+    else:                            # Records screen
+        draw_records(garage)         # Draw parking records
+        back_button.draw()           # Draw back button
+
+    draw_message()                  # Draw any messages
+    pygame.display.flip()           # Update the display
+    CLOCK.tick(60)                  # Maintain 60 FPS
+
+pygame.quit()                       # Quit pygame
