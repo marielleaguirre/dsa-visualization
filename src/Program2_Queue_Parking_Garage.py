@@ -194,3 +194,10 @@ garage = ParkingGarage()                  # Create parking garage instance
 input_box = InputBox(40, 150, 200, 36)    # Create input box instance
 screen_state = "garage"                   # Set initial screen state
 
+def go_records():                # Function to switch to records screen
+    global screen_state
+    screen_state = "records"
+
+def go_garage():                 # Function to switch to garage screen
+    global screen_state
+    screen_state = "garage"
