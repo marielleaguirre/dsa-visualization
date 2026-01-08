@@ -93,9 +93,14 @@ class ParkingGarage:                              # Created a blueprint for Park
                 show_message(f"ERROR: Plate '{plate_num}' is already parked!", RED)
                 return
 
+        car = Car(plate_num)                     # Create a new car instance
+        self.queue.append(car)                   # Add the car to the queue
+        self.update_targets()                    # Update target positions of all cars
+        show_message(f"SUCCESS: Car {plate_num} parked!", GREEN)  # Show success message
+
     def depart(self):
-        if not self.queue:                  # Check if there are any cars parked
-            print("No cars to remove.")     # Display no cars message
+        if not self.queue:                         # Check if there are any cars parked
+            show_message("No cars to remove.")     # Display no cars message
             return
 
         car = self.queue.popleft()                             # Remove the first car in the queue
