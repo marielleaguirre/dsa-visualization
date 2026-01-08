@@ -153,6 +153,12 @@ class Button:                                       # Class for button
         self.text = text                            # Button text
         self.action = action                        # Action to perform on click
 
+    def draw(self):             # Function to draw button
+        color = BTN_HOVER if self.rect.collidepoint(pygame.mouse.get_pos()) else BTN  # Change color on hover
+        pygame.draw.rect(screen, color, self.rect, border_radius=8)  # Draw button
+        screen.blit(FONT.render(self.text, True, BLACK),
+                    (self.rect.x + 15, self.rect.y + 10))            # Blit button text
+
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
         print("-" * 60)                                                             # Divider line
