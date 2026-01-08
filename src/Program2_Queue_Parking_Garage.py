@@ -163,21 +163,32 @@ class Button:                                       # Class for button
         if self.rect.collidepoint(pygame.mouse.get_pos()):    # Check if button is clicked
             self.action()
 
-    def table(self):                                                                # Display parking records
-        print("PARKING RECORD TABLE")
-        print("-" * 60)                                                             # Divider line
-        print(f"{'Plate Number':<15}{'Arrival':<15}{'Departure':<15}{'Status'}")    # Table column headers
-        print("-" * 60)                                                             # Divider line
+# -------------------- RECORDS SCREEN --------------------
+def draw_records(garage):                     # Display parking records
+    screen.fill(BG)
+    screen.blit(BIG_FONT.render("PARKING RECORDS", True, WHITE), (360, 60))
 
-        for i, car in enumerate(self.queue, start=1):
-            print(f"{car.plate_num:<15}{car.time_in:<15}{'-':<15}Slot {i}")           # Display parked cars
+    headers = ["PLATE NUMBER", "TIME IN", "TIME OUT", "STATUS"]
+    x_positions = [180, 350, 520, 690]
 
-        for car in self.departed:
-            print(f"{car.plate_num:<15}{car.time_in:<15}{car.time_out:<15}DEPARTED")  # Display departed cars
+    for h, x in zip(headers, x_positions):   # Draw headers
+        screen.blit(FONT.render(h, True, WHITE), (x, 110))
+
+    y = 150
+    for car in garage.departed:              # Draw departed cars
+        screen.blit(FONT.render(car.plate_num, True, WHITE), (180, y))
+        screen.blit(FONT.render(car.time_in, True, WHITE), (350, y))
+        screen.blit(FONT.render(car.time_out, True, WHITE), (520, y))
+        screen.blit(FONT.render("DEPARTED", True, WHITE), (690, y))
+        y += 28
+    
+    for i, car in enumerate(garage.queue, start=1):  # Draw parked cars
+        screen.blit(FONT.render(car.plate_num, True, WHITE), (180, y))
+        screen.blit(FONT.render(car.time_in, True, WHITE), (350, y))
+        screen.blit(FONT.render("--", True, WHITE), (520, y))
+        screen.blit(FONT.render(f"PARKED (Slot {i})", True, WHITE), (690, y))
+        y += 28
         
-        print("-" * 60)
-        input("\nPress ENTER to return to the menu...")  # Pause before returning to menu
-
 # Main Program
 garage = ParkingGarage(capacity=5)  # Set garage capacity
 
