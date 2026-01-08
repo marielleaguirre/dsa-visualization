@@ -201,3 +201,13 @@ def go_records():                # Function to switch to records screen
 def go_garage():                 # Function to switch to garage screen
     global screen_state
     screen_state = "garage"
+
+buttons = [                     # Create buttons
+    Button(40, 200, 170, 40, "PARK", lambda: (garage.park(input_box.text), input_box.clear())),
+    Button(40, 250, 170, 40, "DEPART", garage.depart),
+    Button(40, 300, 170, 40, "RECORDS", go_records),
+    Button(40, 350, 170, 40, "EXIT", sys.exit),
+]
+
+back_button = Button(40, 560, 140, 40, "BACK", go_garage)  # Back button for records screen
+
