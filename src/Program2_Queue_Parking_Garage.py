@@ -136,6 +136,15 @@ class InputBox:                                 # Class for input box
                 if len(self.text) < 10:                     # Limit input length
                     self.text += event.unicode.upper()      # Convert to uppercase
 
+    def draw(self):                                                         # Function to draw input box
+        color = INPUT_ACTIVE if self.active else INPUT_BG                   # Change color if active
+        pygame.draw.rect(screen, color, self.rect, border_radius=6)         # Draw input box
+        pygame.draw.rect(screen, BLACK, self.rect, 2, border_radius=6)      # Draw border
+        txt = FONT.render(self.text or "Enter Plate Number", True, BLACK)   # Render the text
+        screen.blit(txt, (self.rect.x + 10, self.rect.y + 8))               # Blit text onto input box
+
+
+
     def table(self):                                                                # Display parking records
         print("PARKING RECORD TABLE")
         print("-" * 60)                                                             # Divider line
