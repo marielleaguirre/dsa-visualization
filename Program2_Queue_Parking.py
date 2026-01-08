@@ -14,6 +14,19 @@ CLOCK = pygame.time.Clock()                        # For controlling frame rate
 FONT = pygame.font.SysFont("arial", 18)            # Set font for
 BIG_FONT = pygame.font.SysFont("arial", 26)        # Set big font for titles
 
+# -------------------- COLORS --------------------
+BG = (25, 25, 25)                 # Background color (very dark gray)
+GARAGE = (200, 200, 200)          # Garage color (light gray)
+CAR_COLOR = (70, 160, 255)        # Car color (blue)
+BTN = (90, 90, 90)                # Button color (dark gray)
+BTN_HOVER = (130, 130, 130)       # Button hover color (medium gray)
+WHITE = (255, 255, 255)           # White color
+BLACK = (0, 0, 0)                 # Black color
+RED = (220, 60, 60)               # Red color
+GREEN = (60, 200, 120)            # Green color
+INPUT_BG = (255, 255, 255)        # Input box background color (white)
+INPUT_ACTIVE = (200, 230, 255)    # Input box active color (light blue)
+
 class Car:                                                       # Created a blueprint for Car
     def __init__(self, plate_num):                               
         self.plate_num = plate_num                               # Stores car's plate number
