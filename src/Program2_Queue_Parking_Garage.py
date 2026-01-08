@@ -100,7 +100,7 @@ class ParkingGarage:                              # Created a blueprint for Park
 
     def depart(self):                              # Function to remove a car
         if not self.queue:                         # Check if there are any cars parked
-            show_message("No cars to remove.")
+            show_message("No cars to remove.", RED)
             return
 
         car = self.queue.popleft()                             # Remove the first car in the queue
