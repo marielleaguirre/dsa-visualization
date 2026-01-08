@@ -211,3 +211,21 @@ buttons = [                     # Create buttons
 
 back_button = Button(40, 560, 140, 40, "BACK", go_garage)  # Back button for records screen
 
+# -------------------- MAIN LOOP --------------------
+running = True
+while running:
+    screen.fill(BG)                     # Fill background
+
+    for event in pygame.event.get():    # Event handling
+        if event.type == pygame.QUIT:   # Check for quit event
+            running = False
+
+        input_box.handle_event(event)   # Handle input box events
+
+        if event.type == pygame.MOUSEBUTTONDOWN:  # Handle button clicks
+            if screen_state == "garage":
+                for button in buttons:
+                    button.click()
+            else:
+                back_button.click()
+        
