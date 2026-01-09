@@ -176,3 +176,14 @@ class Menu:
                     if event.key == pygame.K_ESCAPE:
                         pygame.quit()
                         sys.exit()
+                    # Digit selection
+                    if event.unicode.isdigit():
+                        if int(event.unicode) == 0:
+                            self.message = "Only numbers 1–7 are allowed"
+                        elif int(event.unicode) > 7:
+                            self.message = "Maximum allowed is 7"
+                        else:
+                            self.selected = event.unicode
+                            self.message = ""
+                    elif event.key != pygame.K_RETURN:
+                        self.message = "Only integers are allowed"
