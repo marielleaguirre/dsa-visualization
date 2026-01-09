@@ -187,3 +187,10 @@ class Menu:
                             self.message = ""
                     elif event.key != pygame.K_RETURN:
                         self.message = "Only integers are allowed"
+                    # Enter key confirms selection
+                    if event.key == pygame.K_RETURN:
+                        if self.selected:
+                            return int(self.selected)
+                        else:
+                            self.message = "Please select a number between 1–7"
+            clock.tick(FPS)
