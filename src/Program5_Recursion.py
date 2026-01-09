@@ -37,12 +37,14 @@ font = pygame.font.SysFont("Georgia", 24)
 big_font = pygame.font.SysFont("Georgia", 40, bold=True)
 title_font = pygame.font.SysFont("Georgia", 46, bold=True)
 
+
 # -------------------- DISK --------------------
 class Disk:
     """ Represents a single disk in the Tower of Hanoi """
     def __init__(self, size):
         self.size = size
         self.color = DISK_COLORS[size - 1]  # Assign color based on size
+
 
 # -------------------- ROD --------------------
 class Rod:
@@ -59,6 +61,7 @@ class Rod:
     def pop(self):
         """ Remove and return the top disk from the rod """
         return self.stack.pop() if self.stack else None
+
 
 # -------------------- HANOI GAME --------------------
 class HanoiGame:
@@ -84,3 +87,14 @@ class HanoiGame:
         self.tower_of_hanoi(n - 1, source, target, auxiliary)
         self.moves.append((source, target))
         self.tower_of_hanoi(n - 1, auxiliary, source, target)
+
+    # Reset the game
+    def reset(self):
+        """ Reset the game to initial state """
+        self.rods['A'].stack = [Disk(i) for i in range(self.num_disks, 0, -1)]  # Fill A rod
+        self.rods['B'].stack = []
+        self.rods['C'].stack = []
+        self.moves = []
+        self.move_count = 0
+        self.tower_of_hanoi(self.num_disks, 'A', 'B', 'C')  # Precompute solution moves
+        
