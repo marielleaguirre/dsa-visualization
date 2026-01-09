@@ -210,3 +210,13 @@ class Menu:
             msg_surface = font.render(self.message, True, (255, 100, 100))
             screen.blit(msg_surface, (WIDTH // 2 - 150, 320))
         pygame.display.flip()
+
+
+# -------------------- MAIN --------------------
+def main():
+    while True:
+        menu = Menu()
+        num_disks = menu.run()         # Ask user for number of disks
+        game = HanoiGame(num_disks)    # Initialize game
+        game.redraw()
+        time.sleep(1)
