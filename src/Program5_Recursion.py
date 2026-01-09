@@ -133,3 +133,17 @@ class HanoiGame:
                 pygame.draw.rect(screen, disk.color, (x, y, width, DISK_HEIGHT), border_radius=9)
                 if highlight == disk:  # Highlight recently moved disk
                     pygame.draw.rect(screen, WHITE, (x - 3, y - 3, width + 6, DISK_HEIGHT + 6), 2, border_radius=11)
+    
+    def draw_ui(self, solved=False):
+        """ Draw UI elements like title, move count, optimal moves """
+        title = title_font.render("Tower of Hanoi", True, TEXT_LIGHT)
+        screen.blit(title, (WIDTH // 2 - 180, 20))
+        moves_text = font.render(f"Moves: {self.move_count}", True, TEXT_LIGHT)
+        optimal_text = font.render(f"Optimal: {2 ** self.num_disks - 1}", True, TEXT_LIGHT)
+        screen.blit(moves_text, (40, 90))
+        screen.blit(optimal_text, (40, 120))
+        info = font.render("R = Restart   ESC = Exit", True, TEXT_LIGHT)
+        screen.blit(info, (WIDTH - 300, 100))
+        if solved:
+            win = big_font.render("Puzzle Solved!", True, (255, 215, 0))
+            screen.blit(win, (WIDTH // 2 - 190, HEIGHT // 2 - 40))
