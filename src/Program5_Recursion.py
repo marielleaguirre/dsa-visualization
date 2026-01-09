@@ -43,3 +43,19 @@ class Disk:
     def __init__(self, size):
         self.size = size
         self.color = DISK_COLORS[size - 1]  # Assign color based on size
+
+# -------------------- ROD --------------------
+class Rod:
+    """ Represents a rod with a stack of disks """
+    def __init__(self, name, x):
+        self.name = name
+        self.x = x         # X-position on the screen
+        self.stack = []    # Stack of disks ont his rod
+
+    def push(self, disk):
+        """" Add a disk to the top of the rod """
+        self.stack.append(disk)
+
+    def pop(self):
+        """ Remove and return the top disk from the rod """
+        return self.stack.pop() if self.stack else None
