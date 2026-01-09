@@ -18,15 +18,6 @@ import pygame
 import time
 from datetime import datetime
 
-pygame.init()                                  # Initialize pygame modules
-
-WIDTH, HEIGHT = 900, 600                       # Window size
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Parking Garage Stack Simulation")
-
-font = pygame.font.Font(None, 28)              # Font for text
-clock = pygame.time.Clock()                    # Controls frame rate
-
 
 # This class acts as a blueprint for vehicles
 class Vehicle:
@@ -171,7 +162,27 @@ def main():
         else:
             print("\n❌ Invalid choice. Please try again.")
 
+pygame.init()                                  # Initialize pygame modules
 
+WIDTH, HEIGHT = 900, 600                       # Window size
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Parking Garage Stack Simulation")
+
+font = pygame.font.Font(None, 28)              # Font for text
+clock = pygame.time.Clock()                    # Controls frame rate
+
+# Create parking garage object
+garage = ParkingGarageStacks()
+
+# Variables for text input and messages
+input_text = ""
+active_input = False
+mode = None                                   # "park" or "depart"
+message = ""
+
+# Define buttons (x, y, width, height)
+park_btn = pygame.Rect(650, 100, 200, 40)
+depart_btn = pygame.Rect(650, 160, 200, 40)
 
 if __name__ == "__main__":
     main()
