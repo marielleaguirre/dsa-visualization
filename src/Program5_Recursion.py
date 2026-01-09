@@ -105,3 +105,20 @@ class HanoiGame:
         self.move_count += 1            # Increment move counter
         self.redraw(highlight=disk)     # Redraw with animation
         time.sleep(MOVE_DELAY)          # Small delay for visualization
+
+    # ---------------- Drawing ----------------
+    def draw_gradient(self):
+        """ Draw a dark blue gradient background """
+        for y in range(HEIGHT):
+            color = (30 + y // 12, 30 + y // 12, 70 + y // 6)
+            pygame.draw.line(screen, color, (0, y), (WIDTH, y))
+
+    def draw_rods(self):
+        """ Draw rods and base """
+        base_y = ROD_Y + 18
+        base_width = 260 * 2 + 200
+        # Base
+        pygame.draw.rect(screen, WOOD, (WIDTH // 2 - base_width // 2, base_y, base_width, 14), border_radius=8)
+        # Rods
+        for rod in self.rods.values():
+            pygame.draw.rect(screen, WOOD, (rod.x - 8, base_y - ROD_HEIGHT, 16, ROD_HEIGHT), border_radius=6)
