@@ -6,6 +6,12 @@ import time
 WIDTH, HEIGHT = 1000, 560  # Window size
 FPS = 60  # Frames per second for smooth rendering
 
+ROD_Y = 400           # Base y-position for rods
+ROD_HEIGHT = 260      # Height of rods
+DISK_HEIGHT = 26      # Height of each disk
+DISK_WIDTH_STEP = 36  # Width increase per disk size
+MOVE_DELAY = 0.5      # Delay between disk moves
+
 # Colors
 BLACK = (20, 20, 20)
 WHITE = (245, 245, 245)
