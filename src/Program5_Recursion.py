@@ -147,3 +147,11 @@ class HanoiGame:
         if solved:
             win = big_font.render("Puzzle Solved!", True, (255, 215, 0))
             screen.blit(win, (WIDTH // 2 - 190, HEIGHT // 2 - 40))
+
+    def redraw(self, highlight=None, solved=False):
+        """ Full redraw of game """
+        self.draw_gradient()
+        self.draw_rods()
+        self.draw_disks(highlight)
+        self.draw_ui(solved)
+        pygame.display.flip()
