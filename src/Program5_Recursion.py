@@ -17,6 +17,15 @@ BLACK = (20, 20, 20)
 WHITE = (245, 245, 245)
 WOOD = (139, 94, 60)  # Rods and base
 TEXT_LIGHT = (240, 240, 240)
+DISK_COLORS = [       # Different colors for each disks
+    (255, 99, 132),
+    (255, 159, 64),
+    (255, 205, 86),
+    (75, 192, 192),
+    (54, 162, 235),
+    (153, 102, 255),
+    (201, 203, 207)
+]
 
 pygame.init()
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
