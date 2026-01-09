@@ -194,3 +194,19 @@ class Menu:
                         else:
                             self.message = "Please select a number between 1–7"
             clock.tick(FPS)
+
+    def draw(self):
+        """ Draw menu screen """
+        for y in range(HEIGHT):
+            color = (30 + y // 12, 30 + y // 12, 70 + y // 6)
+            pygame.draw.line(screen, color, (0, y), (WIDTH, y))
+        title = title_font.render("Tower of Hanoi", True, TEXT_LIGHT)
+        screen.blit(title, (WIDTH // 2 - 180, 140))
+        prompt = font.render("Press a number (1–7) then ENTER", True, TEXT_LIGHT)
+        screen.blit(prompt, (WIDTH // 2 - 180, 220))
+        number = big_font.render(self.selected, True, (255, 215, 0))
+        screen.blit(number, (WIDTH // 2 - 10, 260))
+        if self.message:
+            msg_surface = font.render(self.message, True, (255, 100, 100))
+            screen.blit(msg_surface, (WIDTH // 2 - 150, 320))
+        pygame.display.flip()
