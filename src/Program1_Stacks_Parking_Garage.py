@@ -14,9 +14,18 @@ Stacks Parking Garage PseudoCode:
  3. Create a program that organizes the Car using Stacks
     *LIFO(Last in First Out)
 """
+import pygame
 import time
 from datetime import datetime
 
+pygame.init()                                  # Initialize pygame modules
+
+WIDTH, HEIGHT = 900, 600                       # Window size
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("Parking Garage Stack Simulation")
+
+font = pygame.font.Font(None, 28)              # Font for text
+clock = pygame.time.Clock()                    # Controls frame rate
 
 
 # This class acts as a blueprint for vehicles
