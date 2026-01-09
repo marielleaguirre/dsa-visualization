@@ -220,3 +220,14 @@ def main():
         game = HanoiGame(num_disks)    # Initialize game
         game.redraw()
         time.sleep(1)
+
+        # Execute precomputed moves
+        for source, target in game.moves:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+                    pygame.quit()
+                    sys.exit()
+            game.move_disk(source, target)
