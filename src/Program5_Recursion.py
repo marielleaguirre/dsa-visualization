@@ -36,3 +36,10 @@ clock = pygame.time.Clock()
 font = pygame.font.SysFont("Georgia", 24)
 big_font = pygame.font.SysFont("Georgia", 40, bold=True)
 title_font = pygame.font.SysFont("Georgia", 46, bold=True)
+
+# -------------------- DISK --------------------
+class Disk:
+    """ Represents a single disk in the Tower of Hanoi """
+    def __init__(self, size):
+        self.size = size
+        self.color = DISK_COLORS[size - 1]  # Assign color based on size
