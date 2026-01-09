@@ -35,9 +35,6 @@ class Vehicle:
         self.departure = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
 
-# =========================
-# PARKING GARAGE STACK CLASS
-# =========================
 # This class manages parking using a STACK (LIFO)
 
 class ParkingGarageStacks:
@@ -100,40 +97,7 @@ class ParkingGarageStacks:
 
         return message
 
-# Main function to run the parking garage program
 
-def main():
-    # Create an instance of the parking garage
-    parking_garage = ParkingGarageStacks()
-
-    # Loop until the user chooses to exit
-    while True:
-        print("\n===== PARKING GARAGE MENU =====")
-        print("1. Park a vehicle")
-        print("2. Depart a vehicle")
-        print("3. View Parking Garage")
-        print("4. Exit")
-
-        # Ask the user for a menu choice
-        choice = input("Enter your choice (1-4): ")
-
-        if choice == "1":
-            plate = input("Enter License Plate Number: ")
-            parking_garage.park(plate)
-
-        elif choice == "2":
-            plate = input("Enter License Plate Number: ")
-            parking_garage.depart(plate)
-
-        elif choice == "3":
-            parking_garage.view_garage()
-
-        elif choice == "4":
-            print("\n👋 Exiting program. Thank you!")
-            break
-
-        else:
-            print("\n❌ Invalid choice. Please try again.")
 
 pygame.init()                                  # Initialize pygame modules
 
@@ -163,5 +127,101 @@ def draw_text(text, x, y, color=(255, 255, 255)):
     """
     screen.blit(font.render(text, True, color), (x, y))
 
-if __name__ == "__main__":
-    main()
+# Main function to run the parking garage program
+
+running = True
+while running:
+    screen.fill((25, 25, 25))                  # Clear screen (dark gray)
+
+    # =========================
+    # EVENT HANDLING
+    # =========================
+    for event in pygame.event.get():
+
+        # Exit program when window is closed
+        if event.type == pygame.QUIT:
+            running = False
+
+        # Handle mouse clicks
+        if event.type == pygame.MOUSEBUTTONDOWN:
+
+            # If PARK button is clicked
+            if park_btn.collidepoint(event.pos):
+                active_input = True
+                mode = "park"
+                input_text = ""
+
+            # If DEPART button is clicked
+            if depart_btn.collidepoint(event.pos):
+                active_input = True
+                mode = "depart"
+                input_text = ""
+
+        # Handle keyboard input for license plate
+        if event.type == pygame.KEYDOWN and active_input:
+
+            # Press ENTER to confirm input
+            if event.key == pygame.K_RETURN:
+
+                # Call the appropriate stack operation
+                if mode == "park":
+                    message = garage.park(input_text)
+                elif mode == "depart":
+                    message = garage.depart(input_text)
+
+                # Reset input state
+                input_text = ""
+                active_input = False
+
+            # Remove last character
+            elif event.key == pygame.K_BACKSPACE:
+                input_text = input_text[:-1]
+
+            # Add typed character
+            else:
+                input_text += event.unicode
+
+    # =========================
+    # DRAW USER INTERFACE
+    # =========================
+
+    # Input field
+    draw_text("License Plate:", 50, 40)
+    draw_text(input_text, 200, 40, (255, 255, 0))
+
+    # Buttons
+    pygame.draw.rect(screen, (0, 150, 0), park_btn)
+    pygame.draw.rect(screen, (150, 0, 0), depart_btn)
+
+    draw_text("PARK VEHICLE", 680, 110)
+    draw_text("DEPART VEHICLE", 665, 170)
+
+    # Capacity display
+    draw_text(f"Capacity: {garage.occupied} / {garage.garage_capacity}", 50, 80)
+
+    # Garage display title
+    draw_text("Garage (Top → Bottom)", 50, 120)
+    pygame.draw.line(screen, (200, 200, 200), (50, 145), (550, 145), 2)
+
+    # Display stack contents
+    y = 160
+    for vehicle in reversed(garage.stack):
+        draw_text(
+            f"{vehicle.plate} | Time In: {vehicle.arrival}",
+            50,
+            y
+        )
+        y += 30
+
+    # Message area
+    draw_text("MESSAGE:", 50, 520, (0, 200, 255))
+    draw_text(message, 50, 550, (255, 255, 0))
+
+    # Update screen
+    pygame.display.flip()
+    clock.tick(60)                             # Limit to 60 FPS
+
+# Close pygame properly
+pygame.quit()
+
+
