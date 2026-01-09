@@ -59,3 +59,18 @@ class Rod:
     def pop(self):
         """ Remove and return the top disk from the rod """
         return self.stack.pop() if self.stack else None
+
+# -------------------- HANOI GAME --------------------
+class HanoiGame:
+    """ Handles Tower of Hanoi logic and rendering """
+    def __init__(self, num_disks):
+        self.num_disks = num_disks
+        # Create three rods (A, B, C) with positions
+        self.rods = {
+            'A': Rod('A', WIDTH // 2 - 260),
+            'B': Rod('B', WIDTH // 2),
+            'C': Rod('C', WIDTH // 2 + 260)
+        }
+        self.moves = []      # List of moves to solve the puzzle
+        self.move_count = 0  # Count of moves made
+        self.reset()         # Initialize game
