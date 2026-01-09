@@ -1,14 +1,6 @@
-'''
-Binary Tree Pseudocode
+from others.misc_func import validate_input, clear_console
 
-Key Classes:
-- BinaryTree > generates an empty binary tree and will store the nodes produced by Nodes
-- Nodes > initiates the objects acting as nodes
-- Traversals > creates the traversal equivalents of the binary tree
-
-
-'''
- # Creates objects that defines a node, including its links to other nodes
+# Creates objects that defines a node, including its links to other nodes
 class Node:
     
     def __init__(self, value=None):
@@ -27,11 +19,7 @@ class BinaryTree:
     def gen_node(self): # A function that simplifies tha Node Class
         return Node()
     
-    def build_tree(self): # Creates node placeholder based on the input level
-        if self.level <= 1:
-            print("Invalid number of levels. You can only enter 1-5")
-            return False
-        
+    def build_tree(self): # Creates node placeholder based on the input level        
         # Manually initializes the characteristics for the root node
         self.root = self.gen_node()
         self.root.parent = 1 # Default 1, no reason for the value used
@@ -78,7 +66,8 @@ class BinaryTree:
         # Prompt for user input
         for index, node in enumerate(self.all_nodes, 1):
             while True:
-                node_val = input(f"Node {index}/{len(self.all_nodes)}: ").strip()
+                prompt = f"Node {index}/{len(self.all_nodes)}: "
+                node_val = validate_input(prompt)
 
                 if node_val == ".":
                     node.value = None
@@ -95,7 +84,8 @@ class BinaryTree:
             right_child = node.right_child.value if node.right_child else "None"
             parent_node = node.parent if node.parent else "None"
 
-            parent_node = parent_node.value if parent_node is not 1 else "Parent Node"
+            parent_node = parent_node.value if parent_node != 1 else "Parent Node"
+            parent_node = parent_node.value if parent_node is not 1 else "Root"
 
             if parent_node is not None: 
                 data_str = f"Node: {node.value}\n Parent Node: {parent_node}\n Left Child: {left_child}\n Right Child: {right_child}\n"
@@ -168,11 +158,12 @@ class Traversal:
 
 
 def main():
+    clear_console()
     border = 20 * "="
     print(border, "BINARY TREE GENERATOR", border)
 
-    levels_query = "Enter the number of levels of your Binary Tree (1-5): "
-    levels_input = int(input(levels_query))
+    levels_query = "\nEnter the number of levels of your Binary Tree (1-5): "
+    levels_input = int(validate_input(levels_query, [1, 2, 3, 4, 5]))
 
     bin_tree = BinaryTree(levels_input)
     bin_tree.build_tree()
@@ -191,6 +182,7 @@ def main():
     print(f"Preorder Traversal (TLR): {preorder}")
     print(f"Inorder Traversal (LTR): {inorder}")
     print(f"Postorder Traversal (LRT): {postorder}")
+    print("")
 
 
 if __name__ == "__main__":
