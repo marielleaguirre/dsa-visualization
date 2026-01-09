@@ -122,3 +122,14 @@ class HanoiGame:
         # Rods
         for rod in self.rods.values():
             pygame.draw.rect(screen, WOOD, (rod.x - 8, base_y - ROD_HEIGHT, 16, ROD_HEIGHT), border_radius=6)
+
+    def draw_disks(self, highlight=None):
+        """ Draw all disks on rods """
+        for rod in self.rods.values():
+            for i, disk in enumerate(rod.stack):
+                width = disk.size * DISK_WIDTH_STEP
+                x = rod.x - width // 2
+                y = ROD_Y - i * DISK_HEIGHT
+                pygame.draw.rect(screen, disk.color, (x, y, width, DISK_HEIGHT), border_radius=9)
+                if highlight == disk:  # Highlight recently moved disk
+                    pygame.draw.rect(screen, WHITE, (x - 3, y - 3, width + 6, DISK_HEIGHT + 6), 2, border_radius=11)
