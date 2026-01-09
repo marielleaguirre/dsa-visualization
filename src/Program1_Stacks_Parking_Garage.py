@@ -18,110 +18,142 @@ import time
 from datetime import datetime
 
 
+
+# This class acts as a blueprint for vehicles
+class Vehicle:
+    def __init__(self, plate):
+        # Store the license plate number of the vehicle
+        self.plate = plate
+        
+        # Record the time the vehicle enters the garage
+        self.arrival = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        
+        # Departure time is None while the vehicle is still parked
+        self.departure = None
+
+    def depart(self):
+        # Record the time the vehicle leaves the garage
+        self.departure = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+
+# This class manages the parking garage using a stack
+
 class ParkingGarageStacks:
     def __init__(self):
-        self.garage_capacity = 10       #The capacity of the garage
-        self.stack = []                 #Set a variable into an empty list
-        self.occupied = 0               #Counter for occupied slots
-
-    def park(self, car):
-        if car in [c["id"] for c in self.stack]:  #Check if the car is already parked
-            print(f"Car {car} is already parked in the garage.")
-            time.sleep(1)
-            return
+        # Maximum number of vehicles allowed in the garage
+        self.garage_capacity = 10
         
-        if self.occupied >= self.garage_capacity:    #Checks if the garage is full
-            print("Garage is FULL. Cannot park more cars.")
+        # Stack to store Vehicle objects
+        self.stack = []
+        
+        # Counter to track how many vehicles are parked
+        self.occupied = 0
+
+    def park(self, plate):
+        # Check if the vehicle is already parked in the garage
+        if plate in [vehicle.plate for vehicle in self.stack]:
+            print(f"Vehicle {plate} is already parked.")
             time.sleep(1)
             return
 
-        arrival_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")  #Record arrival time
+        # Check if the garage has reached its capacity
+        if self.occupied >= self.garage_capacity:
+            print("Garage is FULL. Cannot park more vehicles.")
+            time.sleep(1)
+            return
 
-        car = {
-            "id": car,
-            "arrival": arrival_time,
-            "departure": None            #Stores departure time (None means still parked)
-        }
+        # Create a new Vehicle object using the blueprint
+        vehicle = Vehicle(plate)
 
-        self.stack.append(car)           #Inserting the car into the garage stack
+        # Push the vehicle onto the stack
+        self.stack.append(vehicle)
         self.occupied += 1
-        print(f"Car {car['id']} parked at {car['arrival']}.")
+
+        # Display parking confirmation
+        print(f"Vehicle {vehicle.plate} parked at {vehicle.arrival}.")
         time.sleep(1)
 
-    def depart(self, target_car):
-        print(f"Attempting to depart car {target_car}...")
-        time.sleep(2)
+    def depart(self, target_plate):
+        # Inform the user that the system is searching for the vehicle
+        print(f"Attempting to depart vehicle {target_plate}...")
+        time.sleep(1)
 
-        temporary_stack = []             #Initialized temporary storage for storing cars temporarily
-        found = False                    #Flag to check if the car is found
+        # Temporary stack to hold vehicles blocking the target vehicle
+        temporary_stack = []
+        found = False
 
-        while self.stack:                #Used while loop for continuous checking for the target car
-            recent_parked_car = self.stack.pop()
+        # Remove vehicles until the target vehicle is found
+        while self.stack:
+            vehicle = self.stack.pop()
 
-            if recent_parked_car["id"] == target_car:
-                recent_parked_car["departure"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                print(f"Car {target_car} has departed the garage at {recent_parked_car['departure']}.")
-                time.sleep(1)
+            if vehicle.plate == target_plate:
+                # Record the vehicle's departure time
+                vehicle.depart()
+                print(f"Vehicle {vehicle.plate} departed at {vehicle.departure}.")
                 self.occupied -= 1
                 found = True
                 break
             else:
-                temporary_stack.append(recent_parked_car)
+                # Store removed vehicles temporarily
+                temporary_stack.append(vehicle)
 
+        # If the target vehicle was not found in the garage
         if not found:
-            print(f"Car {target_car} not found in the garage.")
+            print(f"Vehicle {target_plate} not found in the garage.")
             time.sleep(1)
 
+        # Restore vehicles back to the main stack in correct order
         while temporary_stack:
-            self.stack.append(temporary_stack.pop())   # This ensures that the order of the stack still remains
+            self.stack.append(temporary_stack.pop())
 
     def view_garage(self):
+        # Check if the garage is empty
         if not self.stack:
             print("Garage is empty.")
             time.sleep(1)
             return
 
-        print("\nGarage (Top → Bottom):")
-        print("-" * 40)
+        # Display all vehicles currently parked
+        print("\nGarage (Top → Bottom)")
+        print("-" * 50)
 
-        for car in reversed(self.stack):
+        # Reverse stack to display top vehicle first
+        for vehicle in reversed(self.stack):
             print(
-                f"Car {car['id']} | "
-                f"Time In: {car['arrival']} | "
-                f"Time Out: {'Still Parked' if not car['departure'] else car['departure']}"
-            )                                           # Display the currently parked cars
+                f"Vehicle {vehicle.plate} | "
+                f"Time In: {vehicle.arrival} | "
+                f"Time Out: {'Still Parked' if not vehicle.departure else vehicle.departure}"
+            )
             time.sleep(1)
 
 
+# Main function to run the parking garage program
+
 def main():
+    # Create an instance of the parking garage
     parking_garage = ParkingGarageStacks()
 
+    # Loop until the user chooses to exit
     while True:
         print("\n===== PARKING GARAGE MENU =====")
-        time.sleep(1)
-
-        print("1. Park a car")
-        print("2. Depart a car")
+        print("1. Park a vehicle")
+        print("2. Depart a vehicle")
         print("3. View Parking Garage")
         print("4. Exit")
 
-        time.sleep(1)
+        # Ask the user for a menu choice
         choice = input("Enter your choice (1-4): ")
-        time.sleep(1)
 
         if choice == "1":
-            car = input("Enter License Plate Number: ")
-            parking_garage.park(car)
-            time.sleep(1)
+            plate = input("Enter License Plate Number: ")
+            parking_garage.park(plate)
 
         elif choice == "2":
-            car = input("Enter License Plate Number: ")
-            parking_garage.depart(car)
-            time.sleep(1)
+            plate = input("Enter License Plate Number: ")
+            parking_garage.depart(plate)
 
         elif choice == "3":
             parking_garage.view_garage()
-            time.sleep(1)
 
         elif choice == "4":
             print("\n👋 Exiting program. Thank you!")
@@ -129,6 +161,8 @@ def main():
 
         else:
             print("\n❌ Invalid choice. Please try again.")
-            
+
+
+
 if __name__ == "__main__":
     main()
