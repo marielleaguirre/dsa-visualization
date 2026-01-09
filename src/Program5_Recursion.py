@@ -231,3 +231,22 @@ def main():
                     pygame.quit()
                     sys.exit()
             game.move_disk(source, target)
+
+        # Wait for user to restart or exit after solved
+        finished = True
+        while finished:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    pygame.quit()
+                    sys.exit()
+                if event.type == pygame.KEYDOWN:
+                    if event.key == pygame.K_r:
+                        finished = False  # Restart
+                    if event.key == pygame.K_ESCAPE:
+                        pygame.quit()
+                        sys.exit()
+            game.redraw(solved=True)
+            clock.tick(FPS)
+
+if __name__ == "__main__":
+    main()
