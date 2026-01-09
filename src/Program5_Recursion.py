@@ -97,4 +97,11 @@ class HanoiGame:
         self.moves = []
         self.move_count = 0
         self.tower_of_hanoi(self.num_disks, 'A', 'B', 'C')  # Precompute solution moves
-        
+
+    def move_disk(self, source, target):
+        """ Move a disk from one rod to another visually """
+        disk = self.rods[source].pop()  # Remove disk from source rod
+        self.rods[target].push(disk)    # Add disk to target rod
+        self.move_count += 1            # Increment move counter
+        self.redraw(highlight=disk)     # Redraw with animation
+        time.sleep(MOVE_DELAY)          # Small delay for visualization
