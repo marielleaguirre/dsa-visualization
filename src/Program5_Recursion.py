@@ -155,3 +155,11 @@ class HanoiGame:
         self.draw_disks(highlight)
         self.draw_ui(solved)
         pygame.display.flip()
+
+
+# -------------------- MENU CLASS --------------------
+class Menu:
+    """ Handles disk number selection """
+    def __init__(self):
+        self.selected = ""  # User-selected number
+        self.message = ""   # Error or info messages
