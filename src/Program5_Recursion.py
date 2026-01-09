@@ -74,3 +74,13 @@ class HanoiGame:
         self.moves = []      # List of moves to solve the puzzle
         self.move_count = 0  # Count of moves made
         self.reset()         # Initialize game
+
+    # Tower of Hanoi algorithm
+    def tower_of_hanoi(self, n, source, auxiliary, target):
+        """ Recursive Tower of Hanoi solution """
+        if n == 1:
+            self.moves.append((source, target))  # Record the move
+            return
+        self.tower_of_hanoi(n - 1, source, target, auxiliary)
+        self.moves.append((source, target))
+        self.tower_of_hanoi(n - 1, auxiliary, source, target)
