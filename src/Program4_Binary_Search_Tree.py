@@ -257,3 +257,7 @@ def main():
         insert_btn.draw()
         restart_btn.draw()
         exit_btn.draw()
+
+        # -------------------- DRAW BST --------------------
+        if bst.root:
+            bst.draw_tree(bst.root)
