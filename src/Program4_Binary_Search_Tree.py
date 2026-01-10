@@ -91,3 +91,14 @@ class InputBox:
         pygame.draw.rect(screen, color_border, self.rect, 3, border_radius=6)  # Border
         txt = FONT.render(self.text, True, BLACK)     # Render text
         screen.blit(txt, (self.rect.x + 10, self.rect.y + 10))  # Draw inside box
+
+    def handle(self, event):
+        """Handle mouse click activation and keyboard input."""
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            # Activate box if clicked
+            self.active = self.rect.collidepoint(event.pos)
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key == pygame.K_BACKSPACE:
+                self.text = self.text[:-1]  # Delete last character
+            elif event.unicode.isdigit():
+                self.text += event.unicode  # Add digit to text
