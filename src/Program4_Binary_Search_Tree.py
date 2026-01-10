@@ -42,11 +42,19 @@ WARN = (220, 50, 50)
 clock = pygame.time.Clock()  # Clock to control FPS
 MAX_NODES = 30               # Maximum allowed nodes in BST
 
+
+# -------------------- BST NODE CLASS --------------------
 class Node:
-    def __init__(self, data):  # Initialize a BST node with data and left/right children
-        self.data = data
-        self.left = None
-        self.right = None
+    """Represents a single node in the BST."""
+    def __init__(self, data, x=0, y=0):  
+        self.data = data     # Value stored in the node
+        self.left = None     # Left child
+        self.right = None    # Right child
+        self.x = x            # X-coordinate for drawing
+        self.y = y            # Y-coordinate for drawing
+        self.color = random.choice(NODE_COLORS)  # Random color for node
+        self.radius = 26      # Node radius for drawing
+        self.growth = 0       # Used for "pop-in" animation effect
 
 def insert(root, value):
     if root is None:  # If the tree is empty, create a new node
