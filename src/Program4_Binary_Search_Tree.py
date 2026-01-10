@@ -271,3 +271,18 @@ def main():
             screen.blit(FONT.render(f"Inorder: {bst.inorder(bst.root)}", True, GREEN), (250, HEIGHT-100))
             screen.blit(FONT.render(f"Preorder: {bst.preorder(bst.root)}", True, BLUE), (250, HEIGHT-70))
             screen.blit(FONT.render(f"Postorder: {bst.postorder(bst.root)}", True, RED), (250, HEIGHT-40))
+
+        # -------------------- DRAW WARNING --------------------
+        if bst.warning_text:
+            warn_box = pygame.Surface((200, 30), pygame.SRCALPHA)
+            warn_box.fill((255, 50, 50, 150))  # Semi-transparent red box
+            screen.blit(warn_box, (20, 430))
+            screen.blit(FONT.render(bst.warning_text, True, WHITE), (25, 435))
+
+        pygame.display.update()  # Update the screen every frame
+        clock.tick(60)           # Limit FPS to 60
+
+    pygame.quit()  # Quit Pygame
+    sys.exit()     # Exit program
+
+main()
