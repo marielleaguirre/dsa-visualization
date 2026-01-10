@@ -122,3 +122,21 @@ class BSTVisualizer:
         else:
             root.right = self.insert(root.right, value) # Go right
         return root
+    
+    # ---------- ASSIGN NODE POSITIONS ----------
+    def assign_positions(self, node=None, depth=0, x_min=220, x_max=None, y_start=140, y_gap=100):
+        """Assign x, y coordinates to each node for visualization."""
+        if node is None:
+            node = self.root
+        self._assign_positions_recursive(node, depth, x_min, x_max, y_start, y_gap)
+
+    def _assign_positions_recursive(self, node, depth, x_min, x_max, y_start, y_gap):
+        if not node:
+            return
+        if x_max is None:
+            x_max = WIDTH - 20
+        node.y = y_start + depth * y_gap              # Vertical spacing per depth
+        node.x = (x_min + x_max) // 2                 # Horizontal center of subtree
+        # Assign positions recursively to left and right children
+        self._assign_positions_recursive(node.left, depth + 1, x_min, node.x - 10, y_start, y_gap)
+        self._assign_positions_recursive(node.right, depth + 1, node.x + 10, x_max, y_start, y_gap)
