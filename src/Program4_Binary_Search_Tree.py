@@ -83,3 +83,11 @@ class InputBox:
         self.rect = pygame.Rect(x, y, w, h)  # Rectangle for input box
         self.text = ""                        # Current text
         self.active = False                    # Whether box is active (clicked)
+
+    def draw(self):
+        """Draw the input box with border highlight if active."""
+        color_border = BTN if self.active else BLACK  # Highlight if active
+        pygame.draw.rect(screen, WHITE, self.rect, border_radius=6)   # Fill box white
+        pygame.draw.rect(screen, color_border, self.rect, 3, border_radius=6)  # Border
+        txt = FONT.render(self.text, True, BLACK)     # Render text
+        screen.blit(txt, (self.rect.x + 10, self.rect.y + 10))  # Draw inside box
