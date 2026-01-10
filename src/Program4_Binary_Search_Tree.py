@@ -75,3 +75,11 @@ class Button:
     def clicked(self, event):
         """Check if button is clicked based on mouse event."""
         return event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos)
+
+# -------------------- INPUT BOX CLASS --------------------
+class InputBox:
+    """Represents a text input box for user to enter numbers."""
+    def __init__(self, x, y, w, h):
+        self.rect = pygame.Rect(x, y, w, h)  # Rectangle for input box
+        self.text = ""                        # Current text
+        self.active = False                    # Whether box is active (clicked)
