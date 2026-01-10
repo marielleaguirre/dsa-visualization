@@ -1,4 +1,14 @@
+import pygame
+import sys
 import random
+
+pygame.init()  # Initialize all Pygame modules
+
+# -------------------- FULLSCREEN SETUP --------------------
+info = pygame.display.Info()  # Get info about the current display
+WIDTH, HEIGHT = info.current_w, info.current_h  # Fullscreen width and height
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)  # Fullscreen window
+pygame.display.set_caption("Binary Search Tree Visualizer")  # Set window title
 
 class Node:
     def __init__(self, data):  # Initialize a BST node with data and left/right children
