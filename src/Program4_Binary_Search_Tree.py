@@ -102,3 +102,13 @@ class InputBox:
                 self.text = self.text[:-1]  # Delete last character
             elif event.unicode.isdigit():
                 self.text += event.unicode  # Add digit to text
+
+# -------------------- BST VISUALIZER CLASS --------------------
+class BSTVisualizer:
+    """Main class for handling BST logic, drawing, and traversals."""
+    def __init__(self):
+        self.root = None           # Root node of BST
+        self.numbers = []          # Numbers to insert into BST
+        self.insert_index = 0      # Index of next number to insert
+        self.warning_text = ""     # Any warning messages
+        
