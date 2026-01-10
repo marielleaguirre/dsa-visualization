@@ -62,3 +62,16 @@ class Button:
     def __init__(self, x, y, w, h, text):
         self.rect = pygame.Rect(x, y, w, h)  # Button rectangle (position + size)
         self.text = text                      # Button text
+    
+    def draw(self):
+        """Draw the button, change color on hover."""
+        hover = self.rect.collidepoint(pygame.mouse.get_pos())  # Check if mouse is over button
+        color = BTN_HOVER if hover else BTN                     # Change color if hovering
+        pygame.draw.rect(screen, color, self.rect, border_radius=12)  # Fill rectangle
+        pygame.draw.rect(screen, BLACK, self.rect, 2, border_radius=12)  # Draw border
+        txt = FONT.render(self.text, True, WHITE)               # Render button text
+        screen.blit(txt, txt.get_rect(center=self.rect.center))  # Center text inside button
+
+    def clicked(self, event):
+        """Check if button is clicked based on mouse event."""
+        return event.type == pygame.MOUSEBUTTONDOWN and self.rect.collidepoint(event.pos)
