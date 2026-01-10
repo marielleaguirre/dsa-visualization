@@ -249,3 +249,11 @@ def main():
 
             if exit_btn.clicked(event):
                 running = False
+
+        # -------------------- DRAW UI ELEMENTS --------------------
+        input_box.draw()
+        random_btn.draw()
+        add_btn.draw()
+        insert_btn.draw()
+        restart_btn.draw()
+        exit_btn.draw()
