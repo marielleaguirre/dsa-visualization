@@ -214,3 +214,13 @@ def main():
                 running = False
 
             input_box.handle(event)  # Handle input box clicks and typing
+
+            # -------------------- BUTTON CLICKS --------------------
+            if random_btn.clicked(event):
+                n = random.randint(10, 30)  # Random number of nodes
+                bst.numbers = [random.randint(1, 99) for _ in range(n)]  # Random values
+                if len(bst.numbers) > MAX_NODES:
+                    bst.numbers = bst.numbers[:MAX_NODES]  # Limit nodes
+                bst.root = None
+                bst.insert_index = 0
+                bst.warning_text = ""
