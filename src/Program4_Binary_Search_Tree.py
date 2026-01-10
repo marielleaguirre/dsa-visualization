@@ -205,3 +205,12 @@ def main():
         title_surface = BIG_FONT.render("BINARY SEARCH TREE", True, BLACK)
         screen.blit(title_surface, (WIDTH//2 - title_surface.get_width()//2 + 2, 22))  # Shadow
         screen.blit(title_surface, (WIDTH//2 - title_surface.get_width()//2, 20))      # Main title
+
+        # -------------------- EVENT HANDLING --------------------
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:        # Close button
+                running = False
+            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  # ESC key
+                running = False
+
+            input_box.handle(event)  # Handle input box clicks and typing
