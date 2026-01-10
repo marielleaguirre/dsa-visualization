@@ -160,3 +160,16 @@ class BSTVisualizer:
         pygame.draw.circle(screen, BLACK, (node.x, node.y), node.growth, 2)       # Node border
         txt = NODE_FONT.render(str(node.data), True, WHITE)                        # Node number
         screen.blit(txt, txt.get_rect(center=(node.x, node.y)))                    # Draw number
+    
+    # ---------- TREE TRAVERSALS ----------
+    def inorder(self, root):
+        """Return inorder traversal as a list."""
+        return self.inorder(root.left) + [root.data] + self.inorder(root.right) if root else []
+
+    def preorder(self, root):
+        """Return preorder traversal as a list."""
+        return [root.data] + self.preorder(root.left) + self.preorder(root.right) if root else []
+
+    def postorder(self, root):
+        """Return postorder traversal as a list."""
+        return self.postorder(root.left) + self.postorder(root.right) + [root.data] if root else []
