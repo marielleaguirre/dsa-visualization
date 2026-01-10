@@ -261,3 +261,13 @@ def main():
         # -------------------- DRAW BST --------------------
         if bst.root:
             bst.draw_tree(bst.root)
+
+        # -------------------- DRAW TRAVERSALS AND INFO --------------------
+        info_box = pygame.Surface((WIDTH-240, 130), pygame.SRCALPHA)
+        info_box.fill((255, 255, 255, 180))  # Semi-transparent background
+        screen.blit(info_box, (230, HEIGHT-150))  # Place on screen
+        screen.blit(FONT.render(f"Numbers: {bst.numbers}", True, BLACK), (250, HEIGHT-140))
+        if bst.root:
+            screen.blit(FONT.render(f"Inorder: {bst.inorder(bst.root)}", True, GREEN), (250, HEIGHT-100))
+            screen.blit(FONT.render(f"Preorder: {bst.preorder(bst.root)}", True, BLUE), (250, HEIGHT-70))
+            screen.blit(FONT.render(f"Postorder: {bst.postorder(bst.root)}", True, RED), (250, HEIGHT-40))
