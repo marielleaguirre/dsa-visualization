@@ -233,3 +233,19 @@ def main():
                         bst.numbers.append(int(input_box.text))  # Add number from input
                         input_box.text = ""
                         bst.warning_text = ""
+
+            if insert_btn.clicked(event) and bst.insert_index < len(bst.numbers):
+                bst.root = bst.insert(bst.root, bst.numbers[bst.insert_index])  # Insert next number
+                bst.insert_index += 1
+                bst.assign_positions()  # Update node positions
+
+            if restart_btn.clicked(event):
+                # Clear everything
+                bst.root = None
+                bst.numbers = []
+                bst.insert_index = 0
+                input_box.text = ""
+                bst.warning_text = ""
+
+            if exit_btn.clicked(event):
+                running = False
