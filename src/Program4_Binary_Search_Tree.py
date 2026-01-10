@@ -111,4 +111,14 @@ class BSTVisualizer:
         self.numbers = []          # Numbers to insert into BST
         self.insert_index = 0      # Index of next number to insert
         self.warning_text = ""     # Any warning messages
-        
+
+        # ---------- INSERT NODE ----------
+    def insert(self, root, value):
+        """Recursively insert a value into the BST."""
+        if root is None:
+            return Node(value)  # Create new node if current is empty
+        if value <= root.data:
+            root.left = self.insert(root.left, value)   # Go left
+        else:
+            root.right = self.insert(root.right, value) # Go right
+        return root
