@@ -123,6 +123,36 @@ class BSTVisualizer:
             root.right = self.insert(root.right, value) # Go right
         return root
     
+        # ---------- DELETE NODE ----------
+    def delete(self, root, value):
+        """Recursively delete a value from the BST."""
+        if not root:
+            return None  # Value not found, return None
+
+        # Traverse left or right depending on value
+        if value < root.data:
+            root.left = self.delete(root.left, value)
+        elif value > root.data:
+            root.right = self.delete(root.right, value)
+        else:
+            # Node found
+            if not root.left and not root.right:
+                return None  # Case 1: No children
+            if not root.left:
+                return root.right  # Case 2: Only right child
+            if not root.right:
+                return root.left   # Case 2: Only left child
+
+            # Case 3: Two children
+            # Find inorder successor (smallest in right subtree)
+            successor = root.right
+            while successor.left:
+                successor = successor.left
+            root.data = successor.data  # Replace value
+            root.right = self.delete(root.right, successor.data)  # Delete successor
+
+        return root
+
     # ---------- ASSIGN NODE POSITIONS ----------
     def assign_positions(self, node=None, depth=0, x_min=220, x_max=None, y_start=140, y_gap=100):
         """Assign x, y coordinates to each node for visualization."""
@@ -183,8 +213,9 @@ def main():
     random_btn = Button(20, 180, 180, 40, "Random Input")  # Fill BST with random numbers
     add_btn = Button(20, 230, 180, 40, "Add Number")       # Add single number
     insert_btn = Button(20, 280, 180, 40, "Insert Next")   # Insert next number from list
-    restart_btn = Button(20, 330, 180, 40, "Restart")      # Clear everything
-    exit_btn = Button(20, 380, 180, 40, "Exit")            # Exit program
+    delete_btn = Button(20, 330, 180, 40, "Delete Node")   # Allows user to remove a selected number
+    restart_btn = Button(20, 380, 180, 40, "Restart")      # Clear everything
+    exit_btn = Button(20, 430, 180, 40, "Exit")            # Exit program
 
     running = True
     while running:
@@ -239,6 +270,15 @@ def main():
                 bst.insert_index += 1
                 bst.assign_positions()  # Update node positions
 
+            if delete_btn.clicked(event):
+                if input_box.text:
+                    value_to_delete = int(input_box.text)
+                    bst.root = bst.delete(bst.root, value_to_delete)
+                    if value_to_delete in bst.numbers:
+                        bst.numbers.remove(value_to_delete)
+                    input_box.text = ""
+                    bst.assign_positions()  # Recalculate positions after deletion
+
             if restart_btn.clicked(event):
                 # Clear everything
                 bst.root = None
@@ -255,6 +295,7 @@ def main():
         random_btn.draw()
         add_btn.draw()
         insert_btn.draw()
+        delete_btn.draw()
         restart_btn.draw()
         exit_btn.draw()
 
