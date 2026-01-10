@@ -188,3 +188,15 @@ def main():
 
     running = True
     while running:
+        # -------------------- DRAW GRADIENT BACKGROUND --------------------
+        for y in range(HEIGHT):
+            color = (
+                BG_TOP[0] + (BG_BOTTOM[0]-BG_TOP[0])*y//HEIGHT,
+                BG_TOP[1] + (BG_BOTTOM[1]-BG_TOP[1])*y//HEIGHT,
+                BG_TOP[2] + (BG_BOTTOM[2]-BG_TOP[2])*y//HEIGHT,
+            )
+            pygame.draw.line(screen, color, (0, y), (WIDTH, y))  # Gradient background
+
+        # -------------------- SIDEBAR PANEL --------------------
+        pygame.draw.rect(screen, PANEL, (0, 0, 220, HEIGHT))  # Sidebar background
+        pygame.draw.line(screen, BLACK, (220, 0), (220, HEIGHT), 3)  # Panel border
