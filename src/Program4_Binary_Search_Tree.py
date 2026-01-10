@@ -200,3 +200,8 @@ def main():
         # -------------------- SIDEBAR PANEL --------------------
         pygame.draw.rect(screen, PANEL, (0, 0, 220, HEIGHT))  # Sidebar background
         pygame.draw.line(screen, BLACK, (220, 0), (220, HEIGHT), 3)  # Panel border
+
+        # -------------------- TITLE --------------------
+        title_surface = BIG_FONT.render("BINARY SEARCH TREE", True, BLACK)
+        screen.blit(title_surface, (WIDTH//2 - title_surface.get_width()//2 + 2, 22))  # Shadow
+        screen.blit(title_surface, (WIDTH//2 - title_surface.get_width()//2, 20))      # Main title
