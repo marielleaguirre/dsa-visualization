@@ -173,3 +173,18 @@ class BSTVisualizer:
     def postorder(self, root):
         """Return postorder traversal as a list."""
         return self.postorder(root.left) + self.postorder(root.right) + [root.data] if root else []
+
+# -------------------- MAIN LOOP --------------------
+def main():
+    bst = BSTVisualizer()  # Initialize BST
+
+    # -------------------- UI ELEMENTS --------------------
+    input_box = InputBox(20, 120, 180, 40)       # Input box for user numbers
+    random_btn = Button(20, 180, 180, 40, "Random Input")  # Fill BST with random numbers
+    add_btn = Button(20, 230, 180, 40, "Add Number")       # Add single number
+    insert_btn = Button(20, 280, 180, 40, "Insert Next")   # Insert next number from list
+    restart_btn = Button(20, 330, 180, 40, "Restart")      # Clear everything
+    exit_btn = Button(20, 380, 180, 40, "Exit")            # Exit program
+
+    running = True
+    while running:
