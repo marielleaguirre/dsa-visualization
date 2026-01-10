@@ -10,6 +10,38 @@ WIDTH, HEIGHT = info.current_w, info.current_h  # Fullscreen width and height
 screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)  # Fullscreen window
 pygame.display.set_caption("Binary Search Tree Visualizer")  # Set window title
 
+# -------------------- FONTS --------------------
+# Fonts for different UI elements
+FONT = pygame.font.SysFont("consolas", 22)       # Regular text
+BIG_FONT = pygame.font.SysFont("consolas", 36)   # Big title text
+NODE_FONT = pygame.font.SysFont("consolas", 24, bold=True)  # Node numbers in the tree
+
+# -------------------- COLORS --------------------
+# Background gradient
+BG_TOP = (200, 230, 255)    # Top of gradient (light blue)
+BG_BOTTOM = (245, 250, 255) # Bottom of gradient (almost white)
+PANEL = (245, 245, 245)     # Sidebar panel background
+
+# Standard colors
+BLACK = (40, 40, 40)
+WHITE = (255, 255, 255)
+BLUE = (100, 149, 237)
+GREEN = (60, 180, 120)
+RED = (220, 90, 90)
+
+# Button colors
+BTN = (88, 101, 242)        # Normal button color
+BTN_HOVER = (114, 137, 218) # Hover color
+
+# Node colors (random for visual variety)
+NODE_COLORS = [(100, 149, 237), (255, 140, 0), (60, 180, 120), (255, 105, 180), (138, 43, 226)]
+
+# Warning text color
+WARN = (220, 50, 50)
+
+clock = pygame.time.Clock()  # Clock to control FPS
+MAX_NODES = 30               # Maximum allowed nodes in BST
+
 class Node:
     def __init__(self, data):  # Initialize a BST node with data and left/right children
         self.data = data
