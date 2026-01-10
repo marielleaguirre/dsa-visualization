@@ -224,3 +224,12 @@ def main():
                 bst.root = None
                 bst.insert_index = 0
                 bst.warning_text = ""
+
+            if add_btn.clicked(event):
+                if input_box.text:
+                    if len(bst.numbers) >= MAX_NODES:
+                        bst.warning_text = "Up to 30 nodes only!"
+                    else:
+                        bst.numbers.append(int(input_box.text))  # Add number from input
+                        input_box.text = ""
+                        bst.warning_text = ""
