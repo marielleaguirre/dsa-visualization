@@ -140,3 +140,23 @@ class BSTVisualizer:
         # Assign positions recursively to left and right children
         self._assign_positions_recursive(node.left, depth + 1, x_min, node.x - 10, y_start, y_gap)
         self._assign_positions_recursive(node.right, depth + 1, node.x + 10, x_max, y_start, y_gap)
+
+    # ---------- DRAW TREE ----------
+    def draw_tree(self, node):
+        """Recursively draw nodes and edges of the BST."""
+        if not node:
+            return
+        # Draw lines to children first (edges)
+        if node.left:
+            pygame.draw.line(screen, BLACK, (node.x, node.y), (node.left.x, node.left.y), 2)
+            self.draw_tree(node.left)
+        if node.right:
+            pygame.draw.line(screen, BLACK, (node.x, node.y), (node.right.x, node.right.y), 2)
+            self.draw_tree(node.right)
+        # Pop-in animation for node
+        if node.growth < node.radius:
+            node.growth += 2
+        pygame.draw.circle(screen, node.color, (node.x, node.y), node.growth)      # Node fill
+        pygame.draw.circle(screen, BLACK, (node.x, node.y), node.growth, 2)       # Node border
+        txt = NODE_FONT.render(str(node.data), True, WHITE)                        # Node number
+        screen.blit(txt, txt.get_rect(center=(node.x, node.y)))                    # Draw number
