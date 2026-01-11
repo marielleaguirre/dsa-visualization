@@ -34,6 +34,13 @@ SLOT_H = 70                        # Height of each parking slot
 START_X = 260                      # Starting X position for parking slots
 START_Y = 320                      # Starting Y position for parking slots
 
+# -------------------- LOAD IMAGES --------------------
+try:
+    CAR_IMG = pygame.image.load("src/car.png").convert_alpha()
+    CAR_IMG = pygame.transform.scale(CAR_IMG, (SLOT_W - 20, SLOT_H - 10))
+except pygame.error:
+    CAR_IMG = None  # fallback to drawing the blue rectangle
+
 # -------------------- MESSAGE SYSTEM --------------------
 message_text = ""                  # Message text to display
 message_color = GREEN              # Message color
@@ -65,12 +72,9 @@ class Car:                                                       # Created a blu
         if self.x > self.target_x:
             self.x -= 8
 
-    def draw(self):                          # Function to draw the car on the screen
-        pygame.draw.rect(
-            screen, CAR_COLOR,
-            (self.x, self.y, SLOT_W - 20, SLOT_H - 10),
-            border_radius=10
-        )
+    def draw(self):  # Function to draw the car on the screen
+        screen.blit(CAR_IMG, (self.x, self.y))  # Draw the car image
+        # Optional: keep plate number and time text
         screen.blit(FONT.render(self.plate_num, True, BLACK), (self.x + 10, self.y + 8))
         screen.blit(FONT.render(self.time_in, True, BLACK), (self.x + 10, self.y + 32))
 
