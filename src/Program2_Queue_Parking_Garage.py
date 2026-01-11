@@ -12,7 +12,7 @@ pygame.display.set_caption("Queue Parking Garage")  # Set window title
 
 CLOCK = pygame.time.Clock()                        # For controlling frame rate
 FONT = pygame.font.SysFont("consolas", 18)         # Set font for
-BIG_FONT = pygame.font.SysFont("consolas", 26, bold=)     # Set big font for titles
+BIG_FONT = pygame.font.SysFont("consolas", 26, bold= True)     # Set big font for titles
 
 # -------------------- COLORS --------------------
 BG = (25, 25, 25)                 # Background color (very dark gray)
@@ -37,7 +37,7 @@ START_Y = 320                      # Starting Y position for parking slots
 # -------------------- MESSAGE SYSTEM --------------------
 message_text = ""                  # Message text to display
 message_color = GREEN              # Message color
-message_time = 0                  # Time when message was set
+message_time = 0                   # Time when message was set
 
 def show_message(text, color=GREEN):                     # Function to show messages
     global message_text, message_color, message_time
@@ -156,8 +156,11 @@ class Button:                                       # Class for button
     def draw(self):             # Function to draw button
         color = BTN_HOVER if self.rect.collidepoint(pygame.mouse.get_pos()) else BTN  # Change color on hover
         pygame.draw.rect(screen, color, self.rect, border_radius=8)  # Draw button
-        screen.blit(FONT.render(self.text, True, BLACK),
-                    (self.rect.x + 15, self.rect.y + 10))            # Blit button text
+        txt = FONT.render(self.text, True, BLACK)  # Render text
+        # Center text in the button rectangle
+        text_x = self.rect.x + (self.rect.width - txt.get_width()) // 2
+        text_y = self.rect.y + (self.rect.height - txt.get_height()) // 2
+        screen.blit(txt, (text_x, text_y))
 
     def click(self):             # Function to handle button click
         if self.rect.collidepoint(pygame.mouse.get_pos()):    # Check if button is clicked
@@ -246,8 +249,8 @@ while running:
             border_radius=12
         )                       # Draw garage outline
 
-        screen.blit(BIG_FONT.render("PARKING GARAGE (FIFO QUEUE)", True, BLACK),
-                    (START_X + 60, START_Y - 55))   # Draw title 
+        title_text = BIG_FONT.render("PARKING GARAGE (FIFO QUEUE)", True, BLACK)
+        screen.blit(title_text, (START_X + (SLOT_W * CAPACITY - title_text.get_width()) // 2, START_Y - 55))     # Draw title 
 
         for i in range(CAPACITY):   
             pygame.draw.rect(
