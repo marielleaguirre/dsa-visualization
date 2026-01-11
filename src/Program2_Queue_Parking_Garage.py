@@ -75,8 +75,19 @@ class Car:                                                       # Created a blu
     def draw(self):  # Function to draw the car on the screen
         screen.blit(CAR_IMG, (self.x, self.y))  # Draw the car image
         # Optional: keep plate number and time text
-        screen.blit(FONT.render(self.plate_num, True, BLACK), (self.x + 10, self.y + 8))
-        screen.blit(FONT.render(self.time_in, True, BLACK), (self.x + 10, self.y + 32))
+        # Render texts
+        plate_txt = FONT.render(self.plate_num, True, BLACK)
+        time_txt = FONT.render(self.time_in, True, BLACK)
+
+        # Center plate number horizontally, near top of car
+        plate_x = self.x + (SLOT_W - plate_txt.get_width()) // 2
+        plate_y = self.y + -3  # small offset from top
+        screen.blit(plate_txt, (plate_x, plate_y))
+
+        # Center time horizontally, near bottom of car
+        time_x = self.x + (SLOT_W - time_txt.get_width()) // 2
+        time_y = self.y + SLOT_H - time_txt.get_height() - 5  # small offset from bottom
+        screen.blit(time_txt, (time_x, time_y))
 
 class ParkingGarage:                              # Created a blueprint for Parking Garage
     def __init__(self, capacity):                               
