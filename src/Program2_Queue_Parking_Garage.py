@@ -7,7 +7,7 @@ pygame.init()                      # Initialize pygame
 
 # -------------------- WINDOW --------------------
 WIDTH, HEIGHT = 1000, 700                           # Set window dimensions
-screen = pygame.display.set_mode((WIDTH, HEIGHT))   # Create the window
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)  # Create resizable window
 pygame.display.set_caption("Queue Parking Garage")  # Set window title
 
 CLOCK = pygame.time.Clock()                        # For controlling frame rate
@@ -228,6 +228,10 @@ while running:
                     button.click()
             else:
                 back_button.click()
+
+        if event.type == pygame.VIDEORESIZE:   # Handle window resize
+            WIDTH, HEIGHT = event.w, event.h
+            screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
 
     if screen_state == "garage":        # Garage screen
         screen.blit(FONT.render("Plate Number:", True, WHITE), (40, 125))  # Draw label
