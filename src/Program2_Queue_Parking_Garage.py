@@ -12,7 +12,7 @@ pygame.display.set_caption("Queue Parking Garage")  # Set window title
 
 CLOCK = pygame.time.Clock()                        # For controlling frame rate
 FONT = pygame.font.SysFont("consolas", 18)         # Set font for
-BIG_FONT = pygame.font.SysFont("consolas", 26)     # Set big font for titles
+BIG_FONT = pygame.font.SysFont("consolas", 26, bold=)     # Set big font for titles
 
 # -------------------- COLORS --------------------
 BG = (25, 25, 25)                 # Background color (very dark gray)
