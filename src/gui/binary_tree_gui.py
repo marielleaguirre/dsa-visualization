@@ -1,22 +1,11 @@
-"""
-Binary Tree GUI Module
-
-This module provides a pygame-based graphical user interface for visualizing
-and interacting with binary trees. It handles the visual rendering of tree nodes,
-user input for node values, and displays tree traversals (inorder, preorder, postorder).
-
-The GUI is designed to be encapsulated and replicable for integration into larger programs.
-"""
-
 import pygame
 import sys
 from pathlib import Path
 
-# Add parent directory to path
-sys.path.insert(0, str(Path(__file__).parent.parent))
-
+# Handle import error
+sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 from src.Program3_binary_tree import BinaryTree, Traversal
-
+from src.constants import *
 
 class Button:
     """Simple button class for mouse click detection."""
@@ -28,7 +17,7 @@ class Button:
         self.is_hovered = False
     
     def draw(self, screen, font):
-        """Draw button on screen."""
+        # Draw button
         color = tuple(min(c + 30, 255) for c in self.color) if self.is_hovered else self.color
         pygame.draw.rect(screen, color, self.rect)
         pygame.draw.rect(screen, (200, 200, 200), self.rect, 2)
@@ -38,46 +27,26 @@ class Button:
         screen.blit(text_surface, text_rect)
     
     def is_clicked(self, pos):
-        """Check if button was clicked."""
+        # Check if button is clicked
         return self.rect.collidepoint(pos)
     
     def update_hover(self, pos):
-        """Update hover state."""
+        # Check if button is hovered
         self.is_hovered = self.rect.collidepoint(pos)
 
 
 class BinaryTreeGUI:
-    """
-    Manages the pygame GUI for binary tree visualization and interaction.
-    Handles rendering, user input, and traversal display.
-    """
-    
-    # Color scheme (black, white, grey themed)
-    COLOR_BACKGROUND = (20, 20, 20)  # Dark grey/black
-    COLOR_NODE = (240, 240, 240)     # White
-    COLOR_NODE_BORDER = (100, 100, 100)  # Grey
-    COLOR_NONE_NODE = (60, 60, 60)   # Dark grey
-    COLOR_TEXT = (240, 240, 240)     # White
-    COLOR_CONNECTOR = (150, 150, 150)  # Light grey
-    COLOR_INPUT_BG = (40, 40, 40)    # Dark grey
-    COLOR_INPUT_BORDER = (120, 120, 120)  # Grey
-    COLOR_HIGHLIGHT = (100, 150, 255)  # Light blue for active input
-    
-    SCREEN_WIDTH = 1280
-    SCREEN_HEIGHT = 720
-    
-    NODE_RADIUS = 25
-    VERTICAL_SPACING = 100
-    
+
     def __init__(self):
-        """Initialize pygame and the GUI components."""
+         # Initialize pygame and the GUI components.
         pygame.init()
-        self.screen = pygame.display.set_mode((self.SCREEN_WIDTH, self.SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         pygame.display.set_caption("Binary Tree Visualizer")
         self.clock = pygame.time.Clock()
-        self.font_large = pygame.font.Font(None, 36)
-        self.font_medium = pygame.font.Font(None, 28)
-        self.font_small = pygame.font.Font(None, 20)
+        self.font_large = pygame.font.Font(None, 56)
+        self.font_medium = pygame.font.Font(None, 40)
+        self.font_small = pygame.font.Font(None, 28)
+        self.font_traversal = pygame.font.Font(None, 28)  # Larger font for traversals
         
         self.bin_tree = None
         self.tree_level = 0
@@ -97,20 +66,20 @@ class BinaryTreeGUI:
         
         # Create level buttons
         for level in range(1, 6):
-            x = 360 + (level - 1) * 120
-            button = Button(x, 300, 80, 60, str(level), (100, 100, 100), (240, 240, 240))
+            x = 280 + (level - 1) * 150
+            button = Button(x, 320, 120, 80, str(level), (100, 100, 100), (240, 240, 240))
             buttons.append((level, button))
         
         while self.stage == "level_input":
             mouse_pos = pygame.mouse.get_pos()
             
-            self.screen.fill(self.COLOR_BACKGROUND)
+            self.screen.fill(COLOR_BACKGROUND)
             
-            title = self.font_large.render("Binary Tree Visualizer", True, self.COLOR_TEXT)
-            prompt = self.font_medium.render("Select number of levels (1-5):", True, self.COLOR_TEXT)
+            title = self.font_large.render("Binary Tree Visualizer", True, COLOR_TEXT)
+            prompt = self.font_medium.render("Select number of levels (1-5):", True, COLOR_TEXT)
             
-            self.screen.blit(title, (self.SCREEN_WIDTH // 2 - title.get_width() // 2, 100))
-            self.screen.blit(prompt, (self.SCREEN_WIDTH // 2 - prompt.get_width() // 2, 200))
+            self.screen.blit(title, (SCREEN_WIDTH // 2 - title.get_width() // 2, 100))
+            self.screen.blit(prompt, (SCREEN_WIDTH // 2 - prompt.get_width() // 2, 200))
             
             # Update and draw buttons
             for level, button in buttons:
@@ -137,37 +106,33 @@ class BinaryTreeGUI:
         
         self.node_positions = {}
         
-        # Calculate positions for each node
-        for index in range(len(self.bin_tree.all_nodes)):
-            if index == 0:
-                self.node_positions[index] = (self.SCREEN_WIDTH // 2, 50)
-            else:
-                # Calculate which level and position in level
-                level = 0
-                temp = index + 1
-                while temp > 2 ** level - 1:
-                    level += 1
-                
-                parent_index = (index - 1) // 2
-                
-                # Calculate x based on whether it's a left or right child
-                if parent_index in self.node_positions:
-                    parent_x = self.node_positions[parent_index][0]
-                    # Use offset that decreases with level to fit on screen
-                    offset = max(30, 100 - (level * 12))
-                    
-                    if index % 2 == 0:  # Right child
-                        x = parent_x + offset
-                    else:  # Left child
-                        x = parent_x - offset
-                    
-                    # Clamp x to screen boundaries
-                    x = max(self.NODE_RADIUS, min(x, self.SCREEN_WIDTH - self.NODE_RADIUS))
-                else:
-                    x = self.SCREEN_WIDTH // 2
-                
-                y = 50 + level * 100
-                self.node_positions[index] = (x, y)
+        # Recursive function to calculate positions based on subtree width
+        def position_node(index, x, y, spacing):
+            if index >= len(self.bin_tree.all_nodes):
+                return
+            
+            # Store position for this node
+            self.node_positions[index] = (x, y)
+            
+            # Calculate children indices
+            left_index = 2 * index + 1
+            right_index = 2 * index + 2
+            
+            # Reduce spacing for next level
+            next_spacing = spacing // 2
+            next_y = y + 140
+            
+            # Position left child
+            if left_index < len(self.bin_tree.all_nodes):
+                position_node(left_index, x - spacing, next_y, next_spacing)
+            
+            # Position right child
+            if right_index < len(self.bin_tree.all_nodes):
+                position_node(right_index, x + spacing, next_y, next_spacing)
+        
+        # Start positioning from root with initial spacing
+        initial_spacing = SCREEN_WIDTH // 6
+        position_node(0, SCREEN_WIDTH // 2, 50, initial_spacing)
     
     def draw_tree(self):
         """Draw the binary tree structure on the screen."""
@@ -185,13 +150,13 @@ class BinaryTreeGUI:
             left_index = 2 * index + 1
             if left_index < len(self.bin_tree.all_nodes) and left_index in self.node_positions:
                 child_pos = self.node_positions[left_index]
-                pygame.draw.line(self.screen, self.COLOR_CONNECTOR, parent_pos, child_pos, 2)
+                pygame.draw.line(self.screen, COLOR_CONNECTOR, parent_pos, child_pos, 2)
             
             # Draw to right child
             right_index = 2 * index + 2
             if right_index < len(self.bin_tree.all_nodes) and right_index in self.node_positions:
                 child_pos = self.node_positions[right_index]
-                pygame.draw.line(self.screen, self.COLOR_CONNECTOR, parent_pos, child_pos, 2)
+                pygame.draw.line(self.screen, COLOR_CONNECTOR, parent_pos, child_pos, 2)
         
         # Draw nodes
         for index, node in enumerate(self.bin_tree.all_nodes):
@@ -202,13 +167,13 @@ class BinaryTreeGUI:
             
             # Choose color based on node value
             if node.value is None:
-                color = self.COLOR_NONE_NODE
+                color = COLOR_NONE_NODE
             else:
-                color = self.COLOR_NODE
+                color = COLOR_NODE
             
             # Draw circle
-            pygame.draw.circle(self.screen, color, (int(x), int(y)), self.NODE_RADIUS)
-            pygame.draw.circle(self.screen, self.COLOR_NODE_BORDER, (int(x), int(y)), self.NODE_RADIUS, 2)
+            pygame.draw.circle(self.screen, color, (int(x), int(y)), NODE_RADIUS)
+            pygame.draw.circle(self.screen, COLOR_NODE_BORDER, (int(x), int(y)), NODE_RADIUS, 2)
             
             # Draw value inside node
             if node.value is not None:
@@ -224,37 +189,37 @@ class BinaryTreeGUI:
         
         while self.stage == "node_input":
             mouse_pos = pygame.mouse.get_pos()
-            self.screen.fill(self.COLOR_BACKGROUND)
+            self.screen.fill(COLOR_BACKGROUND)
             
             # Draw tree with placeholders
             self.draw_tree()
             
-            # Draw input section
-            input_y = self.SCREEN_HEIGHT - 100
+            # Draw input section at the bottom
+            input_y = SCREEN_HEIGHT - 120
             
             # Title
             title = self.font_medium.render(f"Node {self.current_input_index + 1}/{len(self.bin_tree.all_nodes)}", 
-                                           True, self.COLOR_TEXT)
-            self.screen.blit(title, (50, input_y - 30))
-            
-            # Input box
-            input_box_rect = pygame.Rect(50, input_y + 10, 300, 40)
-            pygame.draw.rect(self.screen, self.COLOR_INPUT_BG, input_box_rect)
-            pygame.draw.rect(self.screen, self.COLOR_HIGHLIGHT, input_box_rect, 2)
+                                           True, COLOR_TEXT)
+            self.screen.blit(title, (50, input_y - 50))
             
             # Input label
             input_label = self.font_small.render("Enter value (or '.' for None):", True, (150, 150, 150))
-            self.screen.blit(input_label, (50, input_y - 10))
+            self.screen.blit(input_label, (50, input_y - 25))
+            
+            # Input box
+            input_box_rect = pygame.Rect(50, input_y, 250, 40)
+            pygame.draw.rect(self.screen, COLOR_INPUT_BG, input_box_rect)
+            pygame.draw.rect(self.screen, COLOR_HIGHLIGHT, input_box_rect, 2)
             
             # Input text
-            input_text_render = self.font_medium.render(self.current_input_text, True, self.COLOR_TEXT)
-            self.screen.blit(input_text_render, (60, input_y + 15))
+            input_text_render = self.font_medium.render(self.current_input_text, True, COLOR_TEXT)
+            self.screen.blit(input_text_render, (60, input_y + 8))
             
             # Buttons
-            confirm_button = Button(370, input_y + 10, 80, 40, "Confirm", (80, 120, 80), (240, 240, 240))
-            backspace_button = Button(460, input_y + 10, 80, 40, "Clear", (120, 80, 80), (240, 240, 240))
-            none_button = Button(550, input_y + 10, 80, 40, "None", (80, 80, 120), (240, 240, 240))
-            restart_button = Button(640, input_y + 10, 100, 40, "Restart", (120, 80, 80), (240, 240, 240))
+            confirm_button = Button(320, input_y, 110, 40, "Confirm", (80, 120, 80), (240, 240, 240))
+            backspace_button = Button(440, input_y, 110, 40, "Clear", (120, 80, 80), (240, 240, 240))
+            none_button = Button(560, input_y, 110, 40, "None", (80, 80, 120), (240, 240, 240))
+            restart_button = Button(680, input_y, 130, 40, "Restart", (120, 80, 80), (240, 240, 240))
             
             confirm_button.update_hover(mouse_pos)
             backspace_button.update_hover(mouse_pos)
@@ -275,7 +240,9 @@ class BinaryTreeGUI:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if confirm_button.is_clicked(mouse_pos):
-                        if self.current_input_text:
+                        if self.current_input_text == ".":
+                            self.input_values[self.current_input_index] = None
+                        elif self.current_input_text:
                             self.input_values[self.current_input_index] = self.current_input_text
                         
                         if self.current_input_index < len(self.bin_tree.all_nodes) - 1:
@@ -301,7 +268,9 @@ class BinaryTreeGUI:
                     if event.key == pygame.K_BACKSPACE:
                         self.current_input_text = self.current_input_text[:-1]
                     elif event.key == pygame.K_RETURN:
-                        if self.current_input_text:
+                        if self.current_input_text == ".":
+                            self.input_values[self.current_input_index] = None
+                        elif self.current_input_text:
                             self.input_values[self.current_input_index] = self.current_input_text
                         
                         if self.current_input_index < len(self.bin_tree.all_nodes) - 1:
@@ -351,25 +320,25 @@ class BinaryTreeGUI:
         
         while self.stage == "traversal_display":
             mouse_pos = pygame.mouse.get_pos()
-            self.screen.fill(self.COLOR_BACKGROUND)
+            self.screen.fill(COLOR_BACKGROUND)
             
             # Draw tree
             self.draw_tree()
             
             # Draw traversals at the bottom
-            traversal_y = self.SCREEN_HEIGHT - 140
+            traversal_y = SCREEN_HEIGHT - 140
             
-            preorder_text = self.font_small.render(f"Preorder (TLR): {preorder}", True, self.COLOR_TEXT)
-            inorder_text = self.font_small.render(f"Inorder (LTR): {inorder}", True, self.COLOR_TEXT)
-            postorder_text = self.font_small.render(f"Postorder (LRT): {postorder}", True, self.COLOR_TEXT)
+            preorder_text = self.font_traversal.render(f"Preorder (TLR): {preorder}", True, COLOR_TEXT)
+            inorder_text = self.font_traversal.render(f"Inorder (LTR): {inorder}", True, COLOR_TEXT)
+            postorder_text = self.font_traversal.render(f"Postorder (LRT): {postorder}", True, COLOR_TEXT)
             
             self.screen.blit(preorder_text, (50, traversal_y))
             self.screen.blit(inorder_text, (50, traversal_y + 30))
             self.screen.blit(postorder_text, (50, traversal_y + 60))
             
             # Buttons
-            exit_button = Button(self.SCREEN_WIDTH - 310, traversal_y + 80, 100, 40, "Exit", (120, 80, 80), (240, 240, 240))
-            restart_button = Button(self.SCREEN_WIDTH - 190, traversal_y + 80, 130, 40, "Restart", (80, 120, 80), (240, 240, 240))
+            exit_button = Button(SCREEN_WIDTH - 310, traversal_y + 80, 100, 40, "Exit", (120, 80, 80), (240, 240, 240))
+            restart_button = Button(SCREEN_WIDTH - 190, traversal_y + 80, 130, 40, "Restart", (80, 120, 80), (240, 240, 240))
             
             exit_button.update_hover(mouse_pos)
             restart_button.update_hover(mouse_pos)
