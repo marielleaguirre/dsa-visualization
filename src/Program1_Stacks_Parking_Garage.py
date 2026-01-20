@@ -16,6 +16,7 @@ Stacks Parking Garage PseudoCode:
 """
 import pygame                 # Graphics and UI
 import sys                    # Exit program
+import os                     # File path handling
 from datetime import datetime # Time stamps
 
 pygame.init()                 # Initialize pygame
@@ -27,6 +28,7 @@ pygame.display.set_caption("Stack Parking Garage Simulation")
 
 CLOCK = pygame.time.Clock()
 FONT = pygame.font.SysFont("consolas", 18)
+SMALL_FONT = pygame.font.SysFont("consolas", 12)
 BIG_FONT = pygame.font.SysFont("consolas", 26)
 
 # ==================== COLORS ====================
@@ -75,6 +77,16 @@ class Car:
         self.time_in = datetime.now().strftime("%H:%M:%S")
         self.time_out = None
 
+        # Load car image
+        try:
+            car_image_path = os.path.join(os.path.dirname(__file__), "car.png")
+            car_image_path = os.path.abspath(car_image_path)
+            original_image = pygame.image.load(car_image_path)
+            # Scale image narrower (50% width, 70% height)
+            self.image = pygame.transform.scale(original_image, (int((SLOT_W - 20) * 0.5), int((SLOT_H - 10) * 0.7)))
+        except Exception as e:
+            self.image = None  # Fallback if image not found
+
         # Start from top right on-screen, moving in horizontally then falling
         self.x = WIDTH - 100       # Start on-screen right
         self.y = 50                # Start near top
@@ -92,13 +104,35 @@ class Car:
             self.y += 8
 
     def draw(self):
-        pygame.draw.rect(
-            screen, CAR_COLOR,
-            (self.x, self.y, SLOT_W - 20, SLOT_H - 10),
-            border_radius=10
-        )
-        screen.blit(FONT.render(self.plate, True, BLACK), (self.x + 10, self.y + 8))
-        screen.blit(FONT.render(self.time_in, True, BLACK), (self.x + 10, self.y + 32))
+        if self.image:
+            # Center the smaller image in the slot
+            img_x = self.x + (SLOT_W - 20 - self.image.get_width()) // 2
+            img_y = self.y + (SLOT_H - 10 - self.image.get_height()) // 2
+            screen.blit(self.image, (img_x, img_y))
+            
+            # Plate number above the car, centered, inside the slot
+            plate_text = SMALL_FONT.render(self.plate, True, BLACK)
+            plate_x = self.x + (SLOT_W - 20 - plate_text.get_width()) // 2
+            screen.blit(plate_text, (plate_x, self.y + 3))
+            
+            # Time below the car, centered, inside the slot
+            time_text = SMALL_FONT.render(self.time_in, True, BLACK)
+            time_x = self.x + (SLOT_W - 20 - time_text.get_width()) // 2
+            screen.blit(time_text, (time_x, self.y + SLOT_H - 22))
+        else:
+            pygame.draw.rect(
+                screen, CAR_COLOR,
+                (self.x, self.y, SLOT_W - 20, SLOT_H - 10),
+                border_radius=10
+            )
+            # Plate and time centered on the rectangle
+            plate_text = SMALL_FONT.render(self.plate, True, BLACK)
+            plate_x = self.x + (SLOT_W - 20 - plate_text.get_width()) // 2
+            screen.blit(plate_text, (plate_x, self.y + 8))
+            
+            time_text = SMALL_FONT.render(self.time_in, True, BLACK)
+            time_x = self.x + (SLOT_W - 20 - time_text.get_width()) // 2
+            screen.blit(time_text, (time_x, self.y + 28))
 
 # ==================== STACK GARAGE ====================
 class ParkingGarage:
