@@ -36,7 +36,7 @@ START_Y = 320                      # Starting Y position for parking slots
 
 # -------------------- LOAD IMAGES --------------------
 try:
-    CAR_IMG = pygame.image.load("assets/car.png").convert_alpha()
+    CAR_IMG = pygame.image.load("src/assets/car.png").convert_alpha()
     CAR_IMG = pygame.transform.scale(CAR_IMG, (SLOT_W - 20, SLOT_H - 10))
 except pygame.error:
     CAR_IMG = None  # fallback to drawing the blue rectangle
