@@ -75,15 +75,21 @@ class Car:
         self.time_in = datetime.now().strftime("%H:%M:%S")
         self.time_out = None
 
-        # Start above the screen (for falling animation)
-        self.x = STACK_X + 10
-        self.y = -100
-        self.target_y = 0
+        # Start from right side of garage, moving in
+        self.x = WIDTH + 50        # Start off-screen (right)
+        self.y = BOTTOM_Y          # Start at parking level
+        self.target_x = STACK_X + 15
+        self.target_y = BOTTOM_Y
 
     def move(self):
-        """Move car downward into its stack position"""
-        if self.y < self.target_y:
-            self.y += 6
+        # Move horizontally first (from right to parking spot)
+        if self.x > self.target_x:
+            self.x -= 8
+            return
+
+        # Then move vertically into the slot
+        if self.y > self.target_y:
+            self.y -= 6
 
     def draw(self):
         pygame.draw.rect(
@@ -140,13 +146,9 @@ class ParkingGarage:
         show_message(f"Car {car.plate} POPPED from stack", GREEN)
 
     def update_targets(self):
-        """
-        Calculates vertical position:
-        - Bottom car stays lowest
-        - Each new car stacks upward
-        """
+        """Update target positions for all cars in stack"""
         for i, car in enumerate(self.stack):
-            car.target_y = BOTTOM_Y - i * SLOT_H
+            car.target_y = BOTTOM_Y - i * SLOT_H + 5 - SLOT_H
 
     def update(self):
         for car in self.stack:
