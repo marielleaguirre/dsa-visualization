@@ -23,11 +23,11 @@ pygame.init()                 # Initialize pygame
 # ==================== WINDOW ====================
 WIDTH, HEIGHT = 1000, 700
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("VERTICAL STACK Parking Garage (LIFO)")
+pygame.display.set_caption("Stack Parking Garage Simulation")
 
 CLOCK = pygame.time.Clock()
-FONT = pygame.font.SysFont("arial", 18)
-BIG_FONT = pygame.font.SysFont("arial", 26)
+FONT = pygame.font.SysFont("consolas", 18)
+BIG_FONT = pygame.font.SysFont("consolas", 26)
 
 # ==================== COLORS ====================
 BG = (25, 25, 25)
@@ -94,7 +94,7 @@ class Car:
         screen.blit(FONT.render(self.plate, True, BLACK), (self.x + 10, self.y + 8))
         screen.blit(FONT.render(self.time_in, True, BLACK), (self.x + 10, self.y + 32))
 
-# ==================== STACK GARAGE (VERTICAL) ====================
+# ==================== STACK GARAGE ====================
 class ParkingGarage:
     """
     STACK (LIFO):
@@ -200,7 +200,7 @@ class Button:
 # ==================== RECORDS SCREEN ====================
 def draw_records(garage):
     screen.fill(BG)
-    screen.blit(BIG_FONT.render("VERTICAL STACK RECORDS", True, WHITE), (330, 60))
+    screen.blit(BIG_FONT.render("PARKING GARAGE RECORDS", True, WHITE), (330, 60))
 
     headers = ["PLATE", "TIME IN", "TIME OUT", "STATUS"]
     xs = [200, 360, 520, 690]
@@ -237,8 +237,8 @@ def go_garage():
     screen_state = "garage"
 
 buttons = [
-    Button(40, 200, 170, 40, "PUSH (PARK)", lambda: (garage.park(input_box.text), input_box.clear())),
-    Button(40, 250, 170, 40, "POP (DEPART)", garage.depart),
+    Button(40, 200, 170, 40, "PARK", lambda: (garage.park(input_box.text), input_box.clear())),
+    Button(40, 250, 170, 40, "DEPART", garage.depart),
     Button(40, 300, 170, 40, "RECORDS", go_records),
     Button(40, 350, 170, 40, "EXIT", sys.exit),
 ]
@@ -267,7 +267,7 @@ while running:
         screen.blit(FONT.render("Plate Number:", True, WHITE), (40, 125))
         input_box.draw()
 
-        screen.blit(FONT.render(f"STACK SIZE: {len(garage.stack)} / {CAPACITY}", True, WHITE), (40, 70))
+        screen.blit(FONT.render(f"PARKING GARAGE CAPACITY: {len(garage.stack)} / {CAPACITY}", True, WHITE), (40, 70))
 
         for b in buttons:
             b.draw()
@@ -280,15 +280,15 @@ while running:
             border_radius=12
         )
 
-        screen.blit(BIG_FONT.render("VERTICAL STACK (LIFO)", True, BLACK),
-                    (STACK_X + 10, BOTTOM_Y - SLOT_H * CAPACITY - 45))
+        screen.blit(BIG_FONT.render("PARKING GARAGE", True, WHITE),
+                    (STACK_X + 10, BOTTOM_Y - SLOT_H * CAPACITY - 55))
 
         # Draw stack slots
         for i in range(CAPACITY):
             pygame.draw.rect(
                 screen, (100, 100, 100),
                 (STACK_X + 10,
-                 BOTTOM_Y - i * SLOT_H,
+                 BOTTOM_Y - i * SLOT_H + 5 - SLOT_H,
                  SLOT_W - 20,
                  SLOT_H - 10),
                 2
