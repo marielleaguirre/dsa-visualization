@@ -75,11 +75,11 @@ class Car:
         self.time_in = datetime.now().strftime("%H:%M:%S")
         self.time_out = None
 
-        # Start from right side of garage, moving in
-        self.x = WIDTH + 50        # Start off-screen (right)
-        self.y = BOTTOM_Y          # Start at parking level
-        self.target_x = STACK_X + 15
-        self.target_y = BOTTOM_Y
+        # Start from top right on-screen, moving in horizontally then falling
+        self.x = WIDTH - 100       # Start on-screen right
+        self.y = 50                # Start near top
+        self.target_x = STACK_X + 12  # Align with stack
+        self.target_y = BOTTOM_Y   # Will be updated by update_targets()
 
     def move(self):
         # Move horizontally first (from right to parking spot)
@@ -87,9 +87,9 @@ class Car:
             self.x -= 8
             return
 
-        # Then move vertically into the slot
-        if self.y > self.target_y:
-            self.y -= 6
+        # Then move vertically down into the slot
+        if self.y < self.target_y:
+            self.y += 8
 
     def draw(self):
         pygame.draw.rect(
