@@ -1,9 +1,9 @@
 import sys
 from pathlib import Path
-from others.misc_func import validate_input, clear_console
 
-
+# Handle import errorss
 sys.path.insert(0, str(Path(__file__).parent.parent))
+from others.misc_func import validate_input, clear_console
 
 # Creates objects that defines a node, including its links to other nodes
 class Node:
