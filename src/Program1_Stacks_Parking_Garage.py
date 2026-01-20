@@ -14,214 +14,296 @@ Stacks Parking Garage PseudoCode:
  3. Create a program that organizes the Car using Stacks
     *LIFO(Last in First Out)
 """
-import pygame
-from datetime import datetime
+import pygame                 # Graphics and UI
+import sys                    # Exit program
+from datetime import datetime # Time stamps
 
+pygame.init()                 # Initialize pygame
 
-# This class acts as a blueprint for vehicles
-class Vehicle:
+# ==================== WINDOW ====================
+WIDTH, HEIGHT = 1000, 700
+screen = pygame.display.set_mode((WIDTH, HEIGHT))
+pygame.display.set_caption("VERTICAL STACK Parking Garage (LIFO)")
+
+CLOCK = pygame.time.Clock()
+FONT = pygame.font.SysFont("arial", 18)
+BIG_FONT = pygame.font.SysFont("arial", 26)
+
+# ==================== COLORS ====================
+BG = (25, 25, 25)
+GARAGE = (200, 200, 200)
+CAR_COLOR = (70, 160, 255)
+BTN = (90, 90, 90)
+BTN_HOVER = (130, 130, 130)
+WHITE = (255, 255, 255)
+BLACK = (0, 0, 0)
+RED = (220, 60, 60)
+GREEN = (60, 200, 120)
+INPUT_BG = (255, 255, 255)
+INPUT_ACTIVE = (200, 230, 255)
+
+# ==================== GARAGE SETTINGS ====================
+CAPACITY = 5
+SLOT_W = 220          # Slot width
+SLOT_H = 70           # Slot height
+STACK_X = 550         # X position of vertical stack
+BOTTOM_Y = 520        # Bottom slot position (first car)
+
+# ==================== MESSAGE SYSTEM ====================
+message_text = ""
+message_color = GREEN
+message_time = 0
+
+def show_message(text, color=GREEN):
+    global message_text, message_color, message_time
+    message_text = text
+    message_color = color
+    message_time = pygame.time.get_ticks()
+
+def draw_message():
+    if message_text and pygame.time.get_ticks() - message_time < 2000:
+        pygame.draw.rect(screen, message_color, (250, 10, 500, 40), border_radius=8)
+        msg = FONT.render(message_text, True, BLACK)
+        screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, 22))
+
+# ==================== CAR CLASS ====================
+class Car:
+    """Represents a single car"""
+
     def __init__(self, plate):
-        # Store the vehicle's license plate
         self.plate = plate
+        self.time_in = datetime.now().strftime("%H:%M:%S")
+        self.time_out = None
 
-        # Record the arrival time when the object is created
-        self.arrival = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        # Start above the screen (for falling animation)
+        self.x = STACK_X + 10
+        self.y = -100
+        self.target_y = 0
 
-        # Departure time is None while the vehicle is parked
-        self.departure = None
+    def move(self):
+        """Move car downward into its stack position"""
+        if self.y < self.target_y:
+            self.y += 6
 
-    def depart(self):
-        # Record the time when the vehicle leaves the garage
-        self.departure = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+    def draw(self):
+        pygame.draw.rect(
+            screen, CAR_COLOR,
+            (self.x, self.y, SLOT_W - 20, SLOT_H - 10),
+            border_radius=10
+        )
+        screen.blit(FONT.render(self.plate, True, BLACK), (self.x + 10, self.y + 8))
+        screen.blit(FONT.render(self.time_in, True, BLACK), (self.x + 10, self.y + 32))
 
+# ==================== STACK GARAGE (VERTICAL) ====================
+class ParkingGarage:
+    """
+    STACK (LIFO):
+    - PUSH → car placed on TOP
+    - POP  → top car removed first
+    """
 
-# This class manages parking using a STACK (LIFO)
-
-class ParkingGarageStacks:
-    def __init__(self):
-        # Maximum number of vehicles allowed
-        self.garage_capacity = 10
-
-        # Stack implemented using a Python list
-        self.stack = []
-
-        # Counter for occupied slots
-        self.occupied = 0
+    def __init__(self, capacity):
+        self.capacity = capacity
+        self.stack = []      # Stack implemented using list
+        self.departed = []
 
     def park(self, plate):
-        # Check if the vehicle is already parked
-        if plate in [v.plate for v in self.stack]:
-            return f"Vehicle {plate} is already parked."
+        """Push car onto stack"""
+        if not plate:
+            show_message("ERROR: Plate required!", RED)
+            return
 
-        # Check if the garage is full
-        if self.occupied >= self.garage_capacity:
-            return "Garage is FULL."
+        if len(self.stack) >= self.capacity:
+            show_message("ERROR: Stack is FULL!", RED)
+            return
 
-        # Create a new vehicle object
-        vehicle = Vehicle(plate)
+        for car in self.stack:
+            if car.plate == plate:
+                show_message("ERROR: Duplicate plate!", RED)
+                return
 
-        # Push vehicle onto the stack
-        self.stack.append(vehicle)
-        self.occupied += 1
+        car = Car(plate)
+        self.stack.append(car)     # PUSH
+        self.update_targets()
+        show_message(f"Car {plate} PUSHED to stack", GREEN)
 
-        # Return success message
-        return f"Vehicle {plate} parked at {vehicle.arrival}"
+    def depart(self):
+        """Pop top car from stack"""
+        if not self.stack:
+            show_message("ERROR: Stack empty!", RED)
+            return
 
-    def depart(self, plate):
-        # Temporary stack to hold blocking vehicles
-        temp_stack = []
-        found = False
+        car = self.stack.pop()     # POP (LIFO)
+        car.time_out = datetime.now().strftime("%H:%M:%S")
+        self.departed.append(car)
+        self.update_targets()
+        show_message(f"Car {car.plate} POPPED from stack", GREEN)
 
-        # Pop vehicles until target is found
-        while self.stack:
-            vehicle = self.stack.pop()
+    def update_targets(self):
+        """
+        Calculates vertical position:
+        - Bottom car stays lowest
+        - Each new car stacks upward
+        """
+        for i, car in enumerate(self.stack):
+            car.target_y = BOTTOM_Y - i * SLOT_H
 
-            # If this is the target vehicle
-            if vehicle.plate == plate:
-                vehicle.depart()
-                self.occupied -= 1
-                found = True
-                message = f"Vehicle {plate} departed at {vehicle.departure}"
-                break
+    def update(self):
+        for car in self.stack:
+            car.move()
+
+# ==================== INPUT BOX ====================
+class InputBox:
+    def __init__(self, x, y, w, h):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.text = ""
+        self.active = False
+
+    def handle_event(self, event):
+        if event.type == pygame.MOUSEBUTTONDOWN:
+            self.active = self.rect.collidepoint(event.pos)
+
+        if event.type == pygame.KEYDOWN and self.active:
+            if event.key == pygame.K_BACKSPACE:
+                self.text = self.text[:-1]
             else:
-                # Store blocking vehicles temporarily
-                temp_stack.append(vehicle)
+                if len(self.text) < 10:
+                    self.text += event.unicode.upper()
 
-        # Restore the vehicles back to the main stack
-        while temp_stack:
-            self.stack.append(temp_stack.pop())
+    def draw(self):
+        color = INPUT_ACTIVE if self.active else INPUT_BG
+        pygame.draw.rect(screen, color, self.rect, border_radius=6)
+        pygame.draw.rect(screen, BLACK, self.rect, 2, border_radius=6)
+        txt = FONT.render(self.text or "Enter Plate", True, BLACK)
+        screen.blit(txt, (self.rect.x + 10, self.rect.y + 8))
 
-        # If vehicle was not found
-        if not found:
-            return f"Vehicle {plate} not found."
+    def clear(self):
+        self.text = ""
 
-        return message
+# ==================== BUTTON ====================
+class Button:
+    def __init__(self, x, y, w, h, text, action):
+        self.rect = pygame.Rect(x, y, w, h)
+        self.text = text
+        self.action = action
 
+    def draw(self):
+        color = BTN_HOVER if self.rect.collidepoint(pygame.mouse.get_pos()) else BTN
+        pygame.draw.rect(screen, color, self.rect, border_radius=8)
+        screen.blit(FONT.render(self.text, True, BLACK),
+                    (self.rect.x + 15, self.rect.y + 10))
 
+    def click(self):
+        if self.rect.collidepoint(pygame.mouse.get_pos()):
+            self.action()
 
-pygame.init()                                  # Initialize pygame modules
+# ==================== RECORDS SCREEN ====================
+def draw_records(garage):
+    screen.fill(BG)
+    screen.blit(BIG_FONT.render("VERTICAL STACK RECORDS", True, WHITE), (330, 60))
 
-WIDTH, HEIGHT = 900, 600                       # Window size
-screen = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption("Parking Garage Stack Simulation")
+    headers = ["PLATE", "TIME IN", "TIME OUT", "STATUS"]
+    xs = [200, 360, 520, 690]
 
-font = pygame.font.Font(None, 28)              # Font for text
-clock = pygame.time.Clock()                    # Controls frame rate
+    for h, x in zip(headers, xs):
+        screen.blit(FONT.render(h, True, WHITE), (x, 110))
 
-# Create parking garage object
-garage = ParkingGarageStacks()
+    y = 150
+    for car in garage.departed:
+        screen.blit(FONT.render(car.plate, True, WHITE), (200, y))
+        screen.blit(FONT.render(car.time_in, True, WHITE), (360, y))
+        screen.blit(FONT.render(car.time_out, True, WHITE), (520, y))
+        screen.blit(FONT.render("DEPARTED", True, WHITE), (690, y))
+        y += 28
 
-# Variables for text input and messages
-input_text = ""
-active_input = False
-mode = None                                   # "park" or "depart"
-message = ""
+    for i, car in enumerate(reversed(garage.stack), start=1):
+        screen.blit(FONT.render(car.plate, True, WHITE), (200, y))
+        screen.blit(FONT.render(car.time_in, True, WHITE), (360, y))
+        screen.blit(FONT.render("--", True, WHITE), (520, y))
+        screen.blit(FONT.render(f"IN STACK (LEVEL {i})", True, WHITE), (690, y))
+        y += 28
 
-# Define buttons (x, y, width, height)
-park_btn = pygame.Rect(650, 100, 200, 40)
-depart_btn = pygame.Rect(650, 160, 200, 40)
+# ==================== MAIN ====================
+garage = ParkingGarage(CAPACITY)
+input_box = InputBox(40, 150, 200, 36)
+screen_state = "garage"
 
-def draw_text(text, x, y, color=(255, 255, 255)):
-    """
-    Renders text on the pygame window
-    """
-    screen.blit(font.render(text, True, color), (x, y))
+def go_records():
+    global screen_state
+    screen_state = "records"
 
-# Main function to run the parking garage program
+def go_garage():
+    global screen_state
+    screen_state = "garage"
 
+buttons = [
+    Button(40, 200, 170, 40, "PUSH (PARK)", lambda: (garage.park(input_box.text), input_box.clear())),
+    Button(40, 250, 170, 40, "POP (DEPART)", garage.depart),
+    Button(40, 300, 170, 40, "RECORDS", go_records),
+    Button(40, 350, 170, 40, "EXIT", sys.exit),
+]
+
+back_button = Button(40, 560, 140, 40, "BACK", go_garage)
+
+# ==================== MAIN LOOP ====================
 running = True
 while running:
-    screen.fill((25, 25, 25))                  # Clear screen (dark gray)
+    screen.fill(BG)
 
-    # =========================
-    # EVENT HANDLING
-    # =========================
     for event in pygame.event.get():
-
-        # Exit program when window is closed
         if event.type == pygame.QUIT:
             running = False
 
-        # Handle mouse clicks
+        input_box.handle_event(event)
+
         if event.type == pygame.MOUSEBUTTONDOWN:
-
-            # If PARK button is clicked
-            if park_btn.collidepoint(event.pos):
-                active_input = True
-                mode = "park"
-                input_text = ""
-
-            # If DEPART button is clicked
-            if depart_btn.collidepoint(event.pos):
-                active_input = True
-                mode = "depart"
-                input_text = ""
-
-        # Handle keyboard input for license plate
-        if event.type == pygame.KEYDOWN and active_input:
-
-            # Press ENTER to confirm input
-            if event.key == pygame.K_RETURN:
-
-                # Call the appropriate stack operation
-                if mode == "park":
-                    message = garage.park(input_text)
-                elif mode == "depart":
-                    message = garage.depart(input_text)
-
-                # Reset input state
-                input_text = ""
-                active_input = False
-
-            # Remove last character
-            elif event.key == pygame.K_BACKSPACE:
-                input_text = input_text[:-1]
-
-            # Add typed character
+            if screen_state == "garage":
+                for b in buttons:
+                    b.click()
             else:
-                input_text += event.unicode
+                back_button.click()
 
-    # =========================
-    # DRAW USER INTERFACE
-    # =========================
+    if screen_state == "garage":
+        screen.blit(FONT.render("Plate Number:", True, WHITE), (40, 125))
+        input_box.draw()
 
-    # Input field
-    draw_text("License Plate:", 50, 40)
-    draw_text(input_text, 200, 40, (255, 255, 0))
+        screen.blit(FONT.render(f"STACK SIZE: {len(garage.stack)} / {CAPACITY}", True, WHITE), (40, 70))
 
-    # Buttons
-    pygame.draw.rect(screen, (0, 150, 0), park_btn)
-    pygame.draw.rect(screen, (150, 0, 0), depart_btn)
+        for b in buttons:
+            b.draw()
 
-    draw_text("PARK VEHICLE", 680, 110)
-    draw_text("DEPART VEHICLE", 665, 170)
-
-    # Capacity display
-    draw_text(f"Capacity: {garage.occupied} / {garage.garage_capacity}", 50, 80)
-
-    # Garage display title
-    draw_text("Garage (Top → Bottom)", 50, 120)
-    pygame.draw.line(screen, (200, 200, 200), (50, 145), (550, 145), 2)
-
-    # Display stack contents
-    y = 160
-    for vehicle in reversed(garage.stack):
-        draw_text(
-            f"{vehicle.plate} | Time In: {vehicle.arrival}",
-            50,
-            y
+        # Draw vertical garage shaft
+        pygame.draw.rect(
+            screen, GARAGE,
+            (STACK_X, BOTTOM_Y - SLOT_H * CAPACITY - 20,
+             SLOT_W, SLOT_H * CAPACITY + 20),
+            border_radius=12
         )
-        y += 30
 
-    # Message area
-    draw_text("MESSAGE:", 50, 520, (0, 200, 255))
-    draw_text(message, 50, 550, (255, 255, 0))
+        screen.blit(BIG_FONT.render("VERTICAL STACK (LIFO)", True, BLACK),
+                    (STACK_X + 10, BOTTOM_Y - SLOT_H * CAPACITY - 45))
 
-    # Update screen
+        # Draw stack slots
+        for i in range(CAPACITY):
+            pygame.draw.rect(
+                screen, (100, 100, 100),
+                (STACK_X + 10,
+                 BOTTOM_Y - i * SLOT_H,
+                 SLOT_W - 20,
+                 SLOT_H - 10),
+                2
+            )
+
+        garage.update()
+        for car in garage.stack:
+            car.draw()
+
+    else:
+        draw_records(garage)
+        back_button.draw()
+
+    draw_message()
     pygame.display.flip()
-    clock.tick(60)                             # Limit to 60 FPS
+    CLOCK.tick(60)
 
-# Close pygame properly
 pygame.quit()
-
-
