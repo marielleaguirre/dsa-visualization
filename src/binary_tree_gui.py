@@ -8,7 +8,7 @@ from src.Program3_binary_tree import BinaryTree, Traversal
 from src.constants import *
 
 class Button:
-    """Simple button class for mouse click detection."""
+    # Simple button class for mouse click detection.
     def __init__(self, x, y, width, height, text, color, text_color):
         self.rect = pygame.Rect(x, y, width, height)
         self.text = text
@@ -46,21 +46,19 @@ class BinaryTreeGUI:
         self.font_large = pygame.font.Font(None, 56)
         self.font_medium = pygame.font.Font(None, 40)
         self.font_small = pygame.font.Font(None, 28)
-        self.font_traversal = pygame.font.Font(None, 28)  # Larger font for traversals
+        self.font_traversal = pygame.font.Font(None, 28)
         
         self.bin_tree = None
         self.tree_level = 0
-        self.node_positions = {}  # Maps node index to (x, y)
+        self.node_positions = {}
         self.input_values = []
         self.current_input_index = 0
         self.current_input_text = ""
-        self.stage = "level_input"  # level_input, tree_display, node_input, traversal_display
+        self.stage = "level_input"
         
     def get_tree_level(self):
-        """
-        Display buttons to select the number of levels for the binary tree.
-        Returns the selected level (1-5).
-        """
+        # Display buttons to select the number of levels for the binary tree.
+
         selected = None
         buttons = []
         
@@ -100,7 +98,7 @@ class BinaryTreeGUI:
                             return level
     
     def calculate_node_positions(self):
-        """Calculate the positions of all nodes for rendering."""
+        # Calculate the positions of all nodes for rendering.
         if not self.bin_tree:
             return
         
@@ -135,7 +133,7 @@ class BinaryTreeGUI:
         position_node(0, SCREEN_WIDTH // 2, 50, initial_spacing)
     
     def draw_tree(self):
-        """Draw the binary tree structure on the screen."""
+        # Draw the binary tree structure on the screen.
         if not self.bin_tree:
             return
         
@@ -182,7 +180,7 @@ class BinaryTreeGUI:
                                               int(y) - value_text.get_height() // 2))
     
     def get_node_inputs(self):
-        """Handle user input for node values using buttons."""
+        # Get user inputs for each node in the tree.
         self.input_values = [None] * len(self.bin_tree.all_nodes)
         self.current_input_index = 0
         self.current_input_text = ""
@@ -284,7 +282,7 @@ class BinaryTreeGUI:
                             self.current_input_text += event.unicode
     
     def apply_values_to_tree(self):
-        """Apply the input values to the tree nodes."""
+        # Apply the input values to the nodes
         for index, node in enumerate(self.bin_tree.all_nodes):
             if self.input_values[index] is None:
                 node.value = None
@@ -292,14 +290,14 @@ class BinaryTreeGUI:
                 node.value = self.input_values[index]
     
     def remove_deleted_descendants(self):
-        """Remove descendant nodes if their parent is None."""
+        # Remove descendant nodes if their parent is Non
         for node in self.bin_tree.all_nodes:
             if node.value is None:
                 # Mark all descendants as None
                 self._mark_descendants_none(node)
     
     def _mark_descendants_none(self, node):
-        """Recursively mark all descendants of a node as None."""
+        # Recursively mark descendants of node as None
         if node is None:
             return
         
@@ -312,7 +310,7 @@ class BinaryTreeGUI:
             self._mark_descendants_none(node.right_child)
     
     def display_traversals(self):
-        """Display the traversals of the tree."""
+        # Display the traversal results of the binary tree
         traversal = Traversal(self.bin_tree)
         preorder = traversal.preorder_traversal()
         inorder = traversal.inorder_traversal()
@@ -360,7 +358,7 @@ class BinaryTreeGUI:
                         return "restart"
     
     def run(self):
-        """Main execution loop for the GUI."""
+        # Sub encapsulation for program
         while True:
             # Stage 1: Get tree level
             self.stage = "level_input"
@@ -385,14 +383,14 @@ class BinaryTreeGUI:
             # Stage 4: Display traversals
             result = self.display_traversals()
             
+            # If result == "restart", loop continues
             if result == "exit":
                 pygame.quit()
                 break
-            # If result == "restart", loop continues
 
 
 def main():
-    """Main entry point for the GUI."""
+    # Encapsulation for main.py
     gui = BinaryTreeGUI()
     gui.run()
 
