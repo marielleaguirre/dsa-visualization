@@ -1,4 +1,9 @@
+import sys
+from pathlib import Path
 from others.misc_func import validate_input, clear_console
+
+
+sys.path.insert(0, str(Path(__file__).parent.parent))
 
 # Creates objects that defines a node, including its links to other nodes
 class Node:
@@ -22,7 +27,7 @@ class BinaryTree:
     def build_tree(self): # Creates node placeholder based on the input level        
         # Manually initializes the characteristics for the root node
         self.root = self.gen_node()
-        self.root.parent = 1 # Default 1, no reason for the value used
+        self.root.parent = None  # Root has no parent
         self.all_nodes.append(self.root) # Records the first node/top node
 
         # Formula for calculating the total nodes based on levels
@@ -71,8 +76,6 @@ class BinaryTree:
 
                 if node_val == ".":
                     node.value = None
-                elif node.parent == None: # Will fix, may issues pa rin
-                    node.value = None
                 else:
                     node.value = node_val
                 break
@@ -82,12 +85,9 @@ class BinaryTree:
         for node in self.all_nodes:
             left_child = node.left_child.value if node.left_child else "None"
             right_child = node.right_child.value if node.right_child else "None"
-            parent_node = node.parent if node.parent else "None"
+            parent_node = node.parent.value if node.parent else "Root"
 
-            parent_node = parent_node.value if parent_node != 1 else "Parent Node"
-            parent_node = parent_node.value if parent_node is not 1 else "Root"
-
-            if parent_node is not None: 
+            if node.value is not None: 
                 data_str = f"Node: {node.value}\n Parent Node: {parent_node}\n Left Child: {left_child}\n Right Child: {right_child}\n"
             else: # Excludes metadata of nodes w/o parent nodes
                 data_str= f"Node: {node.value} does not exist. \n"
@@ -112,10 +112,10 @@ class Traversal:
 
         # Recursion | created another function so that inorder_traversal won't need an argument
         def inorder_resursively(curr_node):
-            if curr_node is None: # Searcher: if it does not find any value in the node, it stops the recursion
+            if curr_node is None or curr_node.value is None:  # Stop if no node or no value
                 return
             inorder_resursively(curr_node.left_child) # Find leftmost node, if it triggers the Searcher;
-            result.append(curr_node.value) # retrieves the current node it is currently on
+            result.append(curr_node.value)
             inorder_resursively(curr_node.right_child) # Find rightmost node, if it does not find any leftmost node and triggers the Searcher, it retrieves current node
 
         inorder_resursively(node) 
@@ -129,7 +129,7 @@ class Traversal:
         result = []
 
         def preorder_resursively(curr_node):
-            if curr_node is None:
+            if curr_node is None or curr_node.value is None:  # Stop if no node or no value
                 return
             result.append(curr_node.value)
             preorder_resursively(curr_node.left_child)
@@ -146,7 +146,7 @@ class Traversal:
         result = []
 
         def postorder_resursively(curr_node):
-            if curr_node is None:
+            if curr_node is None or curr_node.value is None:
                 return
             postorder_resursively(curr_node.left_child)
             postorder_resursively(curr_node.right_child)
