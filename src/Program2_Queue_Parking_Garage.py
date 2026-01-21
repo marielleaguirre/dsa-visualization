@@ -6,9 +6,9 @@ from  datetime import datetime     # For timestamping
 pygame.init()                      # Initialize pygame
 
 # -------------------- WINDOW --------------------
-WIDTH, HEIGHT = 1000, 700                           # Set window dimensions
-screen = pygame.display.set_mode((WIDTH, HEIGHT))   # Create the window
-pygame.display.set_caption("Queue Parking Garage")  # Set window title
+screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)  # FULL SCREEN MODE
+WIDTH, HEIGHT = screen.get_size()                            # Get actual screen size
+pygame.display.set_caption("Queue Parking Garage")           # Set window title
 
 CLOCK = pygame.time.Clock()                        # For controlling frame rate
 FONT = pygame.font.SysFont("consolas", 18)         # Set font for
