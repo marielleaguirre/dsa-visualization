@@ -241,7 +241,7 @@ class BinaryTreeGUI:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if confirm_button.is_clicked(mouse_pos):
-                        if self.current_input_text == ".":
+                        if self.current_input_text == "." or self.current_input_text.strip() == "":
                             self.input_values[self.current_input_index] = None
                         elif self.current_input_text:
                             self.input_values[self.current_input_index] = self.current_input_text
