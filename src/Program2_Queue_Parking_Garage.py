@@ -247,6 +247,9 @@ while running:
         if event.type == pygame.QUIT:   # Check for quit event
             running = False
 
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            running = False     # Exit on ESC key
+
         input_box.handle_event(event)   # Handle input box events
 
         if event.type == pygame.MOUSEBUTTONDOWN:  # Handle button clicks
