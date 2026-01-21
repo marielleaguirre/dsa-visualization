@@ -93,7 +93,8 @@ class Car:                                                       # Created a blu
         screen.blit(time_txt, (time_x, time_y))
 
 class ParkingGarage:                              # Created a blueprint for Parking Garage
-    def __init__(self, capacity):                               
+    def __init__(self, capacity):
+        self.capacity = capacity                  # Set garage capacity            
         self.queue = deque()                      # Initializes an empty queue to store parked cars
         self.departed = []                        # List to store departed cars
     
