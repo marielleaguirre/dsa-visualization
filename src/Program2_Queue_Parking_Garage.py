@@ -277,8 +277,8 @@ while running:
         )                       # Draw garage outline
 
         title_text = BIG_FONT.render("PARKING GARAGE (FIFO QUEUE)", True, BLACK)
-        screen.blit(title_text, (START_X + (SLOT_W * CAPACITY - title_text.get_width()) // 2, START_Y - 55))     # Draw title 
-
+        screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, START_Y - 50))  # Draw garage title
+        
         for i in range(CAPACITY):   
             pygame.draw.rect(
                 screen, (100, 100, 100),
