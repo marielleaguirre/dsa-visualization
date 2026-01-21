@@ -73,7 +73,10 @@ class Car:                                                       # Created a blu
             self.x -= 8
 
     def draw(self):  # Function to draw the car on the screen
-        screen.blit(CAR_IMG, (self.x, self.y))  # Draw the car image
+        if CAR_IMG:     # Check if a car image has been successfully loaded
+            screen.blit(CAR_IMG, (self.x, self.y))      # Draw the car image
+        else:
+            pygame.draw.rect(screen, CAR_COLOR, (self.x, self.y, SLOT_W-20, SLOT_H-10))    # Draw a rectangle if no image is available
         # Optional: keep plate number and time text
         # Render texts
         plate_txt = FONT.render(self.plate_num, True, BLACK)
