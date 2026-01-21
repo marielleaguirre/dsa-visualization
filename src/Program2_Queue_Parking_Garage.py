@@ -197,7 +197,7 @@ def draw_records(garage):                     # Display parking records
         WIDTH//2 + 80,
         WIDTH//2 + 260
     ]
-    
+
     for h, x in zip(headers, x_positions):   # Draw headers
         screen.blit(FONT.render(h, True, WHITE), (x, 110))
 
@@ -236,7 +236,7 @@ buttons = [                     # Create buttons
     Button(40, 350, 170, 40, "EXIT", sys.exit),
 ]
 
-back_button = Button(40, 560, 140, 40, "BACK", go_garage)  # Back button for records screen
+back_button = Button(40, HEIGHT - 100, 140, 40, "BACK", go_garage)  # Back button for records screen
 
 # -------------------- MAIN LOOP --------------------
 running = True
