@@ -5,10 +5,9 @@ import random
 pygame.init()  # Initialize all Pygame modules
 
 # -------------------- FULLSCREEN SETUP --------------------
-info = pygame.display.Info()  # Get info about the current display
-WIDTH, HEIGHT = info.current_w, info.current_h  # Fullscreen width and height
-screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.FULLSCREEN)  # Fullscreen window
-pygame.display.set_caption("Binary Search Tree Visualizer")  # Set window title
+WIDTH, HEIGHT = 1200, 700 # Initial window size
+screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+pygame.display.set_caption("Binary Search Tree Visualizer") 
 
 # -------------------- FONTS --------------------
 # Fonts for different UI elements
@@ -207,6 +206,7 @@ class BSTVisualizer:
 # -------------------- MAIN LOOP --------------------
 def main():
     bst = BSTVisualizer()  # Initialize BST
+    global WIDTH, HEIGHT, screen
 
     # -------------------- UI ELEMENTS --------------------
     input_box = InputBox(20, 120, 180, 40)       # Input box for user numbers
@@ -241,7 +241,14 @@ def main():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:        # Close button
                 running = False
-            if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  # ESC key
+
+            # Resize window
+            elif event.type == pygame.VIDEORESIZE:
+                WIDTH, HEIGHT = event.w, event.h
+                screen = pygame.display.set_mode((WIDTH, HEIGHT), pygame.RESIZABLE)
+                bst.assign_positions()  # recalculate positions for new window size
+
+            elif event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:  # ESC key
                 running = False
 
             input_box.handle(event)  # Handle input box clicks and typing
