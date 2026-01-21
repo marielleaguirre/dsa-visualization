@@ -188,8 +188,8 @@ class Button:                                       # Class for button
 # -------------------- RECORDS SCREEN --------------------
 def draw_records(garage):                     # Display parking records
     screen.fill(BG)
-    screen.blit(BIG_FONT.render("PARKING RECORDS", True, WHITE), (360, 60))
-
+    screen.blit(BIG_FONT.render("PARKING RECORDS", True, WHITE), (WIDTH // 2 - 150, 60))
+    
     headers = ["PLATE NUMBER", "TIME IN", "TIME OUT", "STATUS"]
     x_positions = [
         WIDTH//2 - 300,
@@ -203,17 +203,17 @@ def draw_records(garage):                     # Display parking records
 
     y = 150
     for car in garage.departed:              # Draw departed cars
-        screen.blit(FONT.render(car.plate_num, True, WHITE), (180, y))
-        screen.blit(FONT.render(car.time_in, True, WHITE), (350, y))
-        screen.blit(FONT.render(car.time_out, True, WHITE), (520, y))
-        screen.blit(FONT.render("DEPARTED", True, WHITE), (690, y))
+        screen.blit(FONT.render(car.plate_num, True, WHITE), (x_positions[0], y))
+        screen.blit(FONT.render(car.time_in, True, WHITE), (x_positions[1], y))
+        screen.blit(FONT.render(car.time_out, True, WHITE), (x_positions[2], y))
+        screen.blit(FONT.render("DEPARTED", True, WHITE), (x_positions[3], y))
         y += 28
     
     for i, car in enumerate(garage.queue, start=1):  # Draw parked cars
-        screen.blit(FONT.render(car.plate_num, True, WHITE), (180, y))
-        screen.blit(FONT.render(car.time_in, True, WHITE), (350, y))
-        screen.blit(FONT.render("--", True, WHITE), (520, y))
-        screen.blit(FONT.render(f"PARKED (Slot {i})", True, WHITE), (690, y))
+        screen.blit(FONT.render(car.plate_num, True, WHITE), (x_positions[0], y))
+        screen.blit(FONT.render(car.time_in, True, WHITE), (x_positions[1], y))
+        screen.blit(FONT.render("--", True, WHITE), (x_positions[2], y))
+        screen.blit(FONT.render(f"PARKED (Slot {i})", True, WHITE), (x_positions[3], y))
         y += 28
 
 # -------------------- MAIN --------------------
@@ -278,7 +278,7 @@ while running:
 
         title_text = BIG_FONT.render("PARKING GARAGE (FIFO QUEUE)", True, BLACK)
         screen.blit(title_text, (WIDTH // 2 - title_text.get_width() // 2, START_Y - 50))  # Draw garage title
-        
+
         for i in range(CAPACITY):   
             pygame.draw.rect(
                 screen, (100, 100, 100),
