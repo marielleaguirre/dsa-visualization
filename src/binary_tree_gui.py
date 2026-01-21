@@ -4,8 +4,8 @@ from pathlib import Path
 
 # Handle import error
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from src.Program3_binary_tree import BinaryTree, Traversal
-from src.constants import *
+from Program3_binary_tree import BinaryTree, Traversal
+from constants import *
 
 class Button:
     # Simple button class for mouse click detection.
@@ -40,7 +40,11 @@ class BinaryTreeGUI:
     def __init__(self):
          # Initialize pygame and the GUI components.
         pygame.init()
-        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT), 
+                                            pygame.RESIZABLE
+                                               | pygame.SCALED 
+                                               | pygame.FULLSCREEN
+                                               | pygame.SHOWN)
         pygame.display.set_caption("Binary Tree Visualizer")
         self.clock = pygame.time.Clock()
         self.font_large = pygame.font.Font(None, 56)
@@ -59,7 +63,6 @@ class BinaryTreeGUI:
     def get_tree_level(self):
         # Display buttons to select the number of levels for the binary tree.
 
-        selected = None
         buttons = []
         
         # Create level buttons
