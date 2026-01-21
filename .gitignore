@@ -1,4 +1,5 @@
 temp/
+.venv/
 
 # Karl's GitIgnore Files
 test.py

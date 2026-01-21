@@ -1,6 +1,6 @@
 # Program 3 -Binary Tree Constants
 
-COLOR_BACKGROUND = (20, 20, 20)  # Dark grey/black
+COLOR_BACKGROUND = (0, 0, 0)  # Black
 COLOR_NODE = (240, 240, 240)     # White
 COLOR_NODE_BORDER = (100, 100, 100)  # Grey
 COLOR_NONE_NODE = (60, 60, 60)   # Dark grey
