@@ -333,4 +333,5 @@ def main():
     pygame.quit()  # Quit Pygame
     sys.exit()     # Exit program
 
-main()
+if __name__ == "__main__":
+    main()
