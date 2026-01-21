@@ -54,7 +54,7 @@ def show_message(text, color=GREEN):                     # Function to show mess
 
 def draw_message():                                                                     # Function to draw messages
     if message_text and pygame.time.get_ticks() - message_time < 2000:                  # Show message for 2 seconds
-        pygame.draw.rect(screen, message_color, (250, 10, 500, 40), border_radius=8)    # Draw message box
+        pygame.draw.rect(screen, message_color, (WIDTH//2 - 250, 10, 500, 40), border_radius=8)
         msg = FONT.render(message_text, True, BLACK)                                    # Render the message text
         screen.blit(msg, (WIDTH // 2 - msg.get_width() // 2, 22))                       # Center the message text
 
