@@ -191,8 +191,13 @@ def draw_records(garage):                     # Display parking records
     screen.blit(BIG_FONT.render("PARKING RECORDS", True, WHITE), (360, 60))
 
     headers = ["PLATE NUMBER", "TIME IN", "TIME OUT", "STATUS"]
-    x_positions = [180, 350, 520, 690]
-
+    x_positions = [
+        WIDTH//2 - 300,
+        WIDTH//2 - 100,
+        WIDTH//2 + 80,
+        WIDTH//2 + 260
+    ]
+    
     for h, x in zip(headers, x_positions):   # Draw headers
         screen.blit(FONT.render(h, True, WHITE), (x, 110))
 
