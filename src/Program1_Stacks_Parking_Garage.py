@@ -1,6 +1,5 @@
 import pygame                      # For graphics
 import sys                         # For exiting program
-import os                          # File path handling
 from datetime import datetime     # For timestamping
 
 pygame.init()                      # Initialize pygame
@@ -293,8 +292,10 @@ while running:
             border_radius=12
         )                       # Draw garage outline
 
-        title_text = BIG_FONT.render("PARKING GARAGE (LIFO STACK)", True, BLACK)
-        screen.blit(title_text, (STACK_X + 10, BOTTOM_Y - SLOT_H * CAPACITY - 55))  # Draw garage title
+        title_text = BIG_FONT.render("PARKING GARAGE STACK", True, BLACK)
+        title_rect = title_text.get_rect(center=(WIDTH // 2, BOTTOM_Y - SLOT_H * CAPACITY - 55))
+        pygame.draw.rect(screen, WHITE, title_rect.inflate(20, 10), border_radius=8)
+        screen.blit(title_text, title_rect)  # Draw garage title
 
         for i in range(CAPACITY):   
             pygame.draw.rect(
