@@ -241,17 +241,21 @@ class BinaryTreeGUI:
                     sys.exit()
                 elif event.type == pygame.MOUSEBUTTONDOWN:
                     if confirm_button.is_clicked(mouse_pos):
-                        if self.current_input_text == "." or self.current_input_text.strip() == "":
-                            self.input_values[self.current_input_index] = None
-                        elif self.current_input_text:
-                            self.input_values[self.current_input_index] = self.current_input_text
-                        
-                        if self.current_input_index < len(self.bin_tree.all_nodes) - 1:
-                            self.current_input_index += 1
-                            self.current_input_text = ""
+                        if self.current_input_text.strip() == "":
+                            pass
                         else:
-                            self.stage = "traversal_display"
-                            return "continue"
+                            if self.current_input_text == ".":
+                                self.input_values[self.current_input_index] = None
+                            else:
+                                self.input_values[self.current_input_index] = self.current_input_text
+                            
+                            if self.current_input_index < len(self.bin_tree.all_nodes) - 1:
+                                self.current_input_index += 1
+                                self.current_input_text = ""
+                            else:
+                                self.stage = "traversal_display"
+                                return "continue"
+                            
                     elif backspace_button.is_clicked(mouse_pos):
                         self.current_input_text = self.current_input_text[:-1]
                     elif none_button.is_clicked(mouse_pos):
@@ -269,17 +273,21 @@ class BinaryTreeGUI:
                     if event.key == pygame.K_BACKSPACE:
                         self.current_input_text = self.current_input_text[:-1]
                     elif event.key == pygame.K_RETURN:
-                        if self.current_input_text == ".":
-                            self.input_values[self.current_input_index] = None
-                        elif self.current_input_text:
-                            self.input_values[self.current_input_index] = self.current_input_text
-                        
-                        if self.current_input_index < len(self.bin_tree.all_nodes) - 1:
-                            self.current_input_index += 1
-                            self.current_input_text = ""
+                        if self.current_input_text.strip() == "":
+                            pass
                         else:
-                            self.stage = "traversal_display"
-                            return "continue"
+                            if self.current_input_text == ".":
+                                self.input_values[self.current_input_index] = None
+                            else:
+                                self.input_values[self.current_input_index] = self.current_input_text
+                            
+                            if self.current_input_index < len(self.bin_tree.all_nodes) - 1:
+                                self.current_input_index += 1
+                                self.current_input_text = ""
+                            else:
+                                self.stage = "traversal_display"
+                                return "continue"
+                            
                     else:
                         if len(self.current_input_text) < 20:
                             self.current_input_text += event.unicode
