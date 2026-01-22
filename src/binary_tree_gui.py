@@ -4,8 +4,8 @@ from pathlib import Path
 
 # Handle import error
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
-from Program3_binary_tree import BinaryTree, Traversal
-from constants import *
+from src.Program3_binary_tree import BinaryTree, Traversal
+from src.constants import *
 
 class Button:
     # Simple button class for mouse click detection.
